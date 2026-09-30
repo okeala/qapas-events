@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 class EventProject extends Record {
+ protected $attributes=['phase'=>'concept','is_public'=>false,'capacity'=>0];
 protected function casts(): array {return ['is_public'=>'boolean','starts_at'=>'datetime','ends_at'=>'datetime'];}
  public function scenarios() {return $this->hasMany(Scenario::class);}
  public function offers() {return $this->hasMany(Offer::class);}
