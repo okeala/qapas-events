@@ -18,5 +18,5 @@ class StandRequirement extends Record {
   if($n->budget_line_id&&(BudgetLine::find($n->budget_line_id)?->scenario?->event_project_id!==$project||BudgetLine::find($n->budget_line_id)?->kind!=='cost'||(BudgetLine::find($n->budget_line_id)?->stand_id&&BudgetLine::find($n->budget_line_id)->stand_id!==$n->stand_id)))throw ValidationException::withMessages(['budget_line_id'=>'Coût du même stand ou coût commun de cette édition.']);
   if($n->exists&&$n->getOriginal('status')==='approved'&&$n->isDirty(['kind','justification','quantity','power_w','starting_power_w','requested_amps','line_length_m','water_litres','gas_kg','source_id','provided_by','review_evidence']))$n->status='reviewed';
   if($n->status==='approved'&&(!$n->valid()||$n->provided_by==='undecided'||($n->kind==='electricity'&&($n->power_w===null||$n->line_length_m===null))))throw ValidationException::withMessages(['status'=>'Justifier fourniture, longueur, puissance et validation technique ; aucune puissance supposée à partir de la section du câble.']);
- });}
+ });static::saved(function(self $n){if($n->wasRecentlyCreated||$n->wasChanged(['kind','justification','quantity','power_w','starting_power_w','line_length_m','water_litres','gas_kg','source_id','provided_by','budget_line_id']))Stand::whereKey($n->stand_id)->update(['direct_costs_complete'=>false]);});}
 }

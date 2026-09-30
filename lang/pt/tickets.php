@@ -9,7 +9,7 @@ return [
 'cash_notice'=>'O ponto-relais recebe o total e retém a comissão. O recibo fica PENDENTE até a QAPAS confirmar a entrega do saldo. Verifique o estado através do QR.',
 'name'=>'Nome do participante',
 'phone'=>'Telemóvel para confirmação por SMS (+351…)',
-'email'=>'Email',
+'email'=>'Email (facultativo)',
 'village'=>'Stand de freguesia apoiado',
 'public_listing'=>'Autorizo a publicação do meu nome na lista de apoios confirmados. Facultativo e revogável através do recibo privado.',
 'public_name'=>'Nome público (primeiro nome ou pseudónimo)',

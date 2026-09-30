@@ -9,7 +9,7 @@ return [
 'cash_notice'=>'Le relais encaisse le prix total et conserve sa commission. Le reçu reste EN ATTENTE jusqu’au rapprochement du reversement par QAPAS. Vérifiez vous-même le statut avec le QR.',
 'name'=>'Nom du participant',
 'phone'=>'Téléphone pour confirmation SMS (+351…)',
-'email'=>'Email',
+'email'=>'Email (facultatif)',
 'village'=>'Stand de freguesia soutenu',
 'public_listing'=>'Je choisis d’apparaître dans la liste publique des soutiens confirmés. Facultatif, révocable depuis mon reçu privé.',
 'public_name'=>'Nom à afficher publiquement (prénom ou pseudonyme)',
