@@ -1,0 +1,337 @@
+[
+  {
+    "activity_key": "omelete-retro",
+    "name": "Mini-rétro adaptée et contrôlée",
+    "quantity": 2,
+    "unit_gross_cents": 9471,
+    "vat_basis_points": 2300,
+    "pricing_status": "reference",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Repère public Rentapa au 30/09/2026 : 1,5 t 77 € HT/jour, soit 94,71 € TTC (23 %). https://rentapa.pt/maquinas/mini-escavadoras — fournisseur de la région de Lisbonne, pas un devis Belmonte. Deux jours par prudence ; transport séparé, conducteur, accessoires, assurance, carburant et adaptation non présumés inclus.",
+    "unit": "jour"
+  },
+  {
+    "activity_key": "omelete-retro",
+    "name": "Œufs frais (hors consommation après jeu)",
+    "quantity": 6,
+    "unit_gross_cents": 30,
+    "vat_basis_points": null,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "omelete-retro",
+    "name": "Boîte de six œufs",
+    "quantity": 1,
+    "unit_gross_cents": 35,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "omelete-retro",
+    "name": "Support stable et dispositif de prise à valider",
+    "quantity": 1,
+    "unit_gross_cents": 12000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "omelete-retro",
+    "name": "Barrières et délimitation : métrage après étude",
+    "quantity": 40,
+    "unit_gross_cents": 250,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "omelete-retro",
+    "name": "Part de captation / retransmission affectée à cette épreuve",
+    "quantity": null,
+    "unit_gross_cents": null,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Compté une seule fois dans la ligne commune common-broadcast du scénario ; ce renvoi n’est pas une gratuité.",
+    "shared_cost_key": "common-broadcast"
+  },
+  {
+    "activity_key": "torre-reboque",
+    "name": "Tracteur et remorque adaptés",
+    "quantity": 1,
+    "unit_gross_cents": 20000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "torre-reboque",
+    "name": "Tour standardisée en éléments légers",
+    "quantity": 1,
+    "unit_gross_cents": 4000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "torre-reboque",
+    "name": "Balisage et barrières après étude",
+    "quantity": 40,
+    "unit_gross_cents": 250,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "torre-reboque",
+    "name": "Part de captation / retransmission affectée à cette épreuve",
+    "quantity": null,
+    "unit_gross_cents": null,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Compté une seule fois dans la ligne commune common-broadcast du scénario ; ce renvoi n’est pas une gratuité.",
+    "shared_cost_key": "common-broadcast"
+  },
+  {
+    "activity_key": "grande-restaurante",
+    "name": "Recette et fiches de gestes",
+    "quantity": 1,
+    "unit_gross_cents": 800,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "grande-restaurante",
+    "name": "Caisse garde-manger occultée et accessible",
+    "quantity": 1,
+    "unit_gross_cents": 4000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "grande-restaurante",
+    "name": "Ingrédients factices souples et objets leurres",
+    "quantity": 24,
+    "unit_gross_cents": 150,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "grande-restaurante",
+    "name": "Ustensiles factices décalés",
+    "quantity": 6,
+    "unit_gross_cents": 500,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "grande-restaurante",
+    "name": "Lampe de poche",
+    "quantity": 1,
+    "unit_gross_cents": 1500,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué. Achat provisionné faute de prêt documenté.",
+    "procurement": "purchase"
+  },
+  {
+    "activity_key": "grande-restaurante",
+    "name": "Zone de relais balisée",
+    "quantity": 1,
+    "unit_gross_cents": 2500,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "tabuleiro-sementes",
+    "name": "Plateau 144 alvéoles",
+    "quantity": 1,
+    "unit_gross_cents": 1000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "tabuleiro-sementes",
+    "name": "Grille de commande et corrigé",
+    "quantity": 1,
+    "unit_gross_cents": 800,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "tabuleiro-sementes",
+    "name": "Graines non traitées ou jetons identifiables",
+    "quantity": 144,
+    "unit_gross_cents": 3,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "tabuleiro-sementes",
+    "name": "Référentiel des 24 catégories",
+    "quantity": 24,
+    "unit_gross_cents": 25,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "tabuleiro-sementes",
+    "name": "Plateau de récupération",
+    "quantity": 1,
+    "unit_gross_cents": 1200,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "mestre-mimosas",
+    "name": "Supports factices de mimosa prédécoupés",
+    "quantity": 12,
+    "unit_gross_cents": 300,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "mestre-mimosas",
+    "name": "Fausses ronces souples sans épines",
+    "quantity": 12,
+    "unit_gross_cents": 150,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "mestre-mimosas",
+    "name": "Gants de boxe",
+    "quantity": 1,
+    "unit_gross_cents": 2500,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué. Achat provisionné faute de prêt documenté.",
+    "procurement": "purchase"
+  },
+  {
+    "activity_key": "mestre-mimosas",
+    "name": "Assemblages réversibles sans lame",
+    "quantity": 12,
+    "unit_gross_cents": 250,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "mestre-mimosas",
+    "name": "Végétaux compatibles pour démonstration professionnelle",
+    "quantity": 1,
+    "unit_gross_cents": 800,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "mestre-mimosas",
+    "name": "Poste de démonstration protégé",
+    "quantity": 1,
+    "unit_gross_cents": 5000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "pichecultor",
+    "name": "Banc isolé simulant une conduite 3 pouces",
+    "quantity": 1,
+    "unit_gross_cents": 10000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "pichecultor",
+    "name": "Section manquante représentée (1 mètre)",
+    "quantity": 1,
+    "unit_gross_cents": 2000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "pichecultor",
+    "name": "Kit de raccords manipulables à la main",
+    "quantity": 1,
+    "unit_gross_cents": 9000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "pichecultor",
+    "name": "Effet d’eau doux avec arrêt indépendant",
+    "quantity": 1,
+    "unit_gross_cents": 8000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "pichecultor",
+    "name": "Récupération d’eau et sol antidérapant",
+    "quantity": 1,
+    "unit_gross_cents": 5000,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  },
+  {
+    "activity_key": "pichecultor",
+    "name": "Protection des yeux adaptée",
+    "quantity": 1,
+    "unit_gross_cents": 800,
+    "vat_basis_points": 2300,
+    "pricing_status": "estimate",
+    "price_checked_at": "2026-09-30",
+    "price_source": "Hypothèse interne de dimensionnement, 30/09/2026. Aucun devis ni accord obtenu. Prix TTC provisoire, IVA 23 % uniquement pour simulation, non déductible tant que non confirmé. Six passages de compétition par épreuve (six équipes). Essais supplémentaires et animations du public à ajouter ; inventaire non homologué."
+  }
+]

@@ -1,0 +1,3 @@
+<?php
+namespace App\Filament\Resources\TicketSettlementResource\Pages;
+class ManageRecords extends \Filament\Resources\Pages\ManageRecords {protected static string $resource=\App\Filament\Resources\TicketSettlementResource::class;protected function getHeaderActions(): array {return [\Filament\Actions\CreateAction::make()->label('Rapprocher un reversement reçu')->using(fn(array $data)=>app(\App\Domain\Tickets\Ticketing::class)->settle(\App\Models\Distributor::findOrFail($data['distributor_id']),$data['ticket_ids'],(int)$data['received_cents'],$data['reference'],$data['evidence'],\Carbon\Carbon::parse($data['received_at'])))];}}
