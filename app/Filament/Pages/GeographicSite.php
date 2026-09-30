@@ -38,6 +38,13 @@ class GeographicSite extends \Filament\Pages\Page {
   $f=$id?$p->siteFeatures()->where('public_id',$id)->firstOrFail():new SiteFeature(['event_project_id'=>$p->id]);
   $f->fill(compact('name','category','geometry'));$f->save();$this->revision++;
  }
+ public function savePlacement(string $name,string $activity,string $quartel,array $additional,array $geometry,string $role,string $access,bool $public,?string $id=null): void {
+  $p=$this->authorizedProject();Validator::make(compact('name','additional'),['name'=>'required|string|max:120','additional'=>'array|max:19','additional.*'=>'uuid|distinct'])->validate();
+  $a=$p->activities()->where('public_id',$activity)->firstOrFail();$q=$p->siteFeatures()->where('public_id',$quartel)->where('category','quartel')->firstOrFail();
+  $extra=$p->siteFeatures()->whereIn('public_id',$additional)->where('category','quartel')->pluck('id');abort_unless($extra->count()===count($additional),422);
+  $l=$id?\App\Models\ActivityLocation::whereHas('activity',fn($query)=>$query->where('event_project_id',$p->id))->where('public_id',$id)->firstOrFail():new \App\Models\ActivityLocation();
+  $l->fill(['name'=>$name,'activity_id'=>$a->id,'site_feature_id'=>$q->id,'additional_quartel_ids'=>$extra->all(),'geometry'=>$geometry,'role'=>$role,'access'=>$access,'is_public'=>$public]);$l->save();$this->revision++;
+ }
  public function exportGeojson(){
   $p=$this->authorizedProject();$json=json_encode(app(GeographicPlan::class)->data($p,true)['geojson'],JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR);
   return response()->streamDownload(fn()=>print($json),'site-'.$p->slug.'.geojson',['Content-Type'=>'application/geo+json']);

@@ -7,5 +7,5 @@ final class Revelation {
   if(!$a->fundingScenario->includedActivities()->where('activities.id',$a->id)->exists())return false;
   return $a->fundingScenario->report()['launch_ready']&&app(Readiness::class)->blockers($a->eventProject,'live')===[];
  }
- public function label(Activity $a): string {return $a->publication_level==='confirmed'&&!$this->confirmable($a)?'review':$a->publication_level;}
+ public function label(Activity $a): string {if($a->relayUnlocked()&&in_array($a->publication_level,['hidden','teaser'],true))return 'details';return $a->publication_level==='confirmed'&&!$this->confirmable($a)?'review':$a->publication_level;}
 }

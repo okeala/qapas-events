@@ -5,11 +5,14 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 class Activity extends Record {
  protected $attributes=['proposer_type'=>'organization','track'=>'public','capacity'=>0,'risk_reviewed'=>false,'status'=>'idea','risk_category'=>'manual','access'=>'team','is_public'=>false,'broadcast_planned'=>false,'materials_complete'=>false,'planned_runs'=>1,'sort_order'=>100,'publication_level'=>'details'];
- protected function casts(): array {return ['risk_reviewed'=>'boolean','is_public'=>'boolean','broadcast_planned'=>'boolean','materials_complete'=>'boolean','map_x'=>'float','map_y'=>'float'];}
+ protected function casts(): array {return ['relay_reveal'=>'boolean','risk_reviewed'=>'boolean','is_public'=>'boolean','broadcast_planned'=>'boolean','materials_complete'=>'boolean','map_x'=>'float','map_y'=>'float'];}
  public function eventProject(){return $this->belongsTo(EventProject::class);}
  public function locations(){return $this->hasMany(ActivityLocation::class);}
  public function fundingScenario(){return $this->belongsTo(Scenario::class,'funding_scenario_id');}
- public function revealed(): bool {return in_array($this->publication_level,['details','confirmed'],true);}
+ public function relayUnlocked(): bool {return $this->relay_reveal&&$this->track==='official'&&app(\App\Domain\Planning\RelayMobilization::class)->report($this->eventProject)['ready'];}
+ public function publicVisible(): bool {return $this->is_public&&$this->status!=='archived'&&($this->publication_level!=='hidden'||$this->relayUnlocked());}
+ public function revealed(): bool {return in_array($this->publication_level,['details','confirmed'],true)||$this->relayUnlocked();}
+ public function publicLocationVisible(): bool {return $this->publicVisible()&&$this->revealed()&&(!$this->relay_reveal||($this->publication_level==='confirmed'&&app(\App\Domain\Planning\Revelation::class)->confirmable($this)));}
  public function terrace(){return $this->belongsTo(Terrace::class);}
  public function spectatorTerrace(){return $this->belongsTo(Terrace::class,'spectator_terrace_id');}
  public function materials(){return $this->hasMany(ActivityMaterial::class);}

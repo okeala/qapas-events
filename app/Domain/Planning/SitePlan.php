@@ -28,7 +28,7 @@ final class SitePlan {
   return $dimensions+[
    'image'=>route($private?'plan.private-image':'plan.image',['project'=>$p->public_id]),
    'terraces'=>$terraces->map(fn($t)=>['id'=>$t->public_id,'name'=>$t->name,'boundary'=>$t->boundary,'access'=>$t->access])->values()->all(),
-   'activities'=>$activities->filter(fn($a)=>$a->map_x!==null&&$terraces->contains('id',$a->terrace_id))->map(fn($a)=>['id'=>$a->public_id,'name'=>$a->name,'x'=>$a->map_x,'y'=>$a->map_y,'url'=>$private?null:route('activity.show',['project'=>$p->slug,'activity'=>$a->public_id])])->values()->all(),
+   'activities'=>$activities->filter(fn($a)=>($private||$a->publicLocationVisible())&&$a->map_x!==null&&$terraces->contains('id',$a->terrace_id))->map(fn($a)=>['id'=>$a->public_id,'name'=>$a->name,'x'=>$a->map_x,'y'=>$a->map_y,'url'=>$private?null:route('activity.show',['project'=>$p->slug,'activity'=>$a->public_id])])->values()->all(),
   ];
  }
 }

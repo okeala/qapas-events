@@ -25,7 +25,7 @@ final class ScenarioCalculator {
    $net=Money::net($gross,(int)$line->vat_basis_points);
    if ($line->kind==='revenue') {
     $result['forecast_margin_cents']+=$net*$line->forecast_quantity;
-    $result['secured_margin_cents']+=($scenario->launch_model&&in_array($line->scope,['bar','fries'],true))?0:$net*$line->committed_quantity;
+    $result['secured_margin_cents']+=($scenario->launch_model&&in_array($line->scope,['bar','fries','soup'],true))?0:$net*$line->committed_quantity;
     $result['paid_operating_gross_cents']+=$gross*$line->paid_quantity;
     $result['vat_reserve_cents']+=($gross-$net)*$line->paid_quantity;
    } else {

@@ -21,3 +21,4 @@ Route::post('/language',function(Request $request){
 Route::get('/events/{project:slug}/epreuves/{activity}',[\App\Http\Controllers\ActivityController::class,'show'])->name('activity.show');
 Route::get('/plans/{project}/image',[\App\Http\Controllers\ActivityController::class,'image'])->name('plan.image');
 Route::get('/workspace/plans/{project}/image',[\App\Http\Controllers\ActivityController::class,'privateImage'])->name('plan.private-image');
+Route::get('/events/{project:slug}/presse/{press}',[\App\Http\Controllers\PressController::class,'show'])->name('press.show');

@@ -10,15 +10,23 @@
  </x-filament::section>
  <section data-geo-editor wire:key="geo-{{ $project->public_id }}-{{ $revision }}" x-data x-init="$nextTick(() => window.dispatchEvent(new Event('qapas-geo-mount')))">
   <div class="flex flex-wrap gap-3 mb-3">
-   <label>Objet<select data-feature class="block border rounded p-2 dark:bg-gray-900"><option value="">Nouvel objet</option>@foreach($project->siteFeatures()->orderBy('name')->get() as $f)<option value="{{ $f->public_id }}">{{ $f->name }}</option>@endforeach</select></label>
+   <label>Objet<select data-feature class="block border rounded p-2 dark:bg-gray-900"><option value="">Nouvel objet</option><option value="new-location">Nouvelle emprise d’épreuve</option>@foreach($project->siteFeatures()->orderBy('name')->get() as $f)<option value="{{ $f->public_id }}">{{ $f->name }}</option>@endforeach@foreach(\App\Models\ActivityLocation::whereHas('activity',fn($q)=>$q->where('event_project_id',$project->id))->with('activity')->get() as $l)<option value="location-{{ $l->public_id }}">Épreuve : {{ $l->name ?: $l->activity->name }} · {{ $l->role }}</option>@endforeach</select></label>
    <label>Nom<input data-feature-name maxlength="120" class="block border rounded p-2 dark:bg-gray-900"></label>
    <label>Calque<select data-category class="block border rounded p-2 dark:bg-gray-900">@foreach(\App\Models\SiteFeature::CATEGORIES as $key=>$label)<option value="{{ $key }}">{{ $label }}</option>@endforeach</select></label>
    <label>Forme<select data-shape class="block border rounded p-2 dark:bg-gray-900"><option value="Polygon">Polygone</option><option value="LineString">Ligne / accès</option><option value="Point">Point</option></select></label>
+  </div>
+  <div data-placement-fields hidden class="flex flex-wrap gap-3 mb-3">
+   <label>Épreuve<select data-activity class="block border p-2 dark:bg-gray-900">@foreach($project->activities as $a)<option value="{{ $a->public_id }}">{{ $a->name }}</option>@endforeach</select></label>
+   <label>Quartel principal<select data-quartel class="block border p-2 dark:bg-gray-900">@foreach($project->siteFeatures()->where('category','quartel')->get() as $q)<option value="{{ $q->public_id }}">{{ $q->name }}</option>@endforeach</select></label>
+   <label>Autres quartéis<select data-additional multiple class="block border p-2 dark:bg-gray-900">@foreach($project->siteFeatures()->where('category','quartel')->get() as $q)<option value="{{ $q->public_id }}">{{ $q->name }}</option>@endforeach</select></label>
+   <label>Rôle<select data-role class="block border p-2 dark:bg-gray-900"><option value="performance">Performance</option><option value="spectator">Spectateurs</option><option value="queue">Attente</option><option value="technical">Technique</option></select></label>
+   <label>Accès<select data-access class="block border p-2 dark:bg-gray-900"><option value="restricted">Restreint</option><option value="public">Public</option><option value="staff">Équipe technique</option></select></label>
+   <label><input data-location-public type="checkbox"> Publier l’emprise lorsque l’épreuve est révélée</label>
   </div>
   <div class="flex flex-wrap gap-3 mb-3"><x-filament::button type="button" data-start>Tracer / remplacer le contour</x-filament::button><x-filament::button type="button" data-undo color="gray">Annuler le point</x-filament::button><x-filament::button type="button" data-save>Enregistrer l’objet</x-filament::button></div>
   <p data-geo-status role="status">Choisissez une forme, puis cliquez sur ses sommets. Le nouveau tracé remplace la géométrie de l’objet sélectionné.</p>
   <div data-geographic-plan wire:ignore><script type="application/json" data-geo-json>@json(app(\App\Domain\Planning\GeographicPlan::class)->data($project,true))</script><div data-geo-canvas style="height:580px;max-height:75vh;z-index:0"></div></div>
  </section>
- <p>Complétez les besoins et la visibilité dans « Éléments du site ». Affectez les épreuves à un ou plusieurs quartéis dans « Implantations des épreuves ». Les calques publics exigent aussi la publication du plan géographique dans l’édition.</p>
+ <p>Complétez les besoins et la visibilité dans « Éléments du site ». Tracez les emprises d’épreuves dans leurs quartéis. Plusieurs épreuves peuvent partager un quartel. Examinez les chevauchements et les horaires dans « Implantations des épreuves ». Les calques publics exigent aussi la publication du plan géographique dans l’édition.</p>
  @else<p>Créez une édition pour dessiner le site.</p>@endif
 </x-filament-panels::page>

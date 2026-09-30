@@ -21,7 +21,11 @@ final class Readiness {
    foreach($project->activities()->where('status','approved')->get() as $activity) {
     $locations=$activity->locations()->with('siteFeature')->get();$performances=$locations->where('role','performance');$spectators=$locations->where('role','spectator');
     $geoZones=$performances->isNotEmpty()&&$spectators->isNotEmpty()&&$performances->every(fn($l)=>$l->siteFeature->category==='quartel'&&$l->siteFeature->access!=='public')&&$spectators->every(fn($l)=>$l->siteFeature->access==='public'&&!$performances->contains('site_feature_id',$l->site_feature_id));
-    if($activity->risk_category==='machinery' && ($activity->access!=='qualified'||blank($activity->operator_requirements)||blank($activity->technical_review)||(!$geoZones&&(!$activity->terrace_id||$activity->map_x===null||!$activity->spectator_terrace_id||$activity->terrace_id===$activity->spectator_terrace_id||$activity->terrace?->access==='public'||$activity->spectatorTerrace?->access!=='public')))) $blockers[]=$activity->name.' : qualification, zones séparées et validation technique à compléter';
+    if($performances->contains(fn($l)=>$l->geometry!==null)||$spectators->contains(fn($l)=>$l->geometry!==null)){
+     $geoZones=$performances->isNotEmpty()&&$spectators->isNotEmpty()&&$performances->every(fn($l)=>$l->geometry!==null&&$l->access!=='public')&&$spectators->every(fn($l)=>$l->geometry!==null&&$l->access==='public');
+     if($geoZones)foreach($performances as $performance)foreach($spectators as $spectator)if(GeoArea::overlaps($performance->geometry,$spectator->geometry))$geoZones=false;
+    }
+    if($activity->risk_category==='machinery' && ($activity->access!=='qualified'||blank($activity->operator_requirements)||blank($activity->technical_review)||(!$geoZones&&($locations->contains(fn($l)=>$l->geometry!==null)||!$activity->terrace_id||$activity->map_x===null||!$activity->spectator_terrace_id||$activity->terrace_id===$activity->spectator_terrace_id||$activity->terrace?->access==='public'||$activity->spectatorTerrace?->access!=='public')))) $blockers[]=$activity->name.' : qualification, zones séparées et validation technique à compléter';
     if(in_array($activity->risk_category,['water','grafting'],true)&&blank($activity->technical_review)) $blockers[]=$activity->name.' : validation technique à compléter';
     if($activity->broadcast_planned&&blank($activity->media_plan)) $blockers[]=$activity->name.' : dispositif de captation à préparer';
    }

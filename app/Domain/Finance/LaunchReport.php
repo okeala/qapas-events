@@ -8,7 +8,7 @@ final class LaunchReport {
   foreach($s->budgetLines as $l){
    $gross=($l->unit_gross_cents??0);$net=$l->vat_basis_points===null?0:Money::net($gross,$l->vat_basis_points);
    if($l->kind==='cost'){$costNet+=($l->deductible?$net:$gross)*$l->forecast_quantity;$costGross+=$gross*$l->forecast_quantity;if($l->paid_by==='organizer')$r['advance_due_cents']+=$gross*$l->paid_quantity-$l->reimbursed_cents;}
-   if($l->kind==='revenue'&&!in_array($l->scope,['bar','fries'],true)&&$l->verified()){$r['verified_net_cents']+=$net*$l->paid_quantity;$r['verified_gross_cents']+=$gross*$l->paid_quantity;}
+   if($l->kind==='revenue'&&!in_array($l->scope,['bar','fries','soup'],true)&&$l->verified()){$r['verified_net_cents']+=$net*$l->paid_quantity;$r['verified_gross_cents']+=$gross*$l->paid_quantity;}
    if($l->stand_id&&!$s->includedStands->contains('id',$l->stand_id))$r['missing'][]='Ligne rattachée à un stand absent du scénario : '.$l->name;
   }
   foreach($s->includedActivities as $a){$c=$a->costReport();$costNet+=$c['economic_cents'];$costGross+=$c['gross_cents'];}
@@ -42,8 +42,12 @@ final class LaunchReport {
   if($s->launch_model){
    if(!$s->event_days)$r['missing'][]='Nombre de jours à fixer';
    if($s->includedStands->where('kind','village')->count()!==$s->team_target||$s->includedStands->where('kind','independent')->count()!==$s->independent_target||$s->includedStands->count()!==$s->stand_target)$r['missing'][]='Les stands sélectionnés ne correspondent pas au format annoncé';
+   if($s->shelter_model==='distributed'){
+    $r['tent_estimate']=$s->includedStands->sum('shelter_target');foreach($s->includedStands as $stand)if(!$stand->hospitality_validated||blank($stand->hospitality_evidence)||$stand->shelter_source==='undecided'||$stand->sheltered_capacity<$stand->shelter_target||$stand->seated_capacity<(int)ceil($stand->shelter_target/2))$r['missing'][]=$stand->name.' : abri, moitié des personnes assises, espaces debout et circulations à valider';
+   }else{
    if(!$s->guests_per_stand||!$s->tent_capacity)$r['missing'][]='Hypothèse de fréquentation et capacité du chapiteau à définir';
    else{$r['tent_estimate']=$s->stand_target*$s->guests_per_stand;if($s->tent_capacity<$r['tent_estimate'])$r['missing'][]='Chapiteau inférieur à l’hypothèse du scénario (hors validation du site)';}
+   }
    if($s->contingency_cents===null||$s->refund_reserve_cents===null||blank($s->reserve_evidence))$r['missing'][]='Imprévus et exposition aux remboursements à documenter';
    for($day=1;$day<=($s->event_days??0);$day++){
     $slots=$s->programSlots->where('day_number',$day);$valid=$slots->filter(fn($slot)=>$slot->activity?->track==='official'&&$slot->activity->status!=='archived'&&$s->includedActivities->contains('id',$slot->activity_id));

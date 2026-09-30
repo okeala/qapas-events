@@ -9,6 +9,6 @@ class ActivityMaterial extends Record {
   parent::booted();static::saving(function(ActivityMaterial $m){Validator::make($m->getAttributes(),[
    'quantity'=>'nullable|integer|min:1|max:1000000','unit_gross_cents'=>'nullable|integer|min:0|max:100000000',
    'vat_basis_points'=>'nullable|integer|min:0|max:10000','basis'=>'in:fixed,per_run','procurement'=>'in:purchase,rental,loan,sponsor',
-  ])->validate();});
+  ])->validate();if($m->activity_location_id&&!ActivityLocation::whereKey($m->activity_location_id)->where('activity_id',$m->activity_id)->exists())throw \Illuminate\Validation\ValidationException::withMessages(['activity_location_id'=>'L’implantation doit appartenir à cette épreuve.']);});
  }
 }

@@ -1,7 +1,7 @@
 name: Application checks
 on:
   push:
-    branches: [master]
+    branches: [master, 'work/**']
   pull_request:
 permissions:
   contents: read

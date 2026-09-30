@@ -121,3 +121,7 @@ Les anciens plans sur image et leurs positions sont conservés séparément : au
 Dans **Épreuves**, choisir non dévoilée, aperçu, règles dévoilées ou confirmée. Les règles et points ne sont pas rendus dans le HTML d’un aperçu. Un titre caché n’apparaît pas dans les implantations publiques. La confirmation exige financement rapproché, préparation et revue technique ; si ces conditions cessent d’être réunies, l’affichage indique une réévaluation. Conditions essentielles de participation accessibles avant engagement. Un identifiant YouTube peut lier un extrait ou direct externe ; pas de régie vidéo intégrée.
 
 Le seeder ajoute le nouveau socle une seule fois, conserve les travaux antérieurs et initialise un seul aperçu officiel. Un second lancement du seeder conserve modifications, rapprochements et choix éditoriaux. Les anciens prix restent des références historiques et ne sont pas présentés comme une remise nouvellement validée.
+
+### Accueil, mobilisation et exploitation
+
+Le scénario actuel, le chiffrage du mobilier Douglas, les relais et leur seuil de révélation, la presse et les emprises d’épreuves sont décrits dans [docs/HOSPITALITY-OPERATIONS.md](docs/HOSPITALITY-OPERATIONS.md). Après mise à jour : `composer install`, `php artisan migrate`, `php artisan db:seed`, `npm ci`, `npm run build`. Le catalogue reste une collecte de besoins sans paiement ni réservation.
