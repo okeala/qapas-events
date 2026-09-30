@@ -9,6 +9,8 @@ return [
     'connector'=>'A abraçadeira de andaime é a peça central: à sua volta unem-se os tubos recuperados de demolições. Os tipos e a compatibilidade são verificados no protótipo antes da construção.',
     'wattle'=>'Cobertura e paredes em entrançado de mimosa e/ou canas identificadas. Ramos e varas unidos com sisal ou outra fibra natural adequada. Canas trabalhadas, entrançados e decoração dão espaço aos artistas.',
     'recovery'=>'Estrutura e decoração com materiais recuperados; abraçadeiras, parafusos e ligações podem ser novos. Sem amianto, plástico ou madeira comprada nova.',
+    'harvest'=>'Sem quota de mimosas ou canas por cabana: a recolha faz-se nas zonas designadas dos trabalhos de controlo. Quantidades e proveniências continuam a ser registadas.',
+    'after'=>'Depois dos Jogos, os materiais vegetais são separados para trituração e cobertura do solo no local; tubos e abraçadeiras são recuperados. Lotes com sementes ou fragmentos vivos capazes de se propagar recebem tratamento adequado antes da valorização. O material triturado decompõe-se gradualmente. As áreas libertadas preparam as plantações, com acompanhamento da rebentação e das árvores jovens.',
     'team_title'=>'A cabana da vossa freguesia',
     'team_body'=>'As equipas da mesma freguesia constroem e partilham o espaço da sua terra. Uma oportunidade para juntar pessoas habilidosas, artistas e vizinhos numa criação coletiva.',
     'rental_title'=>'Expositores independentes: cabana QAPAS para alugar',

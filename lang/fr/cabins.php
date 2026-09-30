@@ -9,6 +9,8 @@ return [
     'connector'=>'Le raccord d’échafaudage est la pièce maîtresse : autour de lui s’assemblent les tubes récupérés auprès des démolisseurs. Types et compatibilité sont vérifiés sur le prototype avant fabrication.',
     'wattle'=>'Couverture et bardages en plessis de mimosa et/ou de cannes identifiées. Branchages et perches sont liés au sisal ou à une fibre naturelle adaptée. Cannes travaillées, tressages et décoration laissent place aux artistes.',
     'recovery'=>'Récupération uniquement pour la structure et les décors ; raccords, visserie et ligatures peuvent être neufs. Pas d’amiante, de plastique ni de bois acheté neuf.',
+    'harvest'=>'Aucun quota de mimosas ou de cannes par cabane : les prélèvements se font dans les zones désignées du chantier. Les quantités et provenances restent suivies.',
+    'after'=>'Après les Jeux, les parties végétales sont triées en vue du broyage et du paillage sur place ; tubes et raccords sont récupérés. Les lots capables de disséminer des graines ou fragments vivants suivent un traitement adapté avant toute valorisation. Ce broyat se décompose progressivement. Les zones dégagées préparent les plantations, avec suivi des repousses et des jeunes arbres.',
     'team_title'=>'La cabane de votre freguesia',
     'team_body'=>'Les équipes d’une même freguesia construisent et partagent le stand de leur commune. Une occasion de réunir bricoleurs, artistes et voisins autour d’une réalisation collective.',
     'rental_title'=>'Indépendants : une cabane QAPAS en location',
