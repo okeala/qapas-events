@@ -13,7 +13,7 @@ class TeamRolesRelationManager extends RelationManager {
  protected static ?string $title='Les treize rôles à pourvoir';
  public function form(Schema $schema): Schema {return $schema->columns(2)->components([
   Select::make('role_code')->label('Rôle expert')->options(ExpertRoles::labels())->disabled(),
-  Select::make('interest_id')->label('Candidature reçue, facultative')->options(fn(?TeamRoleAssignment $record)=>Interest::where('event_project_id',$this->getOwnerRecord()->event_project_id)->whereJsonContains('expert_roles',$record?->role_code)->get()->mapWithKeys(fn($interest)=>[$interest->id=>$interest->name.' · '.$interest->freguesia]))->searchable()->helperText('Relie la demande à ce poste, sans inscrire automatiquement la personne. Une candidature locale hors internet reste possible.'),
+  Select::make('interest_id')->label('Candidature reçue')->options(fn(?TeamRoleAssignment $record)=>Interest::where('event_project_id',$this->getOwnerRecord()->event_project_id)->whereJsonContains('expert_roles',$record?->role_code)->get()->mapWithKeys(fn($interest)=>[$interest->id=>$interest->name.' · '.$interest->freguesia]))->searchable()->helperText('Proposition locale possible ; pour confirmer un rôle dans une édition payante, lier le dossier dont les 10 € ont été effectivement payés.'),
   TextInput::make('candidate_name')->label('Personne proposée')->maxLength(120),
   TextInput::make('candidate_reference')->label('Référence de personne au registre de l’édition')->maxLength(120)->helperText('Réutiliser la même référence pour une même personne. Référence interne, pas de numéro de pièce d’identité. Sert à vérifier les cumuls et l’unicité entre équipes.'),
   Toggle::make('consent_confirmed')->label('La personne accepte cette candidature et ce rôle'),

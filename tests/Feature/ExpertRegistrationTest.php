@@ -22,7 +22,7 @@ class ExpertRegistrationTest extends TestCase {
   $i=$c->eventProject->interests()->create(['profile'=>'team','name'=>'Ana','email'=>$email,'freguesia'=>'Belmonte','expert_roles'=>ExpertRoles::CODES,'privacy_acknowledged_at'=>now(),'privacy_version'=>'test']);
   return $c->registrations()->create(['interest_id'=>$i->id,'email_key'=>$email,'amount_cents'=>1000,'credit_cents'=>1000,'currency'=>'eur','vat_basis_points'=>0,'terms_version'=>'v1','terms_snapshot'=>'Accepted terms','accepted_at'=>now(),'payment_status'=>$paid?'paid':'pending','paid_at'=>$paid?now():null,'fee_cents'=>$paid?40:null]);
  }
- private function session(CandidateRegistration $r,array $extra=[]): array {return array_replace(['id'=>'cs_test_example','status'=>'complete','payment_status'=>'paid','amount_total'=>1000,'currency'=>'eur','livemode'=>false,'client_reference_id'=>$r->public_id,'metadata'=>['registration'=>$r->public_id],'payment_intent'=>['id'=>'pi_example','latest_charge'=>['balance_transaction'=>['fee'=>40,'currency'=>'eur']]],'invoice'=>'in_example'],$extra);}
+ private function stripeSessionFixture(CandidateRegistration $r,array $extra=[]): array {return array_replace(['id'=>'cs_test_example','status'=>'complete','payment_status'=>'paid','amount_total'=>1000,'currency'=>'eur','livemode'=>false,'client_reference_id'=>$r->public_id,'metadata'=>['registration'=>$r->public_id],'payment_intent'=>['id'=>'pi_example','latest_charge'=>['balance_transaction'=>['fee'=>40,'currency'=>'eur']]],'invoice'=>'in_example'],$extra);}
  private function webhook(array $event,?string $signature=null){$payload=json_encode($event);$time=time();$sig=$signature??'t='.$time.',v1='.hash_hmac('sha256',$time.'.'.$payload,'whsec_fixture');return $this->call('POST','/payments/stripe/webhook',[],[],[],['CONTENT_TYPE'=>'application/json','HTTP_STRIPE_SIGNATURE'=>$sig],$payload);}
  private function closeVote(RegistrationCampaign $c): void {$this->travel(11)->days();$c->update(['vote_closed_at'=>now(),'vote_minutes_reference'=>'Signed local vote minutes']);}
  public function test_seed_archives_douglas_and_has_no_fabrication_or_included_furniture_in_current_scenario(): void {
@@ -59,11 +59,11 @@ class ExpertRegistrationTest extends TestCase {
  public function test_checkout_uses_provider_host_exact_amount_and_idempotent_reuse(): void {
   $c=$this->campaign();$r=$this->registration($c);Http::preventStrayRequests();Http::fake(['api.stripe.com/v1/checkout/sessions*'=>Http::response(['id'=>'cs_test_example','status'=>'open','url'=>'https://checkout.stripe.com/c/pay/example'])]);
   $service=app(RegistrationPayments::class);$this->assertSame('https://checkout.stripe.com/c/pay/example',$service->checkout($r));$service->checkout($r->fresh());
-  Http::assertSent(fn($request)=>$request->method()==='POST'&&$request['line_items'][0]['price_data']['unit_amount']===1000&&$request->hasHeader('Idempotency-Key','registration-'.$r->public_id.'-1'));
+  Http::assertSent(fn($request)=>$request->method()==='POST'&&(int)$request['line_items'][0]['price_data']['unit_amount']===1000&&$request->hasHeader('Idempotency-Key','registration-'.$r->public_id.'-1'));
   $this->assertSame(1,collect(Http::recorded())->filter(fn($pair)=>$pair[0]->method()==='POST')->count());$this->assertFalse($r->fresh()->isPaid());
  }
  public function test_signed_webhook_confirms_once_and_refund_freezes_credit_even_after_late_completed_event(): void {
-  $c=$this->campaign();$r=$this->registration($c);$r->update(['stripe_session_id'=>'cs_test_example']);Http::fake(['api.stripe.com/*'=>Http::response($this->session($r))]);
+  $c=$this->campaign();$r=$this->registration($c);$r->update(['stripe_session_id'=>'cs_test_example']);Http::fake(['api.stripe.com/*'=>Http::response($this->stripeSessionFixture($r))]);
   $event=['id'=>'evt_complete','type'=>'checkout.session.completed','livemode'=>false,'data'=>['object'=>['id'=>'cs_test_example','metadata'=>['registration'=>$r->public_id]]]];
   $this->webhook($event,'t=1,v1=bad')->assertStatus(400);$this->assertFalse($r->fresh()->isPaid());
   $this->webhook($event)->assertOk();$this->webhook($event)->assertOk();$this->assertTrue($r->fresh()->isPaid());$this->assertSame(40,$r->fresh()->fee_cents);$this->assertDatabaseCount('registration_webhooks',1);
@@ -72,8 +72,8 @@ class ExpertRegistrationTest extends TestCase {
  }
  public function test_wrong_amount_or_unpaid_session_never_validates_candidacy(): void {
   $c=$this->campaign();$r=$this->registration($c);$r->update(['stripe_session_id'=>'cs_test_example']);$event=['id'=>'evt_bad','type'=>'checkout.session.completed','livemode'=>false,'data'=>['object'=>['id'=>'cs_test_example']]];
-  Http::fake(['api.stripe.com/*'=>Http::response($this->session($r,['amount_total'=>999]))]);$this->webhook($event)->assertStatus(422);$this->assertFalse($r->fresh()->isPaid());
-  Http::fake(['api.stripe.com/*'=>Http::response($this->session($r,['payment_status'=>'unpaid']))]);$this->webhook($event)->assertOk();$this->assertFalse($r->fresh()->isPaid());
+  Http::fake(['api.stripe.com/*'=>Http::response($this->stripeSessionFixture($r,['amount_total'=>999]))]);$this->webhook($event)->assertStatus(422);$this->assertFalse($r->fresh()->isPaid());
+  Http::fake(['api.stripe.com/*'=>Http::response($this->stripeSessionFixture($r,['payment_status'=>'unpaid']))]);$this->webhook($event)->assertOk();$this->assertFalse($r->fresh()->isPaid());
  }
  public function test_non_selection_requires_closed_vote_then_tickets_are_idempotent_and_never_a_cash_sale(): void {
   $c=$this->campaign();$r=$this->registration($c,paid:true);$service=app(RegistrationDecision::class);
@@ -93,4 +93,11 @@ class ExpertRegistrationTest extends TestCase {
   foreach(['RegistrationCampaign','CandidateRegistration','DrinkCredit'] as $name){$class='App\\Filament\\Resources\\'.$name.'Resource';$this->get($class::getUrl())->assertOk();}
   $admin=auth('admin')->user();$admin->update(['is_active'=>false]);$this->get(\App\Filament\Resources\DrinkCreditResource::getUrl())->assertForbidden();
  }
+ public function test_selected_candidate_gets_no_credit_and_test_money_cannot_fund_live_event(): void {
+  $c=$this->campaign();$r=$this->registration($c,paid:true);$team=$c->eventProject->teams()->create(['name'=>'Team','freguesia'=>'Belmonte']);
+  foreach($team->roleAssignments as $role)$role->update(['interest_id'=>$r->interest_id,'candidate_name'=>'Ana','candidate_reference'=>'register-ana','consent_confirmed'=>true,'competence_evidence'=>'Local qualifications checked','status'=>'confirmed']);
+  $team->update(['role_cumulation_evidence'=>'Timetables, local vote and responsibilities reviewed','election_minutes'=>'Signed ballot minutes']);$team->update(['status'=>'elected']);$this->closeVote($c);app(RegistrationDecision::class)->record($r,'selected','Selected in signed local vote');
+  $this->assertDatabaseCount('drink_credits',0);$this->assertSame(0,$c->funding()['potential_drink_credit_cents']);config(['registration.live'=>true]);$this->assertFalse($r->fresh()->isPaid());$this->assertSame(0,$c->funding()['gross_cents']);$this->assertFalse($team->fresh()->composition()['complete']);
+ }
+
 }
