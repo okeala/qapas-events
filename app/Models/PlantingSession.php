@@ -14,7 +14,7 @@ class PlantingSession extends Record {
   $b=[];if(!$this->quartel||$this->quartel->category!=='quartel')$b[]='Quartel à affecter';if(!$this->nursery||blank($this->partner_agreement))$b[]='Pépiniériste et accord du jour requis';
   foreach(['supervisor','instructions_fr','instructions_pt','preparation_evidence'] as $f)if(blank($this->$f))$b[]=$f.' à compléter';
   if(!$this->starts_at||!$this->eventProject?->starts_at||!$this->eventProject?->ends_at||$this->starts_at->lt($this->eventProject->starts_at)||$this->starts_at->gt($this->eventProject->ends_at))$b[]='Créneau de clôture dans les dates confirmées requis';
-  $cost=$this->budgetLine;if(!$cost||$cost->kind!=='cost'||$cost->forecast_quantity!==$this->capacity||$cost->unit_gross_cents===null||$cost->vat_basis_points===null||\App\Domain\Finance\Pricing::pending($cost))$b[]='Coût complet par arbre, quantité et financement à valider dans le budget';
+  $cost=$this->budgetLine;if($this->starts_at&&$this->eventProject?->starts_at&&$this->starts_at->copy()->timezone('Europe/Lisbon')->toDateString()!==$this->eventProject->starts_at->copy()->timezone('Europe/Lisbon')->startOfDay()->addDays($this->day_number-1)->toDateString())$b[]='La date doit correspondre au numéro de journée';if($cost?->scenario?->is_archived)$b[]='Choisir un budget actif pour cette session';if(!$cost||$cost->kind!=='cost'||$cost->forecast_quantity!==$this->capacity||$cost->unit_gross_cents===null||$cost->vat_basis_points===null||\App\Domain\Finance\Pricing::pending($cost))$b[]='Coût complet par arbre, quantité et financement à valider dans le budget';
   if(!$this->capacity||$this->trees_received<$this->capacity||blank($this->receipt_evidence))$b[]='Un arbre réceptionné par slot promis requis';
   return $b;
  }
