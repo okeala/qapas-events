@@ -32,7 +32,7 @@ class ExpertRegistrationTest extends TestCase {
   $stand=$s->includedStands->first();$stand->update(['furniture_unit_gross_cents'=>2000,'furniture_delivery_cents'=>1000,'furniture_deposit_cents'=>5000,'furniture_evidence'=>'Rental quote']);$stand->update(['furniture_confirmed'=>true]);$this->assertSame(5000,$stand->furnitureBudget()['gross_cents']);$this->assertTrue($stand->furnitureBudget()['confirmed']);
   $this->seed();$this->assertSame(2000,$stand->fresh()->furniture_unit_gross_cents);$this->assertDatabaseCount('registration_campaigns',1);$this->assertFalse(RegistrationCampaign::first()->is_open);
   $this->get('/events/os-jogos-do-agricultor')->assertOk()->assertSee('10 €')->assertDontSee('450 €/m³');
-  $this->withSession(['locale'=>'pt'])->get('/events/os-jogos-do-agricultor/candidature')->assertOk()->assertSee('10 € com IVA');
+  $this->withSession(['locale'=>'pt'])->followingRedirects()->get('/events/os-jogos-do-agricultor/candidature')->assertOk()->assertSee('10 € com IVA');
  }
  public function test_thirteen_roles_require_review_and_documented_cumulation_before_election(): void {
   $this->admin();$p=EventProject::create(['name'=>'Village','slug'=>'village']);$team=$p->teams()->create(['name'=>'Team','freguesia'=>'Belmonte']);$this->assertCount(13,$team->roleAssignments);ExpertRoles::seedSlots($team);$this->assertCount(13,$team->fresh()->roleAssignments);
