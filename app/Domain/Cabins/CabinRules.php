@@ -22,9 +22,11 @@ final class CabinRules
             'materials.*.quantity'=>'required|integer|between:1,100000',
             'materials.*.unit'=>'required|string|max:40',
             'materials.*.origin'=>'required|string|max:2000',
+            'materials.*.max_diameter_mm'=>'nullable|integer|between:1,60',
         ])->validate();
         foreach ($rows as $i=>$row) {
             $fail = fn (string $text) => throw ValidationException::withMessages(['materials.'.$i.'.material'=>$text]);
+            if (in_array($row['material'], ['mimosa','cane'], true) && !isset($row['max_diameter_mm'])) throw ValidationException::withMessages(['materials.'.$i.'.max_diameter_mm'=>'Renseigner le diamètre maximal du lot végétal : 60 mm au maximum.']);
             if (in_array($row['part'], ['frame','connectors'], true) && $row['material']!=='metal') $fail('Ossature en tubes métalliques récupérés, réunis par des raccords d’échafaudage métalliques.');
             if (in_array($row['part'], ['roof','cladding'], true) && !in_array($row['material'], ['mimosa','cane'], true)) $fail('Couverture et bardage en plessis de mimosa et/ou cannes identifiées.');
             if ($row['part']==='lashings' && $row['material']!=='natural') $fail('Lier les végétaux avec du sisal ou une fibre naturelle adaptée.');

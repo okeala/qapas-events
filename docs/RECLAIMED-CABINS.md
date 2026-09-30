@@ -6,14 +6,14 @@ Le **raccord d’échafaudage est la pièce maîtresse**, autour de laquelle s�
 
 - Une cabane de **2,40 × 2,40 × 2,40 m extérieur** par stand. Les équipes d’une freguesia construisent et partagent leur stand ; QAPAS fabrique les cabanes qu’elle loue aux indépendants, au fur et à mesure que les emplacements se concrétisent. Chaque ajout suppose son coût de fabrication et son financement ; le budget de six unités est un scénario, pas un ordre de fabriquer six cabanes immédiatement.
 - Ossature en tubes métalliques récupérés, raccords d’échafaudage compatibles. Le prototype détermine références, géométrie, quantités, ancrages et contrôles ; ce document n’est pas un plan de structure.
-- Couverture et bardages en plessis de mimosa et/ou cannes identifiées, ligatures en **sisal ou fibre naturelle adaptée**. Cannes perforées et compositions artistiques possibles. Décoration en récupération ; pas d’amiante, plastique ou bois neuf. Raccords, visserie et ligatures peuvent être achetés.
+- Couverture et bardages en plessis de mimosa et/ou cannes identifiées, **diamètre maximal 6 cm pour les deux matériaux**, ligatures en **sisal ou fibre naturelle adaptée**. Cannes perforées et compositions artistiques possibles. Décoration en récupération ; pas d’amiante, plastique ou bois neuf. Raccords, visserie et ligatures peuvent être achetés.
 - La surface de 5,76 m² **ne remplace pas** l’espace convivial prévu pour 24 personnes abritées et 12 assises. Le plessis n’est pas présumé étanche. Résoudre l’usage sous pluie et la stabilité au prototype ; ne pas publier une promesse d’abri non démontrée.
 - Aucun quota de mimosas/cannes par cabane, dans les zones de prélèvement désignées. L’absence de quota ne remplace pas l’identification des espèces, le suivi des quantités et l’organisation du chantier.
 - Prix gratuit du public prévu pour la cabane d’équipe la plus spectaculaire, distinct de la Forquilha de Ouro. Les cabanes de location QAPAS ne concurrencent pas celles des équipes. Bulletin, période, contrôle, égalités et dépouillement à préparer avant ouverture. **Pas de vote électronique livré.** Ce défi collectif n’ajoute pas une septième épreuve officielle chronométrée au programme.
 
 ## Atelier et publication
 
-**Concevoir → Cabanes · équipes et locations** : dossier unique par stand, inventaire par partie (dont raccords et ligatures), provenance, quantités/unités, suivi végétation, coûts et location, réception sur site, résumés FR/PT. Le lien Emplacement et budget ouvre la fiche du stand, son quartel, son numéro et ses besoins.
+**Concevoir → Cabanes · équipes et locations** : dossier unique par stand, inventaire par partie (dont raccords et ligatures), provenance, quantités/unités et diamètre maximal déclaré du lot végétal (1–60 mm), suivi végétation, coûts et location, réception sur site, résumés FR/PT. Le lien Emplacement et budget ouvre la fiche du stand, son quartel, son numéro et ses besoins.
 
 La réception exige un administrateur actif, un inventaire des parties requises, un stand implanté, responsable, origine, méthode de contrôle, suivi et preuve de réception. Elle enregistre auteur, date et empreinte d’implantation. Modifier les matériaux ou le dossier technique annule la réception ; déplacer le stand ou modifier ses zones rend cette réception invalide. Les stands inclus dans le scénario de lancement doivent avoir leur cabane réceptionnée avant passage en exploitation. Ce contrôle documentaire n’est pas une certification technique automatisée.
 
@@ -23,7 +23,9 @@ Prévisualisation complète `/workspace/preview/{slug}/cabanes` réservée aux a
 
 ## Coût et sponsoring
 
-Six postes de fabrication QAPAS sont créés dans le scénario 6 + 6, avec **prix et IVA inconnus** et quantité un. Un poste commun couvre seulement transports mutualisés, tri, broyeur adapté/opérateur/carburant, traitement des lots à risque, manutention, stockage temporaire, paillage et suivi supplémentaires. Le détail du prototype doit inclure raccords, préparation, ligatures, travail, montage/démontage et contrôle, sans répéter les transports communs. Les demandes de devis FR/PT sont disponibles pour chacun de ces postes ; aucune n’est envoyée automatiquement.
+Un poste investissement commun prévoit **l’achat du broyeur QAPAS, financé par l’initiative**, avec prix/IVA inconnus et décaissement intégral. La capacité réelle à traiter mimosa et cannes de 60 mm, le débit, les protections, la livraison et la mise en service sont à vérifier au devis. Le prix d’achat n’est pas répété par cabane ; usage futur et valeur résiduelle ne diminuent pas le cash à financer.
+
+Six postes de fabrication QAPAS sont créés dans le scénario 6 + 6, avec **prix et IVA inconnus** et quantité un. Un poste commun couvre seulement transports mutualisés, tri, opérateur/carburant/entretien et pièces d’usure du broyeur, traitement des lots à risque, manutention, stockage temporaire, paillage et suivi supplémentaires. Le détail du prototype doit inclure raccords, préparation, ligatures, travail, montage/démontage et contrôle, sans répéter les transports communs. Les demandes de devis FR/PT sont disponibles pour chacun de ces postes ; aucune n’est envoyée automatiquement.
 
 La fabrication est enregistrée comme investissement avec décaissement complet dans cette édition. Le fait de réutiliser les cabanes plus tard ne diminue pas les liquidités nécessaires maintenant. La construction financée par une équipe est renseignée séparément ; toute dépense réellement supportée par QAPAS doit rejoindre son budget une seule fois.
 

@@ -36,7 +36,7 @@ class CabinChallengeTest extends TestCase
     }
     private function inventory(): array
     {
-        return array_map(fn($part,$material,$source)=>['name'=>$part,'part'=>$part,'material'=>$material,'source'=>$source,'quantity'=>1,'unit'=>'lot','origin'=>'PRIVATE-STOCK specification and provenance'], ['frame','connectors','roof','cladding','lashings'], ['metal','metal','mimosa','cane','natural'], ['recovered','new_hardware','controlled','controlled','new_hardware']);
+        return array_map(fn($part,$material,$source)=>['name'=>$part,'part'=>$part,'material'=>$material,'source'=>$source,'quantity'=>1,'unit'=>'lot','origin'=>'PRIVATE-STOCK specification and provenance','max_diameter_mm'=>in_array($material,['mimosa','cane'],true)?60:null], ['frame','connectors','roof','cladding','lashings'], ['metal','metal','mimosa','cane','natural'], ['recovered','new_hardware','controlled','controlled','new_hardware']);
     }
     public function test_seed_preserves_work_and_separates_costs_rentals_and_single_main_sponsor(): void
     {
@@ -46,8 +46,15 @@ class CabinChallengeTest extends TestCase
         $this->assertDatabaseCount('cabin_projects',12);
         $this->assertSame(6,CabinProject::where('supply_mode','team_build')->count());
         $this->assertSame(6,CabinProject::where('supply_mode','qapas_rental')->count());
-        $this->assertSame(7,$scenario->budgetLines()->where('costing_key','like','cabin%')->where('kind','cost')->whereNull('unit_gross_cents')->count());
+        $this->assertSame(8,$scenario->budgetLines()->where('costing_key','like','cabin%')->where('kind','cost')->whereNull('unit_gross_cents')->count());
         $this->assertSame(0,(int)$scenario->budgetLines()->where('costing_key','like','cabin%')->where('kind','revenue')->sum('forecast_quantity'));
+        $machine=$scenario->budgetLines()->where('costing_key','cabins-shredder-purchase')->sole();
+        $this->assertSame('investment',$machine->expense_type);
+        $this->assertSame(1,$machine->forecast_quantity);
+        $this->assertNull($machine->unit_gross_cents);
+        $machineRequest=\App\Models\CostConsultation::where('costable_type',\App\Models\BudgetLine::class)->where('costable_id',$machine->id)->sole();
+        $this->assertStringContainsString('devis d’achat d’un broyeur',$machineRequest->body_fr);
+        $this->assertStringContainsString('60 mm',$machineRequest->body_pt);
         $this->assertSame(0,(int)$scenario->budgetLines()->sum('paid_quantity'));
         $this->assertSame(6,$project->activities()->where('track','official')->count());
         $this->assertSame('hidden',$project->cabin_visibility);
@@ -79,6 +86,10 @@ class CabinChallengeTest extends TestCase
             $bad = array_replace($rows[0],compact('part','material','source'));
             $this->invalid(fn()=>$cabin->fresh()->update(['materials'=>[$bad]]));
         }
+        $tooThick=$rows; $tooThick[2]['max_diameter_mm']=61;
+        $this->invalid(fn()=>$cabin->fresh()->update(['materials'=>$tooThick]));
+        $unknownDiameter=$rows; unset($unknownDiameter[3]['max_diameter_mm']);
+        $this->invalid(fn()=>$cabin->fresh()->update(['materials'=>$unknownDiameter]));
         $this->invalid(fn()=>$cabin->fresh()->update(['width_mm'=>2500]));
         $this->invalid(fn()=>$cabin->fresh()->update(['supply_mode'=>'qapas_rental']));
         $this->invalid(fn()=>CabinProject::create(['event_project_id'=>$this->project('other')->id,'stand_id'=>$cabin->stand_id,'name'=>'Wrong edition']));
