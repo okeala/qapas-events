@@ -22,13 +22,15 @@ La réception exige un administrateur actif, un inventaire des parties requises,
 
 Prévisualisation complète `/workspace/preview/{slug}/cabanes` réservée aux administrateurs actifs en `APP_ENV=local`, sans cache. Aucun dévoilement automatique par seed. Les étapes du chantier se trouvent aussi dans le parcours de lancement réordonnable.
 
+La [note de calcul interne de l’ossature](CABIN-STRUCTURE-PRELIMINARY.md) contient un modèle explicite de toit à deux pans avec tirant, les comparaisons de poids/flexion/flèche/espacement, les efforts dans le tirant, le flambement idéal et les actions de pression. Elle est aussi accessible par le bouton **Évaluation interne** de la liste des cabanes. Le script Python et son fichier d’hypothèses permettent de reproduire les résultats ; aucune charge admissible ou validation de la configuration réelle n’est produite.
+
 ## Allongement libre et portiques
 
 Largeur et hauteur restent à 2 400 mm. Seule la longueur (champ technique `depth_mm`) augmente librement : par exemple 3 500 ou 5 000 mm. Aucun multiple de 2 400 mm ni entraxe fixe des travées n’est imposé.
 
 L’ossature est envisagée en tubes récupérés de **30 mm de diamètre extérieur**, à confirmer par mesure. Ce diamètre ne permet pas à lui seul de déduire une résistance ou une portée : relever épaisseur, matériau et état, choisir des raccords adaptés au diamètre réel, puis justifier poussées, flexion/flambement, toiture sèche/mouillée, vent, ancrages et appuis. Ne pas présumer qu’un raccord d’échafaudage quelconque convient à 30 mm.
 
-Le dossier conserve entraxe maximal calculé, auteur compétent, date et référence de note de calcul. Ces quatre éléments sont exigés pour réceptionner une extension. Les forces s’expriment en N, les charges réparties en N/m ou N/m², les moments en N·m : aucune valeur limite ou résistance de raccord n’est inventée. Toute modification des dimensions, de l’inventaire ou de ces preuves remet la réception à refaire. Enregistrer d’abord géométrie, inventaire, diamètre et entraxe : leur modification efface la date de validation structurelle. Réexaminer ensuite la note et enregistrer sa validation, avant la réception de l’extension. La revue technique du modèle de base reste requise dans la réception ordinaire.
+Le dossier conserve entraxe maximal calculé, auteur compétent, date et référence de note de calcul. Ces quatre éléments sont exigés pour réceptionner **toute cabane, y compris le modèle de base**. Il s’agit d’une **évaluation technique interne documentée**, sans contrat ni attestation d’ingénieur imposés. Identifier données, hypothèses, calculs, essais, configuration étudiée et limites d’utilisation. Le logiciel conserve cette référence ; il ne certifie pas lui-même la solidité. Les forces s’expriment en N, les charges réparties en N/m ou N/m², les moments en N·m : aucune valeur limite ou résistance de raccord n’est inventée. Toute modification des dimensions, de l’inventaire ou de ces preuves remet la réception à refaire. Enregistrer d’abord géométrie, inventaire, diamètre et entraxe : leur modification efface la date de validation structurelle. Réexaminer ensuite la note et enregistrer sa validation, avant la réception. Les essais, photos et constats de tenue du prototype alimentent le dossier ; ils ne remplacent pas la justification des charges, du vent, de la toiture sèche/mouillée et des ancrages.
 
 Une extension exige un nouveau relevé des besoins et un devis couvrant ses dimensions complètes, ainsi qu’une vérification de l’emprise et des circulations. Elle ne crée pas un nouveau stand administratif, un nouveau sponsor ou un revenu automatique. Le logiciel enregistre ces décisions et preuves, sans fournir un calcul de structure ni adapter automatiquement les quantités du devis.
 
@@ -39,6 +41,8 @@ Un brouillon FR/PT et son séquencier sont créés dans **Mobiliser → Blog et 
 La vidéo **n’est pas encore produite**. Après réalisation, renseigner son ID YouTube dans l’article et valider sa publication. La page du défi affiche alors le lien ; tant que la vidéo manque, elle annonce la démonstration à venir. Le lien ouvre l’article puis YouTube au clic, sans lecteur ni traceur embarqués. L’article de démonstration reste caché au public tant que la révélation du défi n’est pas au niveau « règles », même si son statut éditorial a été publié ; l’aperçu local administrateur montre le brouillon.
 
 ## Coût et sponsoring
+
+Le temps de préparation de l’évaluation interne reste du travail d’organisation à chiffrer, sans ajouter d’honoraires externes supposés.
 
 Un poste investissement commun prévoit **l’achat du broyeur QAPAS, financé par l’initiative**, avec prix/IVA inconnus et décaissement intégral. La capacité réelle à traiter mimosa et cannes de 60 mm, le débit, les protections, la livraison et la mise en service sont à vérifier au devis. Le prix d’achat n’est pas répété par cabane ; usage futur et valeur résiduelle ne diminuent pas le cash à financer.
 

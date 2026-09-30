@@ -23,7 +23,7 @@ return [
     'demo_link'=>'Voir la démonstration de construction',
     'demo_draft'=>'Prévisualiser le projet de démonstration',
     'care'=>'Le mimosa provient d’un chantier de contrôle documenté. Les cannes sont identifiées ; graines, gousses, racines et rhizomes ne doivent pas être dispersés. La coupe seule n’éradique pas le mimosa : le suivi des repousses fait partie du projet.',
-    'reception'=>'Chaque cabane devra être contrôlée sur son emplacement avant accueil du public. Les plessis ne sont pas présumés étanches. Le prototype doit permettre de résoudre stabilité, fixation, circulation et usage sous pluie.',
+    'reception'=>'Chaque cabane, même au format de base, fera l’objet d’une évaluation technique interne de sa configuration, puis d’un contrôle sur son emplacement avant accueil du public. Les plessis ne sont pas présumés étanches. Le prototype doit permettre de résoudre stabilité, fixation, circulation et usage sous pluie.',
     'partner_title'=>'Le partenaire qui crée le lien',
     'partner_body'=>'Le fournisseur des raccords d’échafaudage est une piste pour le sponsoring principal : son produit relie les tubes et donne corps au lien entre les freguesias. « Celui qui nous relie et fait tenir les Jeux. » Lot, contribution et visibilité restent à convenir ; aucun partenaire n’est annoncé comme acquis.',
     'partner_cta'=>'Proposer un partenariat autour des raccords',

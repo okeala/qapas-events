@@ -1,0 +1,27 @@
+{
+  "status": "illustrative_unmeasured",
+  "outside_diameter_mm": 30,
+  "wall_thickness_mm": 2,
+  "young_modulus_mpa": 210000,
+  "steel_density_kg_m3": 7850,
+  "gravity_m_s2": 9.81,
+  "width_m": 2.4,
+  "ridge_height_m": 2.4,
+  "eaves_height_m": 2.0,
+  "length_m": 2.4,
+  "reference_spacing_m": 1.2,
+  "roof_mass_kg_per_sloped_m2": 20,
+  "comparison_thicknesses_mm": [1, 1.5, 2, 3],
+  "comparison_spacings_m": [0.6, 0.9, 1.2, 1.8, 2.4],
+  "comparison_roof_masses_kg_m2": [10, 20, 30],
+  "comparison_net_pressures_kn_m2": [0.3, 0.6, 1.0],
+  "unknowns": [
+    "Épaisseur minimale, matériau et état réels des tubes",
+    "Référence et compatibilité des raccords avec le diamètre 30 mm",
+    "Résistance au glissement et conditions de serrage des raccords",
+    "Croquis réel, tirants, contreventements et ancrages",
+    "Poids réel des panneaux, de la paille sèche et mouillée, des accessoires",
+    "Charges climatiques du site et combinaisons à retenir",
+    "Sol, appuis, arrachement et glissement"
+  ]
+}

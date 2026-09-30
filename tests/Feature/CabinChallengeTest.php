@@ -134,7 +134,9 @@ class CabinChallengeTest extends TestCase
         $quartel = $project->siteFeatures()->create(['name'=>'Terrace','category'=>'quartel','geometry'=>['type'=>'Polygon','coordinates'=>[[[-7.4,40.3],[-7.39,40.3],[-7.39,40.31],[-7.4,40.31],[-7.4,40.3]]]]]);
         $cabin->stand->update(['quartel_id'=>$quartel->id,'pitch_number'=>'A1']);
         $cabin = $cabin->fresh();
-        $cabin->update(['status'=>'received','materials'=>$this->inventory(),'owner'=>'Supervisor','harvest_origin'=>'On-site control plot','control_plan'=>'Documented inspection and preparation without viable fragments','follow_up_owner'=>'Gardener','follow_up_on'=>today()->addMonth(),'reception_evidence'=>'On-site technical review reference and author']);
+        $cabin->update(['status'=>'ready','frame_spacing_mm'=>1200,'materials'=>$this->inventory(),'owner'=>'Supervisor','harvest_origin'=>'On-site control plot','control_plan'=>'Documented inspection and preparation without viable fragments','follow_up_owner'=>'Gardener','follow_up_on'=>today()->addMonth(),'reception_evidence'=>'On-site technical review reference and author']);
+        $this->invalid(fn()=>$cabin->fresh()->update(['status'=>'received']));
+        $cabin->fresh()->update(['structural_reviewer'=>'Internal test reviewer','structural_reviewed_on'=>today(),'structural_evidence'=>'Internal assessment reference for the exact frame and roof configuration','status'=>'received']);
         $this->assertTrue($cabin->fresh()->received());
         $this->assertStringNotContainsString('cabane à implanter',implode(' ',app(Readiness::class)->blockers($project->fresh(),'live')));
         $cabin->stand->update(['pitch_number'=>'A2']);
@@ -209,6 +211,8 @@ class CabinChallengeTest extends TestCase
         $foreign=$this->cabin($this->project('other'),true);
         Livewire::test(ManageRecords::class)->filterTable('supply_mode','team_build')->assertCanSeeTableRecords([$cabin])->assertCanNotSeeTableRecords([$foreign]);
         $this->get(CabinProjectResource::getUrl())->assertOk();
+        $guide=Livewire::test(ManageRecords::class)->mountAction('structure')->assertActionMounted('structure');
+        $this->assertStringContainsString('non dimensionné',$guide->instance()->getMountedAction()->getModalContent()->toHtml());
         $admin->update(['is_active'=>false]);
         $this->get(CabinProjectResource::getUrl())->assertForbidden();
     }

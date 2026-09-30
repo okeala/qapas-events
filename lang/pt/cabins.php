@@ -23,7 +23,7 @@ return [
     'demo_link'=>'Ver a demonstração de construção',
     'demo_draft'=>'Pré-visualizar o projeto de demonstração',
     'care'=>'A mimosa provém de trabalhos de controlo documentados. As canas são identificadas; sementes, vagens, raízes e rizomas não devem ser dispersos. O corte, por si só, não erradica a mimosa: acompanhar a rebentação faz parte do projeto.',
-    'reception'=>'Cada cabana terá de ser verificada no seu local antes de receber público. O entrançado não é considerado impermeável. O protótipo deve resolver estabilidade, fixação, circulação e utilização à chuva.',
+    'reception'=>'Cada cabana, incluindo o formato base, terá uma avaliação técnica interna da sua configuração e uma verificação no local antes de receber público. O entrançado não é considerado impermeável. O protótipo deve resolver estabilidade, fixação, circulação e utilização à chuva.',
     'partner_title'=>'O parceiro que nos liga',
     'partner_body'=>'O fornecedor das abraçadeiras de andaime é uma possibilidade para parceiro principal: o seu produto une os tubos e dá forma à ligação entre freguesias. « Quem nos une e ajuda a erguer os Jogos. » Lote, contribuição e visibilidade por acordar; nenhum parceiro é anunciado como confirmado.',
     'partner_cta'=>'Propor uma parceria para as abraçadeiras',
