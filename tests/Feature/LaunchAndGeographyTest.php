@@ -32,7 +32,8 @@ class LaunchAndGeographyTest extends TestCase {
   $this->actingAs($this->admin(),'admin');$s=$this->project()->scenarios()->create(['name'=>'Budget']);
   $data=['name'=>'Support','kind'=>'revenue','unit_gross_cents'=>10000,'vat_basis_points'=>0,'forecast_quantity'=>1,'committed_quantity'=>1,'paid_quantity'=>1];
   $first=$s->budgetLines()->create($data);$second=$s->budgetLines()->create($data);$first->update(['receipt_reference'=>'ONE-TRANSFER','reconciled_at'=>now()]);
-  $this->expectException(ValidationException::class);$second->update(['receipt_reference'=>'ONE-TRANSFER','reconciled_at'=>now()]);
+  $second->update(['receipt_reference'=>'TWO-TRANSFER','reconciled_at'=>now()]);
+  $this->expectException(ValidationException::class);$second->update(['receipt_reference'=>'ONE-TRANSFER']);
  }
  public function test_bar_and_fries_do_not_unlock_prepaid_growth(): void {
   $this->actingAs($this->admin(),'admin');$s=$this->project()->scenarios()->create(['name'=>'Budget','launch_model'=>true,'organizer_full_monthly_cents'=>160000,'costs_complete'=>true]);

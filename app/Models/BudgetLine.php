@@ -16,7 +16,7 @@ class BudgetLine extends Record {
   if($l->stand_partner_id&&StandPartner::find($l->stand_partner_id)?->stand_id!==$l->stand_id)throw ValidationException::withMessages(['stand_partner_id'=>'Partenaire d’un autre stand.']);
   if($l->reimbursed_cents<0||$l->reimbursed_cents>($l->unit_gross_cents??0)*$l->paid_quantity||($l->reimbursed_cents>0&&($l->paid_by!=='organizer'||$l->kind!=='cost')))throw ValidationException::withMessages(['reimbursed_cents'=>'Remboursement supérieur à l’avance ou ligne non concernée.']);
   if($l->isDirty(['unit_gross_cents','vat_basis_points','paid_quantity','kind','scope','stand_id','stand_partner_id'])){$l->reconciled_at=null;$l->reconciled_by=null;}
-  if($l->isDirty('reconciled_at')&&$l->reconciled_at){
+  if(($l->isDirty('reconciled_at')||$l->isDirty('receipt_reference'))&&$l->reconciled_at){
    if(!auth('admin')->user()?->is_active||blank($l->receipt_reference)||$l->reconciled_at->isFuture())throw ValidationException::withMessages(['reconciled_at'=>'Administrateur actif, date passée et référence du justificatif requis.']);
    if(self::where('scenario_id',$l->scenario_id)->where('receipt_reference',$l->receipt_reference)->whereNotNull('reconciled_by')->where('id','!=',$l->id)->exists())throw ValidationException::withMessages(['receipt_reference'=>'Ce paiement est déjà rapproché dans ce scénario.']);
    $l->reconciled_by=auth('admin')->id();

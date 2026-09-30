@@ -20,7 +20,7 @@ class GeographicSite extends \Filament\Pages\Page {
  #[Locked] public ?string $previewProject=null;
  public static function canAccess(): bool {return auth('admin')->user()?->is_active===true;}
  public function mount(): void {$this->projectId=EventProject::orderBy('id')->value('public_id');}
- public function project(): ?EventProject {return EventProject::where('public_id',$this->projectId)->first();}
+ public function project(): ?EventProject {abort_unless(self::canAccess(),403);return EventProject::where('public_id',$this->projectId)->first();}
  private function authorizedProject(): EventProject {abort_unless(self::canAccess(),403);return $this->project()??abort(404);}
  public function previewImport(): void {
   $p=$this->authorizedProject();$this->validate(['importFile'=>'required|file|max:2048']);$extension=strtolower($this->importFile->getClientOriginalExtension());
