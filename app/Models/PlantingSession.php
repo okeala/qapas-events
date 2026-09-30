@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\{DB,Validator};
 use Illuminate\Validation\ValidationException;
 class PlantingSession extends Record {
  protected $attributes=['status'=>'draft','is_public'=>false,'capacity'=>0,'trees_received'=>0];
- protected function casts(): array {return ['starts_at'=>'datetime','is_public'=>'boolean'];}
+ protected function casts(): array {return ['capacity'=>'integer','trees_received'=>'integer','day_number'=>'integer','starts_at'=>'datetime','is_public'=>'boolean'];}
  public function eventProject(){return $this->belongsTo(EventProject::class);}
  public function quartel(){return $this->belongsTo(SiteFeature::class,'quartel_id');}
  public function nursery(){return $this->belongsTo(Prospect::class,'nursery_prospect_id');}

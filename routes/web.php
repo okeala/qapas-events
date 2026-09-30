@@ -62,3 +62,5 @@ Route::post('/billets/{ticket}/plantation',[\App\Http\Controllers\PlantingContro
 Route::post('/billets/{ticket}/arbres/{slot}/retirer-nom',[\App\Http\Controllers\PlantingController::class,'unlist'])->middleware(['signed','throttle:10,1'])->name('planting.unlist');
 
 Route::get('/workspace/campagne/{poster}',function(string $poster){abort_unless(auth('admin')->user()?->is_active,403);abort_unless(in_array($poster,['01-teaser','02-candidatures','03-programme'],true),404);return response()->file(resource_path('campaign/'.$poster.'.webp'),['Content-Type'=>'image/webp','Cache-Control'=>'private, no-store','X-Robots-Tag'=>'noindex, nofollow']);})->name('campaign.poster');
+
+Route::get('/workspace/preview/{project:slug}/plantation',[\App\Http\Controllers\PlantingController::class,'preview'])->name('planting.preview');

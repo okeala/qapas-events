@@ -25,7 +25,7 @@
  @if($project->require_activity_trials)<section class="event-section event-card"><h2>{{ __('events.cups_title') }}</h2><p>{{ __('events.cups_body') }}</p></section>@endif
  <section class="event-section"><h2>{{ __('events.relay_reveal_title') }}</h2><p>{{ __('events.relay_reveal_body',['count'=>$relayProgress['active_freguesias']]) }}</p></section>
  @if($press->isNotEmpty())<section class="event-section"><h2>{{ __('events.press') }}</h2>@foreach($press as $release)<p><a class="text-link" href="{{ route('press.show',['project'=>$project->slug,'press'=>$release->public_id]) }}">{{ app()->getLocale()==='pt'&&$release->title_pt?$release->title_pt:$release->name }}</a></p>@endforeach</section>@endif
- @if(\App\Models\PlantingSession::where('event_project_id',$project->id)->where('is_public',true)->exists())<section class="event-card"><h2>{{ app()->getLocale()==='pt'?'Uma árvore, uma memória':'Un arbre, un souvenir' }}</h2><a href="{{ route('planting.show',['project'=>$project->slug]) }}">{{ app()->getLocale()==='pt'?'Plantação coletiva de encerramento':'Plantation collective en clôture de journée' }} →</a></section>@endif
+ @if(\App\Models\PlantingSession::where('event_project_id',$project->id)->when(!($preview??false),fn($q)=>$q->where('is_public',true))->exists())<section class="event-card"><h2>{{ app()->getLocale()==='pt'?'Uma árvore, uma memória':'Un arbre, un souvenir' }}</h2><a href="{{ route(($preview??false)?'planting.preview':'planting.show',['project'=>$project->slug]) }}">{{ app()->getLocale()==='pt'?'Plantação coletiva de encerramento':'Plantation collective en clôture de journée' }} →</a></section>@endif
  <x-event-sponsors :project="$project" />
  <x-geographic-plan :plan="$geoPlan" />
  <x-event-plan :plan="$plan" />
