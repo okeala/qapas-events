@@ -8,6 +8,7 @@ class FeedbackInvitation extends Record {
  protected function casts(): array {return ['email'=>'encrypted','sent_at'=>'datetime','started_at'=>'datetime','responded_at'=>'datetime'];}
  public function campaign(){return $this->belongsTo(FeedbackCampaign::class,'feedback_campaign_id');}
  public function url(): string {return route('feedback.show',['invitation'=>$this->public_id]);}
+ public function save(array $options=[]){return \Illuminate\Support\Facades\DB::transaction(function()use($options){if($this->exists){$persisted=self::whereKey($this->id)->lockForUpdate()->firstOrFail();if(in_array($persisted->status,['sending','accepted','unknown'])&&in_array($this->status,['draft','ready']))throw ValidationException::withMessages(['status'=>'L’invitation a déjà été prise en charge ; ne pas la remettre dans la file.']);}return parent::save($options);},3);}
  protected static function booted(): void {parent::booted();static::saving(function(self $i){
   if($i->exists&&in_array($i->getOriginal('status'),['sending','accepted','unknown'])&&$i->isDirty('status')&&in_array($i->status,['draft','ready']))throw ValidationException::withMessages(['status'=>'Ne pas renvoyer automatiquement une invitation dont le résultat peut déjà être acquis.']);
   if($i->exists&&$i->isDirty(['feedback_campaign_id','source_key','email']))throw ValidationException::withMessages(['email'=>'Conserver le destinataire de cette invitation ; annuler et préparer une nouvelle invitation si nécessaire.']);
