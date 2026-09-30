@@ -43,7 +43,7 @@ Le dépôt distant est déjà initialisé : **ne pas créer de commit local conc
 - TVA explicite par ligne, coût complet de rémunération, prudence sur la trésorerie ; cautions, aides affectées et flux tiers exclus de la marge.
 - Catalogue indicatif, parcours public et demandes par profil, origine et consentement marketing séparé.
 - Registre juridique avec preuves, relecteur, date et expiration ; conditions internes avant les paliers « prêt » et « en cours ».
-- Équipes, préparation des élections locales, stands, activités officielles/publiques, conducteur, incidents et bilans.
+- Équipes, préparation des élections locales, stands, activités officielles/publiques, déroulé opérationnel, incidents et bilans.
 - Administration Filament séparée, comptes créés en CLI, politiques serveur, journal des champs modifiés (sans recopier les données personnelles).
 - Navigation partagée QAPAS et repli autonome lorsque Platform est indisponible.
 
@@ -171,3 +171,7 @@ Voir [prix, trophée et welcome pack](docs/RECOGNITION-SPONSORSHIP.md) : préfin
 Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](docs/MERCHANDISING-BREAKEVEN.md).
 
 Actualisation : [parcours public, communes, équipes locales et croissance](docs/PUBLIC-MOBILIZATION.md).
+
+Actualisation : [déroulé opérationnel, coordination terrain et gardien des comptes](docs/FIELD-COORDINATION.md).
+
+Proposition privée à examiner : [financement accessible du format 6 + 6](docs/ACCESSIBLE-LAUNCH-PROPOSAL.md), sans modification des tarifs actifs.

@@ -12,7 +12,7 @@ return [
 "draft_convention"=>"Projet de convention à relire et signer par les représentants habilités. Participer ou acheter un billet ne signe pas une convention au nom de la junta.",
 "date"=>"Samedi 12 et dimanche 13 décembre 2026 · de 10 h à 22 h chaque jour",
 "roles"=>"Six talents indispensables, et bien d’autres pour faire gagner l’équipe",
-"roles_intro"=>"Il faut toujours un cuisinier, un pelliste expérimenté, un conducteur de tracteur qualifié, un musicien, un comptable et un athlète endurant. Maraîcher, fruiticulteur, greffeur, personne forte ou adroite, commercial, conteur et leader complètent l’équipe. Plusieurs rôles sont possibles si les horaires et compétences le permettent. Un même pelliste peut aider plusieurs équipes avec leur accord et un ordre de passage compatible.",
+"roles_intro"=>"Il faut toujours un cuisinier, un pelliste expérimenté, un conducteur de tracteur qualifié, un musicien, un gardien des comptes et un athlète endurant. Maraîcher, fruiticulteur, greffeur, personne forte ou adroite, commercial, conteur et leader complètent l’équipe. Plusieurs rôles sont possibles si les horaires et compétences le permettent. Un même pelliste peut aider plusieurs équipes avec leur accord et un ordre de passage compatible.",
 "musician"=>"Musicien ou musicienne",
 "musician_detail"=>"Lire une partition simple et savoir l’interpréter avec son instrument ; disponibilité et matériel à préciser.",
 "drink_credit"=>"Tickets-boissons garantis au bar QAPAS",

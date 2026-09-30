@@ -15,7 +15,7 @@ Cette évolution complète `ADVANTAGES-MOBILIZATION.md`. Elle prévaut sur les a
 
 ## Équipes, diaspora et réunions
 
-Six rôles indispensables : cuisinier, pelliste, conducteur de tracteur, musicien (lecture/interprétation d'une partition simple), comptable et athlète endurant. Huit autres profils complémentaires restent proposés. Une personne peut cumuler des rôles dans son équipe après contrôle des disponibilités et justification.
+Six rôles indispensables : cuisinier, pelliste, conducteur de tracteur, musicien (lecture/interprétation d'une partition simple), gardien des comptes et athlète endurant. Huit autres profils complémentaires restent proposés. Une personne peut cumuler des rôles dans son équipe après contrôle des disponibilités et justification.
 
 Le pelliste peut être partagé entre équipes de la même édition : même référence de personne/candidature, consentement, compétence et accords de passage documentés de chaque côté. Les autres rôles restent dans une seule équipe. Une modification de son accord le remet au stade proposé. Les permis, habilitations et dispositifs de sécurité restent requis pour les engins ; la description ludique ne vaut pas autorisation.
 
@@ -50,7 +50,7 @@ Un `Point de signalement` est créé pour chaque stand et pour entrée/sortie, p
 
 Le formulaire public montre uniquement un libellé neutre, pas les coordonnées d'une épreuve secrète. Signalement anonyme, catégorie, description et urgence ; pas de champ médical ni photo. UUID de soumission contre les doublons, CSRF, limite de requêtes, lien non indexable. Les urgences renvoient aussi aux secours sur place / 112 : ce formulaire n'est pas un service de secours garanti.
 
-`Exploiter → Incidents` et dashboard rafraîchi toutes les 15 secondes : ouverts, pris en charge, clôturés ; original conservé, résolution obligatoire. Le « Conducteur » est renommé **Déroulé opérationnel** : planning minute par minute, responsables, zones, annonces, épreuves, pauses et clôture.
+`Exploiter → Incidents` et dashboard rafraîchi toutes les 15 secondes : ouverts, pris en charge, clôturés ; original conservé, résolution obligatoire. Le **Déroulé opérationnel** est le planning minute par minute, responsables, zones, annonces, épreuves, pauses et clôture.
 
 Les petits sponsors ont un périmètre `Plaques du site`, avec lieux exacts, fabrication/dimensions/durée et BAT. Ils n'occupent pas les trois slots secondaires. Maquette nominative imprimable privée depuis le dossier ; sans BAT, mention « NE PAS FABRIQUER ». Les panneaux de sécurité restent prioritaires. Aucun logo non autorisé ajouté.
 

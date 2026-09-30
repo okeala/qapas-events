@@ -8,11 +8,11 @@ Le mobilier est fourni et payé par chaque participant : location privilégiée,
 
 À hypothèses inchangées hors mobilier, le coût chiffré passe de 12 157,08 € à 10 629,04 €. Le déficit prévisionnel passe de 6 285,24 € à 4 757,20 €, avant les inconnues dont la rémunération complète. Ce n’est pas un budget prêt à lancer. Les coûts exclus sont 1 288,04 € de fabrication et 240 € de service mobilier. Les quantités de candidatures payées ne sont jamais inventées.
 
-## Treize rôles, choix citoyen
+## Rôles de l’équipe, choix citoyen
 
-Cuisinier, greffeur, fruiticulteur, maraîcher, pelliste confirmé, excellent conducteur de tracteur, comptable, athlète endurant, personne de force, expert en adresse, commercial, conteur et leader. Les libellés et explications existent en FR/PT. Ces rôles n’impliquent pas automatiquement treize personnes distinctes ; un cumul doit être explicitement justifié (horaires, aptitude, responsabilités et protocole de vote).
+Cuisinier, greffeur, fruiticulteur, maraîcher, pelliste confirmé, excellent conducteur de tracteur, gardien des comptes, athlète endurant, personne de force, expert en adresse, commercial, conteur, leader et musicien capable de lire une partition simple. Les libellés et explications existent en FR/PT. Ces rôles n’impliquent pas automatiquement quatorze personnes distinctes ; un cumul doit être explicitement justifié (horaires, aptitude, responsabilités et protocole de vote).
 
-Chaque équipe reçoit treize postes fixes. Proposition → contrôle du consentement, du registre local et de la compétence → confirmation. Dans une édition avec campagne payante, il faut lier une candidature payée pour confirmer. Une modification de la personne ou de ses justificatifs révoque sa confirmation. Une personne identifiée au registre ne peut être confirmée dans deux équipes de la même édition. L’inscription ne remplace ni le bulletin à la junta, ni le procès-verbal local. Le site ne publie pas les noms, coordonnées ou pièces des candidats.
+Chaque équipe reçoit quatorze postes ; six sont indispensables selon les règles communautaires actuelles. Proposition → contrôle du consentement, du registre local et de la compétence → confirmation. Dans une édition avec campagne payante, il faut lier une candidature payée pour confirmer. Une modification de la personne ou de ses justificatifs révoque sa confirmation. Le partage interéquipes est limité au pelliste, avec les accords et horaires compatibles décrits dans COMMUNITY-2026.md. L’inscription ne remplace ni le bulletin à la junta, ni le procès-verbal local. Le site ne publie pas les noms, coordonnées ou pièces des candidats.
 
 ## Candidature payante
 

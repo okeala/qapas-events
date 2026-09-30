@@ -78,3 +78,7 @@ Après remboursement ou litige, les frais carte connus restent provisionnés en 
 Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](MERCHANDISING-BREAKEVEN.md).
 
 Actualisation : [parcours public, communes, équipes locales et croissance](PUBLIC-MOBILIZATION.md).
+
+Actualisation : [déroulé opérationnel, coordination terrain et gardien des comptes](FIELD-COORDINATION.md).
+
+Proposition privée à examiner : [financement accessible du format 6 + 6](ACCESSIBLE-LAUNCH-PROPOSAL.md), sans modification des tarifs actifs.

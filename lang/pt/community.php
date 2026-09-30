@@ -12,7 +12,7 @@ return [
 "draft_convention"=>"Minuta para revisão e assinatura pelos representantes habilitados. Participar ou comprar um bilhete não assina uma convenção em nome da junta.",
 "date"=>"Sábado 12 e domingo 13 de dezembro de 2026 · das 10h às 22h em cada dia",
 "roles"=>"Seis talentos indispensáveis, e muitos outros para a equipa vencer",
-"roles_intro"=>"Cada equipa precisa sempre de cozinheiro, operador experiente de retroescavadora, condutor de trator habilitado, músico, contabilista e atleta de resistência. Horticultor, fruticultor, enxertador, pessoa forte ou habilidosa, comercial, contador de histórias e líder completam a equipa. É possível acumular papéis com competências e horários compatíveis. O mesmo operador de retroescavadora pode ajudar várias equipas mediante acordo e ordem de participação compatível.",
+"roles_intro"=>"Cada equipa precisa sempre de cozinheiro, operador experiente de retroescavadora, condutor de trator habilitado, músico, guardião das contas e atleta de resistência. Horticultor, fruticultor, enxertador, pessoa forte ou habilidosa, comercial, contador de histórias e líder completam a equipa. É possível acumular papéis com competências e horários compatíveis. O mesmo operador de retroescavadora pode ajudar várias equipas mediante acordo e ordem de participação compatível.",
 "musician"=>"Músico ou música",
 "musician_detail"=>"Saber ler uma partitura simples e interpretá-la no seu instrumento; indicar disponibilidade e material.",
 "drink_credit"=>"Vales de bebidas garantidos no bar QAPAS",
