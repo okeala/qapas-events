@@ -58,6 +58,12 @@ class RecognitionSponsorshipTest extends TestCase {
   $p->update(['approved_at'=>now(),'approval_evidence'=>'Person confirmed manufacturer size chart']);$this->assertNotNull($p->fresh()->approved_at);$p->update(['people'=>[array_replace($person,['size'=>'L'])]]);$this->assertNull($p->fresh()->approved_at);
   $p->update(['people'=>[array_replace($person,['size'=>null,'confirmed'=>false])]]);$this->assertFalse($p->report()['sizes_ready']);$this->invalid(fn()=>$p->update(['approved_at'=>now(),'approval_evidence'=>'Missing size']));
  }
+ public function test_import_counts_a_shared_excavator_once_and_keeps_staff_sizes(): void {
+  $this->admin();$event=EventProject::create(['name'=>'Elected teams','slug'=>'elected-teams','community_version'=>'test']);
+  foreach(['A','B'] as $name){$team=$event->teams()->create(['name'=>$name,'freguesia'=>$name]);foreach(\App\Domain\Teams\ExpertRoles::CORE as $code){$shared=$code==='excavator_operator';$ref=$shared?'operator-shared':$name.'-'.$code;$slot=$team->roleAssignments()->where('role_code',$code)->first();$slot->update(['candidate_name'=>$ref,'candidate_reference'=>$ref,'status'=>'confirmed','consent_confirmed'=>true,'competence_evidence'=>'Verified','shared_operator'=>$shared,'sharing_evidence'=>$shared?'Both teams agreed; different schedules':null]);}$team->update(['status'=>'elected','election_minutes'=>'Local vote documented']);}
+  $pack=WelcomePackPlan::create(['event_project_id'=>$event->id,'name'=>'People','cohorts'=>[['category'=>'players','quantity'=>12]],'sizes'=>[['size'=>'M','quantity'=>12]],'people'=>[['person_key'=>'register-operator-shared','name'=>'Operator','category'=>'service','size'=>'XL','confirmed'=>true]]]);
+  $this->assertCount(11,$pack->electedPeople());$pack->importPlayers();$pack->refresh();$this->assertCount(11,$pack->people);$this->assertSame('XL',collect($pack->people)->firstWhere('person_key','register-operator-shared')['size']);$pack->importPlayers();$this->assertCount(11,$pack->fresh()->people);
+ }
  public function test_shirt_sponsor_covers_only_verified_cash_and_distinct_costs(): void {
   $p=$this->seedPlan();foreach(['shirtCostLine','setupCostLine','deliveryCostLine'] as $relation){$line=$p->$relation;$line->update(['vat_basis_points'=>2300,'price_source'=>'Supplier signed quote','price_checked_at'=>today(),'pricing_status'=>'confirmed']);}
   $r=$p->fresh()->report();$this->assertTrue($r['cost_complete']);$this->assertSame(137500,$r['sponsor_requirement_cents']);$this->assertSame(137500,$r['funding_gap_cents']);
@@ -70,6 +76,6 @@ class RecognitionSponsorshipTest extends TestCase {
   \Livewire\Livewire::test(\App\Filament\Resources\WelcomePackPlanResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('calculate')->table($pack))->assertSee('130')->assertHasNoActionErrors();
   $p=$pack->eventProject;$p->update(['is_public'=>true]);$sp=CommunityAward::first()->prizeSponsor;$sp->update(['sponsor_name'=>'Unconfirmed private prospect']);$pack->update(['people'=>[['person_key'=>'private-1','name'=>'PRIVATE BENEFICIARY','category'=>'service','size'=>'XL','confirmed'=>true]]]);
   foreach(['fr','pt'] as $locale)$this->get(route('community.show',['project'=>$p->slug,'lang'=>$locale]))->assertOk()->assertSee('500')->assertDontSee('Unconfirmed private prospect')->assertDontSee('PRIVATE BENEFICIARY');
-  auth('admin')->logout();$this->get(\App\Filament\Resources\WelcomePackPlanResource::getUrl())->assertRedirect();$this->get(route('community.preview',['project'=>$p->slug]))->assertForbidden();
+  $this->app->detectEnvironment(fn()=>'local');$this->get(route('community.preview',['project'=>$p->slug]))->assertOk()->assertSee('130');auth('admin')->logout();$this->get(\App\Filament\Resources\WelcomePackPlanResource::getUrl())->assertRedirect();$this->get(route('community.preview',['project'=>$p->slug]))->assertForbidden();
  }
 }
