@@ -76,3 +76,5 @@ Commissions carte : après confirmation QAPAS elles sont dues au relais ; elles 
 Après remboursement ou litige, les frais carte connus restent provisionnés en plus des commissions non récupérées. Des frais inconnus sur un remboursement bloquent le plafond de fonds libres. Le rapprochement des avoirs éventuels du prestataire reste distinct ; ne pas supposer que les frais reviennent avec le prix du billet.
 
 Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](MERCHANDISING-BREAKEVEN.md).
+
+Actualisation : [parcours public, communes, équipes locales et croissance](PUBLIC-MOBILIZATION.md).

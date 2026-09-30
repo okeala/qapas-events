@@ -11,3 +11,5 @@
 .festival-concept{width:100%;max-height:36rem;object-fit:cover;border-radius:1.25rem}.pricing-card{display:flex;flex-direction:column;gap:.8rem;overflow:hidden}.pricing-card .qapas-button{margin-top:auto}.offer-art{width:100%;height:12rem;object-fit:cover;border-radius:.6rem}.offer-art--village{object-position:75% 40%}.offer-art--market{object-position:0% 65%}.offer-benefits{padding-left:1.3rem;list-style:disc}.offer-benefits li{margin:.5rem 0}.price small{font-size:.8rem;display:block}.preview-notice{border:2px solid #a36d24;background:#fff5dc;color:#3b321d;padding:1.2rem}.preserve-lines{white-space:pre-line}
 
 .ticket-qr svg{width:16rem;max-width:100%;height:auto}table td,table th{padding:.6rem;text-align:left}
+
+.mobilization-nav{display:flex;flex-wrap:wrap;gap:.65rem 1.2rem;margin:1.5rem 0;padding:1rem 0;border-block:1px solid #d5ded7}.mobilization-nav a{color:#17523d;text-decoration:underline;text-underline-offset:.2em}.mobilization-nav a:focus-visible{outline:2px solid #17523d;outline-offset:4px}

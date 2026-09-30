@@ -72,3 +72,5 @@ Le mobilier des exposants demeure à leur charge, avec préférence à la locati
 Les fiches de stands portent un numéro unique d'emplacement, un quartel et des besoins justifiés, reliés aux lignes budgétaires existantes. Les besoins et infrastructures ne constituent pas un certificat technique. Aucun emplacement cartographique n'est inventé. La palheira n'est pas un sanitaire utilisable tant que l'assainissement, l'eau et les vérifications restent à réaliser. Le câble LS 4×16 déclaré ne détermine pas un courant de 16 A ; les départs 4 A et le groupe diesel 6 kVA restent à faire caractériser par le technicien.
 
 Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](MERCHANDISING-BREAKEVEN.md).
+
+Actualisation : [parcours public, communes, équipes locales et croissance](PUBLIC-MOBILIZATION.md).

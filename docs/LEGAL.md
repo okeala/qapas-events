@@ -62,3 +62,5 @@ Bols du chef : accord d'achat, propriété, autorisation de portrait/marque, con
 Électricité : marquage et section d'un câble ne suffisent pas à déduire intensité admissible, protections, neutre/terre ou compatibilité du groupe. Référence technique consultée : Nexans Portugal, câble U-1000 R2V 4X16, https://www.nexans.pt/pt/products/Construction/Industrial/Standard-Cables/U-1000-R2V25767/product~10262707~.html . Installations événementielles : https://www.e-redes.pt/pt-pt/clientes-e-parceiros/profissionais/instalacoes-de-carater-temporario-bt . Vérification d'un technicien habilité et dispositions locales requises ; l'application n'est pas un schéma de raccordement.
 
 Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](MERCHANDISING-BREAKEVEN.md).
+
+Actualisation : [parcours public, communes, équipes locales et croissance](PUBLIC-MOBILIZATION.md).

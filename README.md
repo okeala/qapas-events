@@ -169,3 +169,5 @@ L’email est facultatif dans la prévente, y compris au relais pour les candida
 Voir [prix, trophée et welcome pack](docs/RECOGNITION-SPONSORSHIP.md) : préfinancement, tailles, réserve et sponsoring.
 
 Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](docs/MERCHANDISING-BREAKEVEN.md).
+
+Actualisation : [parcours public, communes, équipes locales et croissance](docs/PUBLIC-MOBILIZATION.md).

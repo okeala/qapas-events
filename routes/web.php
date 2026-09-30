@@ -85,3 +85,11 @@ Route::get('/workspace/preview/{project:slug}/blog/{post}',[\App\Http\Controller
 
 Route::get('/badges/{badge}/verifier',[\App\Http\Controllers\BadgeController::class,'verify'])->middleware('throttle:60,1')->name('badge.verify');
 Route::get('/workspace/badges/{badge}',[\App\Http\Controllers\BadgeController::class,'print'])->name('badge.print');
+
+Route::get('/events/{project:slug}/communes',[\App\Http\Controllers\MobilizationController::class,'communes'])->name('mobilization.communes');
+Route::get('/events/{project:slug}/communes/{commune}',[\App\Http\Controllers\MobilizationController::class,'commune'])->name('mobilization.commune');
+Route::get('/events/{project:slug}/equipes',[\App\Http\Controllers\MobilizationController::class,'teams'])->name('mobilization.teams');
+Route::get('/events/{project:slug}/equipes/{team}',[\App\Http\Controllers\MobilizationController::class,'team'])->name('mobilization.team');
+Route::get('/events/{project:slug}/relais-locaux',[\App\Http\Controllers\MobilizationController::class,'relays'])->name('mobilization.relays');
+Route::get('/events/{project:slug}/partenaires',[\App\Http\Controllers\MobilizationController::class,'sponsors'])->name('mobilization.sponsors');
+Route::get('/events/{project:slug}/grandir',[\App\Http\Controllers\MobilizationController::class,'growth'])->name('mobilization.growth');
