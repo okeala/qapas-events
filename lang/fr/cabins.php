@@ -12,7 +12,7 @@ return [
     'team_title'=>'La cabane de votre freguesia',
     'team_body'=>'Les équipes d’une même freguesia construisent et partagent le stand de leur commune. Une occasion de réunir bricoleurs, artistes et voisins autour d’une réalisation collective.',
     'rental_title'=>'Indépendants : une cabane QAPAS en location',
-    'rental_body'=>'QAPAS prépare des cabanes selon le même principe. Prix, durée, livraison, montage, démontage et restitution seront détaillés avant engagement. La location sera explicitement comprise dans la formule ou présentée comme un supplément ; aucune double facturation.',
+    'rental_body'=>'QAPAS construit les cabanes de location au fur et à mesure que les emplacements se concrétisent : une cabane supplémentaire, une fabrication supplémentaire à financer. Prix, durée, livraison, montage, démontage et restitution seront détaillés avant engagement. La location sera explicitement comprise dans la formule ou présentée comme un supplément ; aucune double facturation.',
     'vote_title'=>'La plus spectaculaire ? Le public choisira',
     'vote_body'=>'Un prix du public gratuit est prévu pour les cabanes des équipes, distinct de la Forquilha de Ouro. Période, bulletin, règles de vote et dépouillement seront annoncés avant ouverture. Aucun vote n’est ouvert ici.',
     'care'=>'Le mimosa provient d’un chantier de contrôle documenté. Les cannes sont identifiées ; graines, gousses, racines et rhizomes ne doivent pas être dispersés. La coupe seule n’éradique pas le mimosa : le suivi des repousses fait partie du projet.',

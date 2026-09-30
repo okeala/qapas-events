@@ -4,7 +4,7 @@
 
 Le **raccord d’échafaudage est la pièce maîtresse**, autour de laquelle s’assemblent des tubes récupérés auprès de démolisseurs. Son fournisseur est une piste pour le **sponsor principal existant**, avec la formule « Celui qui nous relie et fait tenir les Jeux ». Les fournisseurs de tubes constituent une contribution distincte. Ni accord, ni don, ni prix, ni capacité portante ne sont présumés.
 
-- Une cabane de **2,40 × 2,40 × 2,40 m extérieur** par stand. Les équipes d’une freguesia construisent et partagent leur stand ; QAPAS fabrique les cabanes qu’elle loue aux indépendants.
+- Une cabane de **2,40 × 2,40 × 2,40 m extérieur** par stand. Les équipes d’une freguesia construisent et partagent leur stand ; QAPAS fabrique les cabanes qu’elle loue aux indépendants, au fur et à mesure que les emplacements se concrétisent. Chaque ajout suppose son coût de fabrication et son financement ; le budget de six unités est un scénario, pas un ordre de fabriquer six cabanes immédiatement.
 - Ossature en tubes métalliques récupérés, raccords d’échafaudage compatibles. Le prototype détermine références, géométrie, quantités, ancrages et contrôles ; ce document n’est pas un plan de structure.
 - Couverture et bardages en plessis de mimosa et/ou cannes identifiées, ligatures en **sisal ou fibre naturelle adaptée**. Cannes perforées et compositions artistiques possibles. Décoration en récupération ; pas d’amiante, plastique ou bois neuf. Raccords, visserie et ligatures peuvent être achetés.
 - La surface de 5,76 m² **ne remplace pas** l’espace convivial prévu pour 24 personnes abritées et 12 assises. Le plessis n’est pas présumé étanche. Résoudre l’usage sous pluie et la stabilité au prototype ; ne pas publier une promesse d’abri non démontrée.

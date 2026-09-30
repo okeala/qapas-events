@@ -56,6 +56,7 @@ class CabinProject extends Record
                 if (!$c->$key) continue;
                 if ($c->supply_mode!=='qapas_rental' || !BudgetLine::whereKey($c->$key)->where('kind',$kind)->where('stand_id',$c->stand_id)->whereNull('superseded_by_id')->whereHas('scenario',fn($q)=>$q->where('event_project_id',$c->event_project_id)->where('is_archived',false))->exists()) throw ValidationException::withMessages([$key=>'Choisir un poste du même stand QAPAS dans un scénario actif de cette édition.']);
             }
+            if ($c->cost_line_id && $c->rental_line_id && BudgetLine::find($c->cost_line_id)->scenario_id!==BudgetLine::find($c->rental_line_id)->scenario_id) throw ValidationException::withMessages(['rental_line_id'=>'Fabrication et location doivent appartenir au même scénario.']);
             if ($c->rental_pricing!=='extra' && $c->rental_line_id && BudgetLine::find($c->rental_line_id)?->forecast_quantity>0) throw ValidationException::withMessages(['rental_pricing'=>'Une location incluse ou non tarifée ne crée pas une seconde recette. Désactiver le supplément dans le budget.']);
             if ($c->rental_pricing==='extra' && (!$c->rental_line_id || blank($c->rental_terms))) throw ValidationException::withMessages(['rental_pricing'=>'Décrire le supplément et le relier à sa ligne budgétaire, hors prix déjà inclus.']);
             if ($c->exists && $c->isDirty(['reviewed_at','reviewed_by','installation_hash'])) throw ValidationException::withMessages(['status'=>'La réception est enregistrée par la transition de statut.']);

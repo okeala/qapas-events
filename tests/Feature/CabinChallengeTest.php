@@ -5,7 +5,6 @@ use App\Domain\Planning\Readiness;
 use App\Filament\Resources\CabinProjectResource;
 use App\Filament\Resources\CabinProjectResource\Pages\ManageRecords;
 use App\Models\{Admin, CabinProject, EventProject, Sponsorship};
-use Database\Seeders\ReclaimedCabinsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Validation\ValidationException;
 use Livewire\Livewire;
@@ -101,6 +100,9 @@ class CabinChallengeTest extends TestCase
         $cabin->update(['rental_pricing'=>'extra','rental_terms'=>'Additional rental, package excludes cabin. Return and deposit documented.']);
         $rent->fresh()->update(['forecast_quantity'=>1]);
         $this->invalid(fn()=>$cabin->fresh()->update(['rental_pricing'=>'included']));
+        $otherScenario=$project->scenarios()->create(['name'=>'Variant']);
+        $otherRent=$otherScenario->budgetLines()->create(['name'=>'Other rent','kind'=>'revenue','scope'=>'stand','stand_id'=>$cabin->stand_id,'forecast_quantity'=>0]);
+        $this->invalid(fn()=>$cabin->fresh()->update(['rental_line_id'=>$otherRent->id]));
         $this->assertSame(5000,$cabin->fresh()->deposit_cents);
         $this->assertSame(1,$rent->fresh()->forecast_quantity);
         $this->assertSame(0,$scenario->budgetLines()->where('kind','deposit')->count());
@@ -137,6 +139,8 @@ class CabinChallengeTest extends TestCase
         $this->get($url)->assertOk()->assertDontSee('Visible cabin')->assertDontSee('échafaudage');
         $project->update(['cabin_visibility'=>'details']);
         $this->get($url)->assertOk()->assertSee('Visible cabin')->assertSee('échafaudage')->assertDontSee('<script>secretScript()',false)->assertDontSee('PRIVATE-OWNER')->assertDontSee('PRIVATE-COST')->assertDontSee('PRIVATE-STOCK');
+        $this->withSession(['locale'=>'pt'])->get($url)->assertOk()->assertSee('abraçadeira de andaime')->assertSee('cabana QAPAS para alugar');
+        $this->withSession(['locale'=>'fr']);
         $cabin->stand->update(['is_public'=>false]);
         $this->get($url)->assertOk()->assertDontSee('Visible cabin');
         $this->get('/workspace/preview/test/cabanes')->assertNotFound();

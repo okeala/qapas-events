@@ -12,7 +12,7 @@ return [
     'team_title'=>'A cabana da vossa freguesia',
     'team_body'=>'As equipas da mesma freguesia constroem e partilham o espaço da sua terra. Uma oportunidade para juntar pessoas habilidosas, artistas e vizinhos numa criação coletiva.',
     'rental_title'=>'Expositores independentes: cabana QAPAS para alugar',
-    'rental_body'=>'A QAPAS prepara cabanas com o mesmo princípio. Preço, duração, entrega, montagem, desmontagem e devolução serão definidos antes de qualquer compromisso. O aluguer estará expressamente incluído na oferta ou indicado como suplemento, sem dupla cobrança.',
+    'rental_body'=>'A QAPAS constrói as cabanas para aluguer à medida que os espaços se concretizam: mais uma cabana significa mais uma construção a financiar. Preço, duração, entrega, montagem, desmontagem e devolução serão definidos antes de qualquer compromisso. O aluguer estará expressamente incluído na oferta ou indicado como suplemento, sem dupla cobrança.',
     'vote_title'=>'A mais espetacular? O público escolherá',
     'vote_body'=>'Está previsto um prémio gratuito do público para as cabanas das equipas, distinto da Forquilha de Ouro. Período, boletim, regras e apuramento serão anunciados antes da abertura. Não há votação aberta nesta página.',
     'care'=>'A mimosa provém de trabalhos de controlo documentados. As canas são identificadas; sementes, vagens, raízes e rizomas não devem ser dispersos. O corte, por si só, não erradica a mimosa: acompanhar a rebentação faz parte do projeto.',
