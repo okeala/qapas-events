@@ -72,8 +72,8 @@ class ExpertRegistrationTest extends TestCase {
  }
  public function test_wrong_amount_or_unpaid_session_never_validates_candidacy(): void {
   $c=$this->campaign();$r=$this->registration($c);$r->update(['stripe_session_id'=>'cs_test_example']);$event=['id'=>'evt_bad','type'=>'checkout.session.completed','livemode'=>false,'data'=>['object'=>['id'=>'cs_test_example']]];
-  Http::fake(['api.stripe.com/*'=>Http::response($this->stripeSessionFixture($r,['amount_total'=>999]))]);$this->webhook($event)->assertStatus(422);$this->assertFalse($r->fresh()->isPaid());
-  Http::fake(['api.stripe.com/*'=>Http::response($this->stripeSessionFixture($r,['payment_status'=>'unpaid']))]);$this->webhook($event)->assertOk();$this->assertFalse($r->fresh()->isPaid());
+  Http::fake(['api.stripe.com/*'=>Http::sequence()->push($this->stripeSessionFixture($r,['amount_total'=>999]))->push($this->stripeSessionFixture($r,['payment_status'=>'unpaid']))]);$this->webhook($event)->assertStatus(422);$this->assertFalse($r->fresh()->isPaid());
+  $this->webhook($event)->assertOk();$this->assertFalse($r->fresh()->isPaid());
  }
  public function test_non_selection_requires_closed_vote_then_tickets_are_idempotent_and_never_a_cash_sale(): void {
   $c=$this->campaign();$r=$this->registration($c,paid:true);$service=app(RegistrationDecision::class);
@@ -90,6 +90,7 @@ class ExpertRegistrationTest extends TestCase {
  }
  public function test_payment_admin_screens_render_but_inactive_admin_is_denied(): void {
   $c=$this->campaign();$r=$this->registration($c,paid:true);$this->closeVote($c);app(RegistrationDecision::class)->record($r,'not_selected','Signed local vote result');
+  \Livewire\Livewire::test(\App\Filament\Resources\RegistrationCampaignResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('edit')->table($c))->assertHasNoActionErrors();
   foreach(['RegistrationCampaign','CandidateRegistration','DrinkCredit'] as $name){$class='App\\Filament\\Resources\\'.$name.'Resource';$this->get($class::getUrl())->assertOk();}
   $admin=auth('admin')->user();$admin->update(['is_active'=>false]);$this->get(\App\Filament\Resources\DrinkCreditResource::getUrl())->assertForbidden();
  }
@@ -98,6 +99,12 @@ class ExpertRegistrationTest extends TestCase {
   foreach($team->roleAssignments as $role)$role->update(['interest_id'=>$r->interest_id,'candidate_name'=>'Ana','candidate_reference'=>'register-ana','consent_confirmed'=>true,'competence_evidence'=>'Local qualifications checked','status'=>'confirmed']);
   $team->update(['role_cumulation_evidence'=>'Timetables, local vote and responsibilities reviewed','election_minutes'=>'Signed ballot minutes']);$team->update(['status'=>'elected']);$this->closeVote($c);app(RegistrationDecision::class)->record($r,'selected','Selected in signed local vote');
   $this->assertDatabaseCount('drink_credits',0);$this->assertSame(0,$c->funding()['potential_drink_credit_cents']);config(['registration.live'=>true]);$this->assertFalse($r->fresh()->isPaid());$this->assertSame(0,$c->funding()['gross_cents']);$this->assertFalse($team->fresh()->composition()['complete']);
+ }
+
+ public function test_signed_completion_recovers_a_checkout_created_before_a_local_transaction_failed(): void {
+  $c=$this->campaign();$r=$this->registration($c);$remote=$this->stripeSessionFixture($r);$remote['metadata']['attempt']='1';Http::fake(['api.stripe.com/*'=>Http::response($remote)]);
+  $this->webhook(['id'=>'evt_recovered','type'=>'checkout.session.completed','livemode'=>false,'data'=>['object'=>['id'=>'cs_test_example','metadata'=>['registration'=>$r->public_id]]]])->assertOk();
+  $this->assertTrue($r->fresh()->isPaid());$this->assertSame('cs_test_example',$r->fresh()->stripe_session_id);
  }
 
 }

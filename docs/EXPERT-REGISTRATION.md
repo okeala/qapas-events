@@ -33,7 +33,7 @@ Au bar, un administrateur actif recherche le code privé et décompte la valeur 
 Filament : **3 · Mobiliser → Inscriptions et contrat boissons**. Trois notions distinctes :
 
 - **Paiement confirmé** : Stripe a confirmé le paiement, pas nécessairement son arrivée en banque.
-- **Affectable** : montant net de l’IVA qualifiée et des frais connus, plafonné aux fonds bancaires rapprochés, puis diminué de la réserve de remboursements. Frais inconnus ou réserve/bank evidence manquantes : montant concerné non affectable.
+- **Affectable** : montant net de l’IVA qualifiée et des frais connus, plafonné aux fonds bancaires rapprochés, puis diminué de la réserve de remboursements. Frais inconnus ou réserve/preuve bancaire manquantes : montant concerné non affectable.
 - **Contreparties** : crédits potentiels, émis et consommés. La valeur faciale de 10 € n’est ni le coût d’achat des boissons ni une marge disponible.
 
 L’affectation peut financer l’acompte ou l’approvisionnement prévu au contrat boissons, y compris les boissons dues aux non-retenus. Elle requiert fournisseur, contrat, montant, preuve de rapprochement, réserve et décision documentée. Elle ne déclenche aucun virement et ne prouve pas l’accord du brasseur. Après un remboursement/litige, le tableau signale l’affectation excédant les ressources restantes.
@@ -45,10 +45,10 @@ Les tickets sont un moyen d’utiliser un paiement antérieur : aucune nouvelle 
 La campagne livrée est fermée et les clés absentes. Aucun encaissement réel n’est activé par défaut.
 
 1. Finaliser conditions FR/PT (éligibilité, vote, recours, tickets, annulation/report/remboursement), dates, site, capacité, assurances, fiscalité, facturation et conservation. Valider les exigences de l’édition et référencer les preuves. La présence de textes n’est pas un avis juridique.
-2. Configurer `REGISTRATION_PAYMENTS_ENABLED=true`, `REGISTRATION_PAYMENTS_LIVE=false`, `STRIPE_SECRET_KEY=sk_test_…`, `STRIPE_WEBHOOK_SECRET=whsec_…` dans l’environnement privé. Ne jamais committer les secrets. Tester l’intégration et ses retours avec son compte Stripe dans une base de test séparée. Les dossiers portent leur mode test/réel ; un paiement test ne finance pas une exploitation en mode réel.
+2. Configurer `REGISTRATION_PAYMENTS_ENABLED=true`, `REGISTRATION_STRIPE_LIVE=false`, `REGISTRATION_STRIPE_SECRET=sk_test_…`, `REGISTRATION_STRIPE_WEBHOOK_SECRET=whsec_…` dans l’environnement privé. Ne jamais committer les secrets. Tester l’intégration et ses retours avec son compte Stripe dans une base de test séparée. Les dossiers portent leur mode test/réel ; un paiement test ne finance pas une exploitation en mode réel.
 3. Endpoint POST `/payments/stripe/webhook`. Événements : `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `charge.refunded`, `charge.dispute.created`. API épinglée `2025-06-30.basil`. Même mode et version côté endpoint. Signature sur le corps brut, tolérance de 300 secondes, journal des événements idempotent.
 4. TVA : aucune valeur par défaut. Si taux > 0, créer un taux Stripe actif **inclusif** identique et renseigner son `txr_…`. Le prix total reste 1 000 centimes. Le document produit par Stripe ne présume pas de conformité de la facturation portugaise ; renseigner le circuit fiscal applicable.
-5. Passer en réel uniquement avec clé live, secret du webhook live, `REGISTRATION_PAYMENTS_LIVE=true`, URL HTTPS, procédures validées, puis ouvrir la campagne dans Filament. Un changement des conditions ferme la campagne et exige une nouvelle version si des contrats ont été acceptés.
+5. Passer en réel uniquement avec clé live, secret du webhook live, `REGISTRATION_STRIPE_LIVE=true`, URL HTTPS, procédures validées, puis ouvrir la campagne dans Filament. Un changement des conditions ferme la campagne et exige une nouvelle version si des contrats ont été acceptés.
 6. Configurer les reprises de fûts, mobilier, acompte et échéances dans le contrat fournisseur réel. Rien ne présume l’acceptation de Super Bock, Sagres ou d’un autre fournisseur.
 
 Les ventes de stands restent fermées : cette version n’active que le mécanisme spécifique de candidature, après ses contrôles.

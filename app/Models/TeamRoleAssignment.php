@@ -8,7 +8,7 @@ class TeamRoleAssignment extends Record {
  protected function casts(): array {return ['consent_confirmed'=>'boolean','reviewed_at'=>'datetime'];}
  public function team(){return $this->belongsTo(Team::class);}
  public function interest(){return $this->belongsTo(Interest::class);}
- public function isCovered(): bool {return (!$this->team->eventProject->registrationCampaign||$this->interest?->registration?->isPaid())&&$this->status==='confirmed'&&$this->consent_confirmed&&filled($this->candidate_name)&&filled($this->candidate_reference)&&filled($this->competence_evidence)&&$this->reviewed_at&&!$this->reviewed_at->isFuture()&&$this->reviewed_by!==null;}
+ public function isCovered(): bool {return (!$this->team->eventProject->registrationCampaign||($this->interest?->registration?->isPaid()&&$this->interest?->registration?->decision!=='not_selected'))&&$this->status==='confirmed'&&$this->consent_confirmed&&filled($this->candidate_name)&&filled($this->candidate_reference)&&filled($this->competence_evidence)&&$this->reviewed_at&&!$this->reviewed_at->isFuture()&&$this->reviewed_by!==null;}
  protected static function booted(): void {parent::booted();static::saving(function(self $a){
   Validator::make($a->getAttributes(),['role_code'=>['required',Rule::in(ExpertRoles::CODES)],'candidate_name'=>'nullable|string|max:120','candidate_reference'=>'nullable|string|max:120','status'=>'in:vacant,proposed,confirmed','competence_evidence'=>'nullable|string|max:5000'])->validate();
   if($a->exists&&$a->isDirty(['team_id','role_code']))throw ValidationException::withMessages(['role_code'=>'Le poste reste rattaché à son équipe et à son rôle.']);
