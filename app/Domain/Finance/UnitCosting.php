@@ -18,6 +18,6 @@ final class UnitCosting {
   }
   $activities=[];foreach($scenario->includedActivities as $activity){$cost=$activity->costReport();$activities[]=['activity'=>$activity,'cost'=>$cost];$grossCost+=$cost['gross_cents'];}
   $grossCost+=$report['site_gross_cents'];
-  return ['groups'=>$groups,'activities'=>$activities,'report'=>$report,'gross_cost_cents'=>$grossCost,'investment_cents'=>$investment,'gross_revenue_cents'=>$grossRevenue,'net_revenue_cents'=>$netRevenue,'missing_prices'=>$missingPrices,'known_outlay_cents'=>$grossCost+($scenario->contingency_cents??0)+($scenario->refund_reserve_cents??0)+($scenario->organizer_full_monthly_cents??0)*$scenario->months];
+  return ['groups'=>$groups,'activities'=>$activities,'report'=>$report,'gross_cost_cents'=>$grossCost,'investment_cents'=>$investment,'gross_revenue_cents'=>$grossRevenue,'net_revenue_cents'=>$netRevenue,'missing_prices'=>$missingPrices,'known_outlay_cents'=>$grossCost+($scenario->contingency_cents??0)+($scenario->refund_reserve_cents??0)+OrganizerCost::amount($scenario)];
  }
 }

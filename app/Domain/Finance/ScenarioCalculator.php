@@ -10,7 +10,7 @@ final class ScenarioCalculator {
   if (!$scenario->costs_complete) $result['missing'][]='Périmètre des coûts à confirmer';
   if (!$lines->contains('kind','cost') && $scenario->includedActivities->isEmpty() && $scenario->includedFeatures->isEmpty()) $result['missing'][]='Coûts d’exploitation absents';
   if ($scenario->organizer_full_monthly_cents===null || $scenario->organizer_full_monthly_cents<$scenario->organizer_net_monthly_cents) $result['missing'][]='Coût complet de la rémunération et des charges à confirmer';
-  $fixedPay=($scenario->organizer_full_monthly_cents??0)*$scenario->months;
+  $fixedPay=OrganizerCost::amount($scenario);
   $result['forecast_margin_cents']-=$fixedPay;
   // Secured revenue must cover ALL planned costs, not merely invoices already signed.
   $result['secured_margin_cents']-=$fixedPay;

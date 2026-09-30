@@ -167,3 +167,5 @@ Ne pas employer `migrate:fresh` sur vos données. Les migrations ajoutent les ta
 L’email est facultatif dans la prévente, y compris au relais pour les candidats : nom et numéro SMS suffisent. Sans email, la déduplication utilise une empreinte protégée du nom et du numéro ; aucun faux email n’est fabriqué. Les vérifications locales d’identité et du scrutin restent nécessaires. Un paiement candidat reçu après sa clôture est conservé en revue, sans validation ni SMS de confirmation, et peut être remboursé avec preuve.
 
 Voir [prix, trophée et welcome pack](docs/RECOGNITION-SPONSORSHIP.md) : préfinancement, tailles, réserve et sponsoring.
+
+Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](docs/MERCHANDISING-BREAKEVEN.md).

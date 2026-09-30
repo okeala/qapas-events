@@ -82,3 +82,6 @@ Route::get('/workspace/preview/{project:slug}/rallye',[\App\Http\Controllers\Com
 Route::get('/workspace/preview/{project:slug}/engagements',[\App\Http\Controllers\CommunityController::class,'previewCommunity'])->name('community.preview');
 Route::get('/workspace/preview/{project:slug}/blog',[\App\Http\Controllers\CommunityController::class,'previewBlog'])->name('blog.preview');
 Route::get('/workspace/preview/{project:slug}/blog/{post}',[\App\Http\Controllers\CommunityController::class,'previewArticle'])->name('blog.article-preview');
+
+Route::get('/badges/{badge}/verifier',[\App\Http\Controllers\BadgeController::class,'verify'])->middleware('throttle:60,1')->name('badge.verify');
+Route::get('/workspace/badges/{badge}',[\App\Http\Controllers\BadgeController::class,'print'])->name('badge.print');

@@ -74,3 +74,5 @@ Les vues `/workspace/preview/{slug}` exigent **environnement local ET administra
 Commissions carte : après confirmation QAPAS elles sont dues au relais ; elles ne sont pas versées automatiquement par Stripe. L’administrateur constate le règlement réel avec une preuve, une seule fois. En espèces la commission est retenue dès collecte. Une annulation trace la commission récupérée ; sa part non récupérée reste une perte QAPAS dans le rapport, pas une somme effacée.
 
 Après remboursement ou litige, les frais carte connus restent provisionnés en plus des commissions non récupérées. Des frais inconnus sur un remboursement bloquent le plafond de fonds libres. Le rapprochement des avoirs éventuels du prestataire reste distinct ; ne pas supposer que les frais reviennent avec le prix du billet.
+
+Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](MERCHANDISING-BREAKEVEN.md).
