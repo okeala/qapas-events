@@ -35,7 +35,7 @@ final class Readiness {
     if(in_array($activity->risk_category,['water','grafting'],true)&&blank($activity->technical_review)) $blockers[]=$activity->name.' : validation technique à compléter';
     if($activity->broadcast_planned&&blank($activity->media_plan)) $blockers[]=$activity->name.' : dispositif de captation à préparer';
    }
-   if (!$project->runItems()->exists()) $blockers[]='Conducteur et responsables absents';
+   if (!$project->runItems()->exists()) $blockers[]='Déroulé opérationnel et responsables absents';
    if (!$operational->contains('track','official')) $blockers[]='Programme officiel non validé';
    if (!$operational->contains('track','public')) $blockers[]='Créneaux grand public non validés';
    if ($operational->contains(fn($a)=>!$a->risk_reviewed||blank($a->risk_evidence)||blank($a->referee)||$a->capacity<1)) $blockers[]='Activité validée sans sécurité, capacité ou responsable';

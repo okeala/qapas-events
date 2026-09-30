@@ -8,7 +8,7 @@ class CommunityAward extends Record {
  public function budgetLine(){return $this->belongsTo(BudgetLine::class);}
  public function winner(){return $this->belongsTo(Team::class,'winner_team_id');}
  public function agreement(){if(!$this->winner)return null;return FreguesiaAgreement::where('event_project_id',$this->event_project_id)->whereHas('stand',fn($q)=>$q->where('freguesia',$this->winner->freguesia))->first();}
- protected static function booted(): void {parent::booted();static::saving(function(self $a){
+ protected static function booted(): void {parent::booted();static::saving(function(self $a){if($a->isDirty('winner_team_id'))$a->unsetRelation('winner');if($a->isDirty('budget_line_id'))$a->unsetRelation('budgetLine');if($a->isDirty('event_project_id'))$a->unsetRelation('eventProject');
   if($a->exists&&$a->isDirty('event_project_id'))throw ValidationException::withMessages(['event_project_id'=>'Conserver l’édition.']);
   if($a->winner_team_id&&$a->winner?->event_project_id!==$a->event_project_id)throw ValidationException::withMessages(['winner_team_id'=>'Équipe hors édition.']);
   $line=$a->budgetLine;if($a->budget_line_id&&(!$line||$line->scenario->event_project_id!==$a->event_project_id||$line->kind!=='cost'||$line->unit_gross_cents!==50000||$line->forecast_quantity!==1))throw ValidationException::withMessages(['budget_line_id'=>'Lier un unique coût de 500 € dans un scénario de cette édition.']);

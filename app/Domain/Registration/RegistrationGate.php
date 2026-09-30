@@ -4,6 +4,7 @@ use App\Models\RegistrationCampaign;
 final class RegistrationGate {
  public function blockers(RegistrationCampaign $campaign): array {
   $cashPlan=\App\Models\PresalePlan::where('event_project_id',$campaign->event_project_id)->first();$cashReady=$cashPlan?->is_open&&!$cashPlan->blockers();$missing=[];if($campaign->vote_closed_at)$missing[]='Vote déjà clôturé';$project=$campaign->eventProject;
+  if($project?->community_version&&(!$campaign->unified_ticket_terms||!$cashPlan?->unified_benefits||$cashPlan->drink_credit_cents!==1000))$missing[]='Cette édition utilise une seule participation et les 10 € de boissons garantis : activer les conditions du ticket commun.';
   if(!$project?->is_public)$missing[]='Édition publique requise';
   if(!config('events.privacy_ready')||blank(config('events.organizer_name'))||!filter_var(config('events.contact_email'),FILTER_VALIDATE_EMAIL))$missing[]='Collecte et coordonnées à valider';
   foreach(['terms_fr','terms_pt','refund_policy_fr','refund_policy_pt','billing_procedure','validation_evidence'] as $field)if(blank($campaign->$field))$missing[]='À compléter : '.$field;

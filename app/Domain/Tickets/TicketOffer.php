@@ -12,7 +12,7 @@ final class TicketOffer {
   $q=['drink_credit_cents'=>(int)$p->drink_credit_cents,'price_cents'=>(int)$price,'relay_basis_points'=>(int)$relay,'phase'=>$early?'early':'standard','benefits'=>$benefits,'benefit_cost_cents'=>$cost];$q['key']=hash('sha256',json_encode([$p->terms_version,$q],JSON_UNESCAPED_UNICODE));return $q;
  }
  public function blockers(PresalePlan $p): array {
-  if(!$p->unified_benefits)return [];$b=[];
+  if(!$p->unified_benefits)return $p->eventProject?->community_version?['Utiliser le ticket commun avec crédit boissons garanti pour cette édition.']:[];$b=[];
   if($p->eventProject?->community_version&&($p->price_cents!==1000||($p->sales_strategy==='presale_discount'&&$p->full_price_cents!==1000)||$p->drink_credit_cents!==1000))$b[]='Édition communautaire : participation unique de 10 € TTC et 10 € de boissons garantis pour tous. Les bonus de prévente restent distincts.';
   if($p->drink_credit_cents&&($p->drink_credit_cents!==1000||$p->drink_cost_cents===null||blank($p->drink_cost_evidence)||blank($p->drink_credit_terms_fr)||blank($p->drink_credit_terms_pt)))$b[]='Crédit garanti de 10 €, coût réel et conditions FR/PT des boissons à valider';
   if($p->kind!=='admission')$b[]='Le ticket commun doit comprendre l’entrée';

@@ -16,7 +16,7 @@ class Sponsorship extends Record {
   return ['agreed'=>$this->agreed(),'paid_cents'=>$cash,'activity_cost_cents'=>$cost['gross_cents']??null,'complete'=>$cost['complete']??false,'remaining_cents'=>$cost?max(0,$cost['gross_cents']-$cash):null];
  }
  public function save(array $options=[]){return DB::transaction(function()use($options){EventProject::whereKey($this->event_project_id)->lockForUpdate()->firstOrFail();return parent::save($options);},3);}
- protected static function booted(): void {parent::booted();static::saving(function(self $s){
+ protected static function booted(): void {parent::booted();static::saving(function(self $s){if($s->isDirty('budget_line_id'))$s->unsetRelation('budgetLine');if($s->isDirty('activity_id'))$s->unsetRelation('activity');if($s->isDirty('prospect_id'))$s->unsetRelation('prospect');
   Validator::make($s->getAttributes(),['scope'=>'in:activity,main,secondary,signage','purpose'=>'in:general,cups','status'=>'in:prospecting,contacted,agreed,cancelled','secondary_slot'=>'nullable|integer|between:1,3','cash_pledged_cents'=>'nullable|integer|between:0,1000000000','website_url'=>'nullable|url:https|max:255'])->validate();
   if($s->exists&&$s->isDirty('event_project_id'))throw ValidationException::withMessages(['event_project_id'=>'Conserver l’édition.']);
   foreach(['activity'=>Activity::class,'prospect'=>Prospect::class] as $key=>$class)if($s->{$key.'_id'}&&!$class::whereKey($s->{$key.'_id'})->where('event_project_id',$s->event_project_id)->exists())throw ValidationException::withMessages([$key.'_id'=>'Objet d’une autre édition.']);
