@@ -24,7 +24,7 @@ final class SitePlan {
   if(!$private&&(!$p->is_public||!$p->plan_is_public)) return null;
   $dimensions=$this->dimensions($p);if(!$dimensions) return null;
   $terraces=$p->terraces()->when(!$private,fn($q)=>$q->where('is_public',true))->get();
-  $activities=$p->activities()->where('status','!=','archived')->when(!$private,fn($q)=>$q->where('is_public',true))->get();
+  $activities=$p->activities()->where('status','!=','archived')->when(!$private,fn($q)=>$q->where('is_public',true)->where('publication_level','!=','hidden'))->get();
   return $dimensions+[
    'image'=>route($private?'plan.private-image':'plan.image',['project'=>$p->public_id]),
    'terraces'=>$terraces->map(fn($t)=>['id'=>$t->public_id,'name'=>$t->name,'boundary'=>$t->boundary,'access'=>$t->access])->values()->all(),

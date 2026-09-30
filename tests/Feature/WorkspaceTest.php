@@ -15,7 +15,7 @@ class WorkspaceTest extends TestCase {
  public function test_public_pages_render_both_locales_without_platform(): void {
   $this->seed();$this->get('/')->assertOk()->assertSee('Os Jogos do Agricultor');
   $this->get('/events/forqua-de-ouro')->assertRedirect('/events/os-jogos-do-agricultor');
-  $this->get('/events/os-jogos-do-agricultor')->assertOk()->assertSee('500,00')->assertSee('Omelete Retro');
+  $this->get('/events/os-jogos-do-agricultor')->assertOk()->assertSee('Stand indépendant fondateur')->assertSee('Omelete Retro');
   $this->withSession(['locale'=>'pt'])->get('/')->assertOk()->assertSee('Fazer crescer');
   $this->get('/privacy')->assertOk();
  }
@@ -41,10 +41,10 @@ class WorkspaceTest extends TestCase {
  public function test_active_admin_can_render_every_resource_and_no_other_guard_is_used(): void {
   $this->seed();$admin=Admin::create(['name'=>'Admin','email'=>'admin@example.test','password'=>'a-long-password-for-tests']);
   $this->actingAs($admin,'admin')->get('/admin')->assertOk();
-  foreach(['EventProject','Scenario','BudgetLine','Offer','Interest','Idea','LegalRequirement','Team','Activity','RunItem','Incident','Stand','Debrief','Terrace','ActivityMaterial'] as $model){
+  foreach(['EventProject','Scenario','BudgetLine','Offer','Interest','Idea','LegalRequirement','Team','Activity','RunItem','Incident','Stand','Debrief','Terrace','ActivityMaterial','SiteFeature','ActivityLocation','StandPartner','ProgramSlot'] as $model){
    $class='App\\Filament\\Resources\\'.$model.'Resource';$this->get($class::getUrl())->assertOk();
   }
-  $this->get(\App\Filament\Pages\SitePlan::getUrl())->assertOk();
+  $this->get(\App\Filament\Pages\SitePlan::getUrl())->assertOk();$this->get(\App\Filament\Pages\GeographicSite::getUrl())->assertOk();
   $admin->update(['is_active'=>false]);$this->get('/admin')->assertForbidden();
  }
  public function test_real_form_can_create_an_edition_with_requirements(): void {

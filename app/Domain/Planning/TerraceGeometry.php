@@ -2,9 +2,9 @@
 namespace App\Domain\Planning;
 use Illuminate\Validation\ValidationException;
 final class TerraceGeometry {
- public static function validate(mixed $points): void {
+ public static function validate(mixed $points,int $maximum=80): void {
   $fail=fn()=>throw ValidationException::withMessages(['boundary'=>'Dessinez un polygone simple de 3 à 80 sommets dans le plan.']);
-  if(!is_array($points)||!array_is_list($points)||count($points)<3||count($points)>80) $fail();
+  if(!is_array($points)||!array_is_list($points)||count($points)<3||count($points)>$maximum) $fail();
   foreach($points as $p) if(!is_array($p)||count($p)!==2||!array_is_list($p)||!is_numeric($p[0])||!is_numeric($p[1])||!is_finite((float)$p[0])||!is_finite((float)$p[1])||min($p)<0||max($p)>100) $fail();
   $area=0;$n=count($points);
   for($i=0;$i<$n;$i++) {

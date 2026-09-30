@@ -7,7 +7,7 @@ class PublicEventController {
  public function home() {return view('public.home',['projects'=>EventProject::where('is_public',true)->get()]);}
  public function show(EventProject $project) {
   abort_unless($project->is_public,404);
-  return view('public.event',['project'=>$project,'offers'=>$project->offers()->where('is_public',true)->get(),'activities'=>$project->activities()->where('is_public',true)->where('status','!=','archived')->orderBy('sort_order')->get(),'plan'=>app(\App\Domain\Planning\SitePlan::class)->data($project)]);
+  return view('public.event',['project'=>$project,'offers'=>$project->offers()->where('is_public',true)->get(),'activities'=>$project->activities()->where('is_public',true)->where('status','!=','archived')->where('publication_level','!=','hidden')->orderBy('sort_order')->get(),'launchScenario'=>$project->scenarios()->where('template_key','launch-six-six')->first(),'geoPlan'=>app(\App\Domain\Planning\GeographicPlan::class)->data($project),'milestones'=>$project->ideas()->where('is_public',true)->whereNotNull('public_label')->orderBy('sort_order')->get(),'plan'=>app(\App\Domain\Planning\SitePlan::class)->data($project)]);
  }
  public function interest(Request $request,EventProject $project) {
   abort_unless($project->is_public,404);

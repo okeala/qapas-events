@@ -35,3 +35,11 @@ Les dates sont stockées en UTC, saisies en Europe/Lisbon dans les séquences. S
 `terraces.boundary` contient un polygone simple relatif à l’image, de 3 à 80 sommets dans [0,100]. Géométrie, appartenance à l’édition et inclusion des points sont contrôlées sur le serveur. La réduction d’une terrasse ne peut abandonner une épreuve hors de sa zone. Toute modification opérationnelle invalide sa revue de risque. Les champs internes ne sont pas sérialisés dans la projection publique.
 
 Le plan est réencodé PNG via GD et stocké sur le disque privé avec un UUID. Les routes image contrôlent les deux indicateurs publics, ou le guard admin actif. Le service de publication limite les polygones/points aux objets publics ; il ne masque pas des pixels dans l’image de fond. Le remplacement d’un fond déjà positionné n’est pas implémenté. Les garde-fous applicatifs ne remplacent pas la visite du site, l’étude de stabilité ou les autorisations.
+
+## Géographie et préfinancement (v0.3)
+
+`site_features` stocke uniquement une géométrie GeoJSON validée ; `site_needs` en décrit les coûts fixes ou journaliers. `activity_locations` donne les rôles de plusieurs zones sans dupliquer les coûts d’une épreuve. Projection publique explicite, masquage serveur des objets privés et des activités cachées. L’ancienne géométrie sur image est conservée.
+
+Les budgets restent propres à chaque scénario. Les lignes peuvent pointer un stand et son partenaire, et distinguent frais communs, stand, bar, friterie ou partenariat général. Les coûts de site sont intégrés via un pivot unique. `LaunchReport` calcule contributions et préfinancement, `ScenarioCalculator` garde la prévision et les engagements. Les rapprochements sont des attestations manuelles auditées, invalidées par les changements financiers. L’exposition aux remboursements est une réserve documentée, sans moteur juridique automatique. Les seuils ne déclenchent aucun achat, paiement ou message.
+
+`ideas.depends_on` décrit un graphe sans cycle dans une même édition. La preuve d’un jalon est vérifiée aussi en lecture. `Revelation` contrôle les conditions d’une annonce confirmée et affiche une réévaluation si elles cessent d’être remplies. Le frontend n’affiche pas les règles des aperçus. L’accès privé reste réservé aux administrateurs actifs de confiance.

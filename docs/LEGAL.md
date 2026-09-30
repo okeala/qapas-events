@@ -37,3 +37,9 @@ Consultation de contexte : 30 septembre 2026. Les références ne signifient pas
 - [RGPD, texte européen](https://eur-lex.europa.eu/eli/reg/2016/679/oj).
 
 Les dates, le site, la capacité, la forme juridique exacte, les assurances, le régime fiscal, les exploitants alimentaires et les CGV restent des décisions documentées à obtenir ; aucune valeur fictive n’est fournie pour débloquer la vente.
+
+## Format 6 + 6
+
+Les stands de village déclarent leur spécialité, leur vendeur et l’organisation de la vente pendant les épreuves. Le règlement prévoit l’absence de bar payant aux stands ; le périmètre des bouteilles fermées et dégustations reste à définir avant contrat. Les ventes alimentaires gardent leurs obligations propres : [ASAE, feiras e venda ambulante](https://www.asae.gov.pt/perguntas-frequentes1/area-economica/feiras-e-venda-ambulante.aspx).
+
+Les contributions des parrains et relais ont des contreparties explicites et une affectation documentée. Un relais est un soutien local doté d’une mission, pas une audience garantie. Les réserves de report/annulation et conditions de remboursement sont à qualifier contractuellement ; un rapprochement de paiement ne prouve pas à lui seul que l’argent est libre de toute obligation. Les informations précontractuelles ne doivent jamais être masquées par la stratégie de révélation.

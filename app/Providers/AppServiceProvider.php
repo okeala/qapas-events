@@ -9,7 +9,7 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider {
  public function boot(): void {
   $this->loadViewsFrom(base_path('packages/qapas-shared/resources/views'),'shared');
-  foreach (['EventProject','Scenario','BudgetLine','Offer','Interest','Idea','LegalRequirement','Team','Activity','RunItem','Incident','Stand','Debrief','Terrace','ActivityMaterial'] as $model) Gate::policy('App\\Models\\'.$model,WorkspacePolicy::class);
+  foreach (['EventProject','Scenario','BudgetLine','Offer','Interest','Idea','LegalRequirement','Team','Activity','RunItem','Incident','Stand','Debrief','Terrace','ActivityMaterial','SiteFeature','SiteNeed','ActivityLocation','StandPartner','ProgramSlot'] as $model) Gate::policy('App\\Models\\'.$model,WorkspacePolicy::class);
   EventProject::created(function (EventProject $project): void {
    foreach (config('events.requirements') as $code=>$label) $project->requirements()->create(['code'=>$code,'name'=>$label]);
   });

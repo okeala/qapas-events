@@ -1,6 +1,6 @@
 # Os Jogos do Agricultor — QAPAS Events
 
-Application autonome de conception et de pilotage d’événements locaux. **v0.2 — épreuves, nomenclatures et terrasses**. Elle ne copie pas Farmers Games et ne repose pas sur l’application Platform. Elle réutilise le paquet de présentation QAPAS.
+Application autonome de conception et de pilotage d’événements locaux. **v0.3 — lancement 6 + 6, contributions et plan géographique**. Elle ne copie pas Farmers Games et ne repose pas sur l’application Platform. Elle réutilise le paquet de présentation QAPAS.
 
 ## Installation locale
 
@@ -31,7 +31,7 @@ Le dépôt distant est déjà initialisé : **ne pas créer de commit local conc
 ## Ce qui fonctionne dans cette version
 
 - Éditions autonomes avec description des **4P** et visibilité publique contrôlée.
-- Hypothèses, expériences et observations de brainstorming.
+- Parcours de lancement, étapes dépendantes et preuves, rattachés aux 4P.
 - Scénarios de taille, durée du travail, résultat prévu, couverture par engagements, manque pour l’équilibre et pour l’objectif QAPAS.
 - TVA explicite par ligne, coût complet de rémunération, prudence sur la trésorerie ; cautions, aides affectées et flux tiers exclus de la marge.
 - Catalogue indicatif, parcours public et demandes par profil, origine et consentement marketing séparé.
@@ -50,7 +50,7 @@ Le catalogue affiche des **hypothèses**, pas des prestations actuellement achet
 
 ## Données de départ
 
-Os Jogos do Agricultor est un projet en préparation, sans date, lieu, autorisation, vente ou paiement confirmé. Trois scénarios sont créés **sans coûts inventés**. Le format 12 équipes / 24 stands est un horizon, pas un minimum de lancement. Les offres reprennent les hypothèses discutées : emplacement nu 250 € TTC, structure + emplacement 500 € TTC total, relais 49,99 € TTC, trois partenaires structurants à 2 500 € TTC.
+Os Jogos do Agricultor est un projet en préparation, sans date, lieu, autorisation, vente ou paiement confirmé. Le scénario courant est **6 freguesias + 6 indépendants**, sans prix ni encaissement inventé. Trois scénarios historiques restent conservés. Douze unités stand non attribuées sont préparées ; elles ne représentent aucune inscription. Les anciennes offres de départ sont conservées mais retirées du catalogue public. Les nouvelles offres fondateurs, parrains et relais restent à chiffrer.
 
 Les scénarios commencent donc incomplets. Renseigner le nombre de mois, le coût complet de rémunération et les coûts avant de leur demander une décision financière. Les scénarios sont indépendants : ne jamais additionner leurs encaissements.
 
@@ -96,3 +96,28 @@ Ordre de l’atelier : **Concevoir → Chiffrer → Mobiliser → Préparer → 
 Le plan Leaflet utilise des coordonnées relatives à l’image, **sans géoréférencement ni valeur de bornage**. Une fois des terrasses dessinées, le remplacement du fond est bloqué pour éviter de décaler les positions : préparer le bon fond dès le départ ; un autre site relève d’une autre édition. Aucun plan réel n’a été fourni avec cette version.
 
 Les adaptations proposées pour les mimosas, les outils et l’eau sont expliquées dans [les contraintes des épreuves](docs/ACTIVITIES.md). Elles préservent le ressort comique sans présenter un dispositif non évalué comme prêt à fonctionner.
+
+## Lancement 6 + 6 et paliers — v0.3
+
+- Chaque stand de freguesia peut avoir un parrain principal et jusqu’à trois relais sponsors. Une entreprise peut cumuler les deux rôles dans une même fiche. Aucun partenaire réel n’est inventé. Une spécialité et une équipe de vente sont à documenter ; les stands n’exploitent pas de bar payant. QAPAS prévoit son bar et sa friterie.
+- La contribution d’un indépendant est le prix de l’offre QAPAS hors IVA due, diminué de ses coûts directs économiques. Marchandises, salariés et chiffre d’affaires de l’exposant ne sont pas importés dans ce calcul ; aucune commission sur ses ventes. Les dépenses communes restent au budget général. Le tableau de pilotage détaille les contributions prévues, engagées et rapprochées par unité stand.
+- Un coût payé personnellement par l’organisateur conserve sa nature de coût. Le remboursement est un mouvement de trésorerie, pas une seconde charge. Le solde des avances apparaît séparément ; le coût complet de rémunération reste inclus même si payé à la fin. Le terrain mis à disposition est documenté sans inventer un loyer.
+- Un montant vide est inconnu. Les lignes à quantité zéro sont inactives. Les recettes estimées du bar et des frites améliorent la prévision, mais ne financent pas le lancement. Un encaissement ne compte au préfinancement qu’après rapprochement manuel : référence, date passée et administrateur identifié. Enregistrer d’abord la ligne, puis son rapprochement ; modifier montant, quantité ou affectation annule celui-ci. Une même référence ne peut être rapprochée deux fois dans le même scénario. Ceci n’est ni une connexion bancaire ni un processeur de paiement.
+- Le lancement demande un budget complet, les stands correspondant au format, les parrains actifs, au moins trois épreuves officielles distinctes par jour incluses au budget, une durée, l’hypothèse de public, la capacité du chapiteau et les réserves documentées. Le solde après coûts TTC réserve prudemment l’IVA collectée sans anticiper les crédits de TVA. L’objectif QAPAS s’ajoute au seuil d’équilibre pour débloquer l’étude du palier suivant.
+- Un palier est un **scénario complet**, lié à son parent. Ne pas additionner les scénarios ni réutiliser une recette comme nouvel encaissement dans une synthèse globale. Le parent doit préserver l’objectif QAPAS ; le palier suivant ne peut réduire cet objectif. L’outil autorise l’étude, pas la réservation ou la vente automatique. Les tarifs fondateurs restent à décider après les devis ; contingent et date limite se renseignent dans les offres.
+
+## Plan géographique et révélations
+
+**Concevoir / Plan du site** : fond OSM, fond aérien DGT 2025, tracés Point/LineString/Polygon et import GeoJSON/KML en WGS84. GeoJSON MultiPolygon et anneaux intérieurs sont acceptés ; KML convertit les coordonnées 3D en plan 2D. Limites : 2 Mo, 100 objets par import, 500 sommets par anneau. Les DTD, entités, NetworkLink, modèles 3D et images KML sont refusés. Les attributs métier étrangers ne sont pas importés : seuls nom et géométrie sont conservés. Choisir le calque lors de l’import, puis affiner chaque objet. Export GeoJSON disponible aux administrateurs.
+
+Le fond aérien DGT est un service externe dont la disponibilité dépend du fournisseur ; les tests applicatifs ne prouvent pas sa disponibilité sur site. Le service a répondu 502 depuis l’environnement de développement. OSM reste sélectionnable et le client signale les erreurs de tuiles. L’URL, le nom de couche (espaces compris) et l’attribution sont configurables via `EVENTS_IMAGERY_URL`, `EVENTS_IMAGERY_LAYER`, `EVENTS_IMAGERY_ATTRIBUTION`. Aucune prélecture massive ou cache hors ligne des tuiles OSM. Sources : [DGT](https://www.dgterritorio.gov.pt/atividades/cartografia/cartografia-topografica/ortofotos/ortofotos-digitais), [service municipal déclarant la couche DGT](https://geoloule.cm-loule.pt/MuniSIG/REST/sites/MO_PMOT_Elab/map/mapservices/267), [politique des tuiles OSM](https://operations.osmfoundation.org/policies/tiles/).
+
+Les anciens plans sur image et leurs positions sont conservés séparément : aucune conversion fictive en coordonnées géographiques. Dans **Éléments du site et besoins**, chiffrer les installations, personnes, eau et énergie. Sélectionner ces objets dans le scénario pour reprendre leurs coûts une seule fois ; retirer toute provision budgétaire couvrant déjà le même besoin. Les besoins par jour suivent la durée du scénario. Le ratio de personnes par stand est une hypothèse commerciale, pas une capacité réglementaire.
+
+**Implantations des épreuves** relie une épreuve à plusieurs quartéis/zones avec rôles performance, spectateurs, attente ou technique. Cette relation ne multiplie pas son matériel : ajuster les quantités si plusieurs dispositifs sont réellement nécessaires. Les modifications d’implantation invalident la revue de risque. Pour les engins, zones de performance et spectateurs distinctes et accès adaptés restent obligatoires dans le contrôle interne.
+
+**Parcours de lancement** : étapes avec responsable, échéance, hypothèse, expérience, preuves, dépendances et intitulé public. Les cycles sont refusés. Un jalon n’est publiquement accompli que si ses preuves et ses préalables restent valides. Aucun courrier ni message n’est envoyé automatiquement.
+
+Dans **Épreuves**, choisir non dévoilée, aperçu, règles dévoilées ou confirmée. Les règles et points ne sont pas rendus dans le HTML d’un aperçu. Un titre caché n’apparaît pas dans les implantations publiques. La confirmation exige financement rapproché, préparation et revue technique ; si ces conditions cessent d’être réunies, l’affichage indique une réévaluation. Conditions essentielles de participation accessibles avant engagement. Un identifiant YouTube peut lier un extrait ou direct externe ; pas de régie vidéo intégrée.
+
+Le seeder ajoute le nouveau socle une seule fois, conserve les travaux antérieurs et initialise un seul aperçu officiel. Un second lancement du seeder conserve modifications, rapprochements et choix éditoriaux. Les anciens prix restent des références historiques et ne sont pas présentés comme une remise nouvellement validée.

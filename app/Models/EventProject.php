@@ -2,7 +2,9 @@
 namespace App\Models;
 class EventProject extends Record {
  protected $attributes=['phase'=>'concept','is_public'=>false,'capacity'=>0];
-protected function casts(): array {return ['is_public'=>'boolean','plan_is_public'=>'boolean','starts_at'=>'datetime','ends_at'=>'datetime'];}
+protected function casts(): array {return ['is_public'=>'boolean','plan_is_public'=>'boolean','geo_is_public'=>'boolean','starts_at'=>'datetime','ends_at'=>'datetime'];}
+ public function stands(){return $this->hasMany(Stand::class);}
+ public function siteFeatures(){return $this->hasMany(SiteFeature::class);}
  public function terraces(){return $this->hasMany(Terrace::class);}
  public function scenarios() {return $this->hasMany(Scenario::class);}
  public function offers() {return $this->hasMany(Offer::class);}

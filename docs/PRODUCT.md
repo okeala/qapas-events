@@ -40,4 +40,12 @@ Les quantités sont entières : payé ≤ engagé ≤ prévu. Pour changer de pr
 5. **Clôture et progression** : livrables sponsors, retours matériels, cautions et remboursement motivés ; factures/avoirs rapprochés ; rémunération et résultat réel ; retours des équipes et visiteurs ; hypothèses du prochain événement révisées à partir de preuves.
 6. **Identités et délégations** : intégration Passport de Platform via code + PKCE et contrats d’identité vérifiés ; aucune permission tirée du manifeste ; droits par édition/équipe, révocation et audit ; tests isolant chaque périmètre. Le compte de préparation global reste réservé aux organisateurs de confiance jusque-là.
 
-Le pilote peut être défini à moins de 12 équipes. Aucun nombre minimum rentable n’est affirmé sans coûts complets, capacité du site et engagements crédibles. La marge QAPAS doit être visible dans la décision et ne disparaît pas sous le travail bénévole.
+Le format de référence est désormais 6 freguesias et 6 indépendants (12 stands). Trois relais au maximum par freguesia ; un parrain principal par stand de village. Au moins trois épreuves distinctes par journée ; spécialité locale vendable, sans bar payant aux stands. QAPAS exploite le bar et la friterie. Aucun nombre minimum rentable n’est affirmé sans coûts complets, capacité du site et engagements crédibles. La marge QAPAS doit être visible dans la décision et ne disparaît pas sous le travail bénévole.
+
+## Actualisation du 30 septembre : financement et révélations
+
+Le scénario `launch-six-six` est la recette initiale à chiffrer. Les stands constituent des unités de contribution aux frais fixes, après leurs coûts directs. La rémunération différée et les avances personnelles ne sont pas des apports gratuits. Les relais financent la part restante et ont une mission de communication ; ils ne réduisent une dépense que si leur apport remplace réellement un achat.
+
+Le tableau de bord distingue prévision, engagements et préfinancement rapproché manuellement. Un paiement bar/friterie ne sert pas de garantie au lancement. L’agrandissement exige un parent préfinancé préservant l’objectif QAPAS, puis un scénario complet pour les nouveaux besoins. Les remises fondateurs sont explicites, limitées et sans faux prix de référence.
+
+La carte géographique représente lieux et besoins, les implantations relient plusieurs quartéis à une épreuve, les étapes prouvent la mobilisation, les révélations exposent les avancées réellement acquises. Les conditions de vente et de participation essentielles ne font pas partie des surprises.
