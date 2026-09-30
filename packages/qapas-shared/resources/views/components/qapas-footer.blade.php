@@ -23,4 +23,3 @@
         <small>{{ $footer['note'][$locale] ?? $footer['note']['fr'] }}</small>
     </div>
 </footer>
-

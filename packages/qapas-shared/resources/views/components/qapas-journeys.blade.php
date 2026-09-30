@@ -51,4 +51,3 @@
         <a href="{{ $base }}/overview?lang={{ $locale }}">{{ config('qapas_copy.'.$locale.'.overview') }} →</a>
     @endif
 </section>
-

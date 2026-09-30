@@ -38,4 +38,3 @@
         @endif
     </div>
 </article>
-

@@ -246,4 +246,3 @@ final class QapasChrome
             'status' => 'available', 'url' => route('home')];
     }
 }
-

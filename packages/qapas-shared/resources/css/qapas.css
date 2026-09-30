@@ -180,4 +180,3 @@ body { margin: 0; }
 .qapas-exit-dialog__cancel { border: 1px solid #7ea88c; color: #174934; background: #f4f9ef; }
 .qapas-exit-dialog__cancel:hover { background: #e6f3df; color: #0d3d2c; }
 .qapas-exit-dialog__actions a:focus-visible { outline: 3px solid #e4b849; outline-offset: 3px; }
-

@@ -5,4 +5,3 @@ Source canonique : `okeala/qapas-application/packages/qapas-shared`. Le paquet f
 Dans chaque application, importer `vendor/livewire/flux/dist/flux.css` après Tailwind, puis les styles QAPAS ; insérer `@livewireScripts` et `@fluxScripts` dans les layouts publics qui utilisent Flux. Garder les balises HTML sémantiques pour la navigation et les contenus simples. La convention complète est dans `docs/CONVENTION_FLUX_UI.md` du dépôt source.
 
 Le paquet est installé par Composer depuis une copie versionnée de ce dossier via un dépôt `path`. Chaque application importe le paquet depuis une révision vérifiée de la source, met à jour son lockfile et valide migrations, build et tests sur son port propre.
-

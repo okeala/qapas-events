@@ -20,4 +20,3 @@ return [
         'de' => 'Farmers’ Games · in Vorbereitung', 'pt' => 'Farmers’ Games · em preparação',
     ],
 ];
-
