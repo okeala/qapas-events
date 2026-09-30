@@ -1,0 +1,23 @@
+<?php
+namespace App\Filament\Resources;
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Forms\Components\{TextInput,Textarea,Select,Toggle,DateTimePicker,Placeholder};
+use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\{Action,EditAction};
+class EventTicketResource extends Resource {
+ protected static ?string $model=\App\Models\EventTicket::class;protected static ?string $modelLabel='Billet';protected static ?string $pluralModelLabel='Billets · paiements et contrôles';protected static string|\UnitEnum|null $navigationGroup='3 · Mobiliser';protected static ?int $navigationSort=43;
+ public static function table(Table $table): Table {return $table->columns([TextColumn::make('buyer_name')->label('Participant')->searchable(),TextColumn::make('public_id')->label('Reçu QR')->searchable()->toggleable(isToggledHiddenByDefault:true),TextColumn::make('freguesia')->searchable(),TextColumn::make('distributor.name')->label('Relais'),TextColumn::make('kind')->badge(),TextColumn::make('channel')->label('Canal'),TextColumn::make('status')->badge(),TextColumn::make('is_live')->label('Mode')->formatStateUsing(fn($state)=>$state?'RÉEL':'TEST'),TextColumn::make('amount_cents')->label('TTC')->formatStateUsing(fn($state)=>\App\Domain\Finance\Money::format($state)),TextColumn::make('paid_at')->label('QAPAS reçu')->dateTime('d/m/Y H:i')])->groups(['freguesia','distributor.name','status'])->filters([SelectFilter::make('status')->options(['pending'=>'En attente QAPAS','paid'=>'Confirmé','review'=>'À vérifier','refunded'=>'Remboursé','cancelled'=>'Annulé']),SelectFilter::make('presale_plan_id')->label('Campagne')->relationship('plan','name'),SelectFilter::make('channel')->options(['cash'=>'Espèces','card'=>'Carte'])])->recordActions([
+ Action::make('details')->label('Reçu et contrôle')->url(fn($record)=>route('ticket.control',['ticket'=>$record->public_id])),
+ Action::make('receipt')->label('QR')->url(fn($record)=>$record->verifyUrl())->openUrlInNewTab(),
+ Action::make('refresh')->label('Rapprocher Stripe')->visible(fn($record)=>$record->channel==='card'&&filled($record->stripe_session_id))->action(fn($record)=>app(\App\Domain\Tickets\TicketPayments::class)->refresh($record)),
+ Action::make('refund_card')->label('Rembourser par Stripe')->color('danger')->requiresConfirmation()->visible(fn($record)=>$record->channel==='card'&&$record->valid())->action(fn($record)=>app(\App\Domain\Tickets\TicketPayments::class)->refund($record)),
+ Action::make('refund_cash')->label('Constater remboursement espèces')->color('danger')->schema([Textarea::make('evidence')->label('Preuve du remboursement intégral et du sort de la commission')->required()])->visible(fn($record)=>$record->channel==='cash'&&$record->valid())->action(fn($record,array $data)=>app(\App\Domain\Tickets\Ticketing::class)->refundCash($record,$data['evidence'])),
+ Action::make('cancel_cash')->label('Annuler après restitution du liquide')->schema([Textarea::make('evidence')->label('Preuve de restitution intégrale au client par le relais')->required()])->visible(fn($record)=>$record->channel==='cash'&&$record->status==='pending')->action(fn($record,array $data)=>app(\App\Domain\Tickets\Ticketing::class)->cancel($record,$data['evidence'])),
+ Action::make('unlist')->label('Retirer nom public')->requiresConfirmation()->visible(fn($record)=>$record->public_listing)->action(fn($record)=>$record->update(['public_listing'=>false,'public_name'=>null,'listing_consented_at'=>null])),
+ ]);}
+ public static function getPages(): array {return ['index'=>\App\Filament\Resources\EventTicketResource\Pages\ManageRecords::route('/')];}
+}

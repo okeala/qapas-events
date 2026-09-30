@@ -3,6 +3,7 @@ namespace App\Models;
 class CandidateRegistration extends Record {
  protected $attributes=['is_live'=>false,'payment_status'=>'pending','amount_cents'=>1000,'credit_cents'=>1000,'currency'=>'eur','refunded_cents'=>0];
  protected function casts(): array {return ['is_live'=>'boolean','amount_cents'=>'integer','credit_cents'=>'integer','vat_basis_points'=>'integer','refunded_cents'=>'integer','fee_cents'=>'integer','accepted_at'=>'datetime','paid_at'=>'datetime','decision_at'=>'datetime'];}
+ public function ticket(){return $this->hasOne(EventTicket::class);}
  public function campaign(){return $this->belongsTo(RegistrationCampaign::class,'registration_campaign_id');}
  public function interest(){return $this->belongsTo(Interest::class);}
  public function drinkCredit(){return $this->hasOne(DrinkCredit::class);}

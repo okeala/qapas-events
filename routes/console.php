@@ -18,3 +18,6 @@ Artisan::command('events:prune-interests',function(){
  $this->info($count.' demandes anciennes supprimées.');
 })->purpose('Appliquer la durée de conservation des demandes initiales');
 Schedule::command('events:prune-interests')->dailyAt('03:00');
+
+\Illuminate\Support\Facades\Artisan::command('events:ticket-sms',function(){ $count=app(\App\Domain\Tickets\TicketSms::class)->dispatch();$this->info($count.' SMS acceptés par le prestataire. Voir les états de livraison.');});
+\Illuminate\Support\Facades\Schedule::command('events:ticket-sms')->everyMinute()->withoutOverlapping();

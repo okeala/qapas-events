@@ -134,3 +134,28 @@ Le scénario actuel, le chiffrage du mobilier Douglas, les relais et leur seuil 
 Le menu **Chiffrer → Chiffrage par unité** compare les stands, services et épreuves d’un scénario. Les fiches **Chiffrer** ouvrent les tableaux liés Coûts/Recettes ou Matériel. La simulation privée de deux jours contient les premières provisions, sans engagement ni paiement. Voir [hypothèses, calculs et sources](docs/UNIT-COSTING.md). Après mise à jour : `php artisan migrate --seed`, puis rebuild des assets.
 
 Les répétitions, demandes de devis, allocations de gobelets et regroupements budgétaires sont décrits dans [le guide opérationnel](docs/REHEARSALS-PROCUREMENT-CUPS.md).
+
+### Mise à jour tournées / préventes / emplacements
+
+```bash
+cd ~/PhpstormProjects/qapas-events
+git pull --ff-only origin master
+composer install
+php artisan migrate
+php artisan db:seed
+php artisan optimize:clear
+npm ci
+npm run build
+php artisan serve --host=127.0.0.1 --port=8890
+```
+
+Ne pas employer `migrate:fresh` sur vos données. Les migrations ajoutent les tables ; le seeder ajoute les nouveaux dossiers sans effacer les offres, preuves ni paiements. La correction Presse concerne l'injection typée du Builder de Filament dans le champ Scénario, pas un remplacement de la base.
+
+- **Concevoir / éditions** : bouton « Prévisualiser tout en local » (compte admin actif, `APP_ENV=local`). Adresse directe : `/workspace/preview/os-jogos-do-agricultor`.
+- **Mobiliser** : tournées juntas/cafés, courriers imprimables, offres, préventes/répartition, agents, billets, reversements et suivi SMS. Mandats/distributeurs à créer après accord, sans compte de démonstration. Le relais se connecte à `/relais/connexion` ; aucune administration partagée.
+- **Préparer** : infrastructures et fiches stands (« Fiche et besoins »), quartel, numéro et demandes justifiées. Les puissances déclarées ne deviennent pas disponibles automatiquement.
+- Prévente : `/events/os-jogos-do-agricultor/prevente`. En espèces, le relais crée le reçu **avant que le client parte** et le lui imprime/remet. Internet nécessaire ; aucun mode hors ligne non contrôlé. Le client vérifie le QR ; seul le rapprochement du solde reçu par QAPAS valide.
+- `PRESALES_ENABLED=false` et `PRESALES_SMS_ENABLED=false` par défaut. Finaliser droits exacts, split, dates confirmées, IVA, contrats, capacité, légalité et procédure de remboursement, puis enregistrer et ouvrir séparément le plan dans Filament. Les 12–13 décembre sont seulement proposés ; le domaine `.tld` doit être remplacé.
+- Paiement carte : paramètres Stripe existants dans `.env`, webhook `/payments/stripe/webhook`, clé et mode cohérents. Tester avec Stripe test ; ne jamais convertir les reçus test en recettes réelles.
+- SMS : `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM` ; activer uniquement après validation du numéro expéditeur et du tarif. Exécuter `php artisan schedule:work` en développement ou installer le planificateur Laravel en exploitation. `php artisan events:ticket-sms` traite la file et les états prestataire. Un état `unknown` exige une vérification chez Twilio avant toute intervention ; pas de réémission aveugle.
+- Les six euros QAPAS sont avant IVA/frais/prestations, pas une marge de 60 %. Le rapport préventes ne double pas automatiquement les lignes budgétaires ; les crédits boissons des candidats non retenus restent dus. Aucun contrat boissons ne doit se fonder sur le brut collecté chez un relais.

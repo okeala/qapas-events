@@ -6,8 +6,8 @@ use Illuminate\Validation\ValidationException;
 final class RegistrationPayments {
  public function checkout(CandidateRegistration $registration): string {
   return DB::transaction(function()use($registration){
-   $r=CandidateRegistration::lockForUpdate()->findOrFail($registration->id);$campaign=$r->campaign;
-   if(!$campaign->is_open||$campaign->blockers()||$r->terms_version!==$campaign->terms_version)throw ValidationException::withMessages(['payment'=>'Paiement fermé ou conditions modifiées. Contacter l’organisation.']);
+   $r=CandidateRegistration::lockForUpdate()->findOrFail($registration->id);$campaign=$r->campaign;if($r->ticket)throw ValidationException::withMessages(['payment'=>'Cette candidature possède déjà un billet de prévente. Utiliser le lien du billet.']);
+   if(!app(\App\Domain\Tickets\TicketPayments::class)->configured()||!$campaign->is_open||$campaign->blockers()||$r->terms_version!==$campaign->terms_version)throw ValidationException::withMessages(['payment'=>'Paiement fermé ou conditions modifiées. Contacter l’organisation.']);
    if($r->is_live!==(bool)config('registration.live')||$r->payment_status!=='pending')throw ValidationException::withMessages(['payment'=>'Cette inscription a déjà un paiement ou nécessite une revue.']);
    $gateway=app(StripeGateway::class);
    if($r->stripe_session_id){$session=$gateway->session($r->stripe_session_id);if(($session['status']??null)==='open')return $gateway->checkoutUrl($session);if(($session['status']??null)!=='expired')throw ValidationException::withMessages(['payment'=>'Paiement en cours de confirmation.']);$r->checkout_attempt++;}
@@ -44,6 +44,6 @@ final class RegistrationPayments {
  public function refresh(CandidateRegistration $r): void {abort_unless(auth('admin')->user()?->is_active,403);if(!$r->stripe_session_id)return;$this->webhook(['id'=>'reconcile_'.(string)\Illuminate\Support\Str::uuid(),'type'=>'checkout.session.completed','data'=>['object'=>['id'=>$r->stripe_session_id]]]);}
  public function requestRefund(CandidateRegistration $registration): void {
   abort_unless(auth('admin')->user()?->is_active,403);
-  DB::transaction(function()use($registration){$r=CandidateRegistration::lockForUpdate()->findOrFail($registration->id);if(!$r->isPaid()||$r->drinkCredit?->redeemed_cents>0)throw ValidationException::withMessages(['refund'=>'Vérifier le paiement et les tickets déjà consommés ; ce cas nécessite un traitement individuel.']);app(StripeGateway::class)->refund($r);$r->update(['payment_status'=>'review']);},3);
+  DB::transaction(function()use($registration){$r=CandidateRegistration::lockForUpdate()->findOrFail($registration->id);if($r->ticket)throw ValidationException::withMessages(['refund'=>'Utiliser le remboursement du billet lié.']);if(!$r->isPaid()||$r->drinkCredit?->redeemed_cents>0)throw ValidationException::withMessages(['refund'=>'Vérifier le paiement et les tickets déjà consommés ; ce cas nécessite un traitement individuel.']);app(StripeGateway::class)->refund($r);$r->update(['payment_status'=>'review']);},3);
  }
 }

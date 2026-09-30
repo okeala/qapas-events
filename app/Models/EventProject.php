@@ -2,7 +2,7 @@
 namespace App\Models;
 class EventProject extends Record {
  protected $attributes=['phase'=>'concept','is_public'=>false,'capacity'=>0];
-protected function casts(): array {return ['require_activity_trials'=>'boolean','rehearsal_weekend_start'=>'date','rehearsal_weekend_end'=>'date','is_public'=>'boolean','plan_is_public'=>'boolean','geo_is_public'=>'boolean','starts_at'=>'datetime','ends_at'=>'datetime'];}
+protected function casts(): array {return ['proposed_start'=>'date','proposed_end'=>'date','require_activity_trials'=>'boolean','rehearsal_weekend_start'=>'date','rehearsal_weekend_end'=>'date','is_public'=>'boolean','plan_is_public'=>'boolean','geo_is_public'=>'boolean','starts_at'=>'datetime','ends_at'=>'datetime'];}
  public function launchScenario(): ?Scenario {return $this->scenarios()->where('is_archived',false)->whereIn('template_key',['costing-rental-experts-v1','launch-hospitality-v1','launch-six-six'])->orderByRaw("CASE template_key WHEN 'costing-rental-experts-v1' THEN 0 WHEN 'launch-hospitality-v1' THEN 1 ELSE 2 END")->first();}
  public function registrationCampaign(){return $this->hasOne(RegistrationCampaign::class);}
  public function pressReleases(){return $this->hasMany(PressRelease::class);}

@@ -16,6 +16,7 @@ final class Readiness {
   if (!$project->starts_at || !$project->ends_at || $project->ends_at<=$project->starts_at || blank($project->venue) || $project->capacity<1) $blockers[]='Date, lieu et capacité à confirmer';
   if ($action==='sales') $blockers[]='Contrats versionnés, facturation et paiement à intégrer (v0.2)';
   if ($action==='live') {
+   foreach(\App\Models\SiteInfrastructure::where('event_project_id',$project->id)->get() as $infrastructure)if(!$infrastructure->available())$blockers[]=$infrastructure->name.' : disponibilité et validation technique requises';
    $activeScenarios=$project->scenarios->where('is_archived',false);$fundingScenarios=$activeScenarios->contains('launch_model',true)?$activeScenarios->where('launch_model',true):$activeScenarios;
    foreach($project->teams as $team)if($team->status!=='elected'||!$team->composition()['complete'])$blockers[]=$team->name.' : treize rôles experts et choix local à compléter';
    if (!$fundingScenarios->contains(fn($scenario)=>$scenario->launch_model?$scenario->report()['expansion_ready']:$scenario->report()['target_secured'])) $blockers[]='Aucun scénario ne couvre les coûts et l’objectif QAPAS par des engagements';

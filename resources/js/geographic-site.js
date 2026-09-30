@@ -19,6 +19,7 @@ function mount() {
    const group=groups[f.properties.category]??=L.featureGroup().addTo(map);
    const label=document.createElement('span');label.textContent=f.properties.name;
    const popup=document.createElement('div');const title=document.createElement('strong');title.textContent=f.properties.name;popup.append(title);for(const activity of f.properties.activities||[]){const row=document.createElement('p'),link=document.createElement(activity.url?'a':'span');link.textContent=activity.name;if(activity.url)link.href=activity.url;row.append(link);popup.append(row);}
+   for(const stand of f.properties.stands||[]){const row=document.createElement('p'),link=document.createElement('a');link.textContent=[stand.pitch,stand.name].filter(Boolean).join(' · ');link.href=stand.url;row.append(link);popup.append(row);}
    L.geoJSON(f,{style:{color:colors[f.properties.category]||'#376e77',weight:3},pointToLayer:(_,latlng)=>L.circleMarker(latlng,{radius:8,color:colors[f.properties.category]||'#376e77'})}).bindTooltip(label).bindPopup(popup).addTo(group);
   }
   L.control.layers(bases,groups,{collapsed:false}).addTo(map);L.control.scale({imperial:false}).addTo(map);

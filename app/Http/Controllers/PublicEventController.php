@@ -5,9 +5,11 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 class PublicEventController {
  public function home() {return view('public.home',['projects'=>EventProject::where('is_public',true)->get()]);}
- public function show(EventProject $project) {
-  abort_unless($project->is_public,404);
-  return view('public.event',['project'=>$project,'offers'=>$project->offers()->where('is_public',true)->get(),'activities'=>$project->activities()->where('is_public',true)->where('status','!=','archived')->orderBy('sort_order')->get()->filter(fn($a)=>$a->publicVisible()),'relayProgress'=>app(\App\Domain\Planning\RelayMobilization::class)->report($project),'press'=>$project->pressReleases()->orderByDesc('published_at')->get()->filter(fn($r)=>$r->publiclyAvailable()),'launchScenario'=>$project->launchScenario(),'geoPlan'=>app(\App\Domain\Planning\GeographicPlan::class)->data($project),'milestones'=>$project->ideas()->where('is_public',true)->whereNotNull('public_label')->orderBy('sort_order')->get(),'plan'=>app(\App\Domain\Planning\SitePlan::class)->data($project)]);
+ public function show(EventProject $project) {abort_unless($project->is_public,404);return $this->render($project);}
+ public function preview(EventProject $project) {app(CatalogController::class)->authorizePreview();return $this->render($project,true);}
+ private function render(EventProject $project,bool $preview=false) {
+  $view=view('public.event',['project'=>$project,'preview'=>$preview,'offers'=>$project->offers()->where($preview?'preview_current':'is_public',true)->get(),'stands'=>$project->stands()->when(!$preview,fn($q)=>$q->where('is_public',true))->where('status','!=','withdrawn')->get(),'activities'=>$project->activities()->when(!$preview,fn($q)=>$q->where('is_public',true))->where('status','!=','archived')->orderBy('sort_order')->get()->filter(fn($a)=>$preview||$a->publicVisible()),'relayProgress'=>app(\App\Domain\Planning\RelayMobilization::class)->report($project),'press'=>$project->pressReleases()->orderByDesc('published_at')->get()->filter(fn($r)=>$r->publiclyAvailable()),'launchScenario'=>$project->launchScenario(),'geoPlan'=>app(\App\Domain\Planning\GeographicPlan::class)->data($project,$preview),'milestones'=>$project->ideas()->when(!$preview,fn($q)=>$q->where('is_public',true)->whereNotNull('public_label'))->orderBy('sort_order')->get(),'plan'=>app(\App\Domain\Planning\SitePlan::class)->data($project)]);
+  return $preview?response($view)->header('Cache-Control','private, no-store')->header('X-Robots-Tag','noindex, nofollow'):$view;
  }
  public function interest(Request $request,EventProject $project) {
   abort_unless($project->is_public,404);

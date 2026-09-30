@@ -11,7 +11,7 @@ use Filament\Actions\{EditAction,Action};
 class RegistrationCampaignResource extends Resource {
  protected static ?string $model=RegistrationCampaign::class;
  protected static ?string $modelLabel='Campagne de candidatures';
- protected static ?string $pluralModelLabel='Inscriptions et contrat boissons';
+ protected static ?string $pluralModelLabel='Candidats · vote et contreparties';
  protected static string|\UnitEnum|null $navigationGroup='3 · Mobiliser';
  protected static ?int $navigationSort=45;
  public static function form(Schema $schema): Schema {return $schema->columns(2)->components([
@@ -23,7 +23,7 @@ class RegistrationCampaignResource extends Resource {
    Textarea::make('billing_procedure')->label('Facturation conforme, traitement des bons et conservation des pièces'),Textarea::make('validation_evidence')->label('Validation juridique / fiscale et conditions d’éligibilité'),
    Placeholder::make('blockers')->label('Prérequis manquants')->content(fn(?RegistrationCampaign $record)=>$record?implode(' · ',$record->blockers()):'Enregistrer la campagne, puis examiner les prérequis.'),Toggle::make('is_open')->label('Ouvrir après validation')->helperText('Une modification contractuelle ferme la campagne. Enregistrer, relire puis ouvrir séparément.'),
   ]),
-  Section::make('Affecter les inscriptions au contrat boissons')->description('Suivi d’affectation interne ; ne verse pas d’argent au fournisseur. La confirmation Stripe ne garantit pas encore la disponibilité sur le compte bancaire. Les tickets déjà payés ne sont pas une seconde recette du bar.')->columnSpanFull()->columns(2)->schema([
+  Section::make('Affectation interne des préventes candidates')->description('Suivi d’affectation interne ; ne verse pas d’argent au fournisseur. La confirmation Stripe ne garantit pas encore la disponibilité sur le compte bancaire. Les tickets déjà payés ne sont pas une seconde recette du bar.')->columnSpanFull()->columns(2)->schema([
    TextInput::make('drinks_supplier')->label('Fournisseur')->maxLength(255),Textarea::make('drinks_contract_reference')->label('Contrat : référence, acompte, livraisons, reprises des fûts et mobilier'),
    TextInput::make('drinks_contract_cents')->label('Montant à financer (centimes TTC)')->integer()->minValue(0),TextInput::make('bank_available_cents')->label('Fonds inscriptions reçus en banque (centimes, après frais)')->integer()->minValue(0),
    Textarea::make('bank_evidence')->label('Référence du rapprochement bancaire des inscriptions'),TextInput::make('refund_reserve_cents')->label('Réserve de remboursements (centimes ; zéro explicite)')->integer()->minValue(0),

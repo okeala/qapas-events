@@ -13,6 +13,7 @@ class CupPlan extends Record {
   return ['cost_cents'=>$cost,'resale_cents'=>$revenue,'stock_margin_cents'=>$cost!==null&&$revenue!==null?$revenue-$cost:null,'issued'=>$this->allocations()->sum('issued_quantity'),'returned'=>$this->allocations()->sum('returned_quantity'),'available'=>$this->received_quantity-$this->allocations()->sum('issued_quantity')+$this->allocations()->sum('returned_quantity'),'quantity_aligned'=>$sale&&$sale->forecast_quantity===$this->quantity];
  }
  protected static function booted(): void {parent::booted();static::saving(function(self $p){
+  if($p->soup_bowl_owner==='chef_agreed'&&blank($p->soup_bowl_agreement))throw ValidationException::withMessages(['soup_bowl_agreement'=>'Documenter l’accord du chef ; aucun investissement n’est présumé gratuit pour QAPAS.']);
   Validator::make($p->getAttributes(),['quantity'=>'required|integer|between:1,1000000','village_pool'=>'required|integer|min:0','independent_pool'=>'required|integer|min:0','received_quantity'=>'required|integer|min:0|lte:quantity','suggested_deposit_cents'=>'required|integer|between:0,100000','capacity_ml'=>'required|integer|between:1,10000','hot_food_status'=>'in:unverified,confirmed,not_suitable'])->validate();
   if($p->quantity!=$p->village_pool+$p->independent_pool)throw ValidationException::withMessages(['quantity'=>'Les deux lots doivent totaliser le stock prévu.']);
   if($p->exists&&$p->isDirty('scenario_id'))throw ValidationException::withMessages(['scenario_id'=>'Conserver le scénario du stock.']);
