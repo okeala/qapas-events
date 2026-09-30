@@ -5,6 +5,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 class CommunityController {
  private function privateView($view,$data){return response()->view($view,$data)->header('Cache-Control','private, no-store')->header('X-Robots-Tag','noindex, nofollow')->header('Referrer-Policy','no-referrer');}
+ public function previewRally(EventProject $project){app(CatalogController::class)->authorizePreview();return $this->privateView('public.rally',['project'=>$project,'stops'=>RallyStop::where('event_project_id',$project->id)->orderBy('sort_order')->get(),'contest'=>DrawingContest::where('event_project_id',$project->id)->first(),'preview'=>true]);}
+ public function previewCommunity(EventProject $project){app(CatalogController::class)->authorizePreview();return $this->privateView('public.community',['project'=>$project,'award'=>\App\Models\CommunityAward::where('event_project_id',$project->id)->first(),'preview'=>true]);}
+ public function previewBlog(EventProject $project){app(CatalogController::class)->authorizePreview();return $this->privateView('public.blog',['project'=>$project,'posts'=>EditorialPost::where('event_project_id',$project->id)->get(),'preview'=>true]);}
+ public function previewArticle(EventProject $project,EditorialPost $post){app(CatalogController::class)->authorizePreview();abort_unless($post->event_project_id===$project->id,404);return $this->privateView('public.article',compact('project','post')+['preview'=>true]);}
  public function report(ReportPoint $point){abort_unless($point->is_active&&$point->eventProject?->is_public&&config('events.privacy_ready'),404);return $this->privateView('public.incident',compact('point'));}
  public function submitReport(Request $request,ReportPoint $point){
   abort_unless($point->is_active&&$point->eventProject?->is_public&&config('events.privacy_ready'),404);

@@ -40,7 +40,7 @@ Sources primaires consultées le 30 septembre 2026 :
 
 ## Variante de bar avec les cafés
 
-`Préparer → Partenariats bar` conserve le café, le créneau, le taux proposé, les ventes nouvelles prévues, les autres coûts et le lien vers une ligne budgétaire existante. L'estimation de commission est visible ; aucun accord ni coût n'est créé automatiquement dans le scénario retenu.
+`Chiffrer → Bar QAPAS · partenariat cafés` conserve le café, le créneau, le taux proposé, les ventes nouvelles prévues, les autres coûts et le lien vers une ligne budgétaire existante. L'estimation de commission est visible ; aucun accord ni coût n'est créé automatiquement dans le scénario retenu.
 
 Une variante viable garde stock, tarifs, caisse et supervision sous QAPAS, avec opérateurs nommés et mandat écrit. Le café distribue des billets via son portail existant et reçoit la commission prévue dans le billet. Le taux de simulation du partenariat n'est pas un deuxième moteur de commission : aligner le mandat et le plan de billetterie avant activation. Une rémunération de personnel distincte, si négociée, doit être budgétée séparément. La prestation de boissons déjà prépayées ne crée aucune commission supplémentaire.
 
@@ -94,4 +94,6 @@ npm run build
 php artisan serve --host=127.0.0.1 --port=8890
 ```
 
-Migration additive `000013`, seeder versionné et rejouable. Ne pas lancer `migrate:fresh` sur une base existante. Pas d'ouverture automatique des ventes, de publication ni d'envoi. Renseigner les dates confirmées, contrats, fiscalité, coût réel des boissons et validation sécurité avant activation ; maintenir `PROMOTION_EXTERNAL_ENABLED=false` pendant la préparation.
+Migration additive `000013`, seeder versionné et rejouable. Ne pas lancer `migrate:fresh` sur une base existante. Pas d'ouverture automatique des ventes, de publication ni d'envoi. Renseigner les dates confirmées, contrats, fiscalité, coût réel des boissons et validation sécurité avant activation ; maintenir `EVENTS_PROMOTION_EXTERNAL_ENABLED=false` pendant la préparation.
+
+Les nouvelles pages engagements, rallye et blog disposent aussi de prévisualisations privées, liées depuis la prévisualisation de l’édition ; elles exigent `APP_ENV=local` et un administrateur actif.

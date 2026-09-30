@@ -77,3 +77,8 @@ Route::get('/events/{project:slug}/blog',[\App\Http\Controllers\CommunityControl
 Route::get('/events/{project:slug}/blog/{post}',[\App\Http\Controllers\CommunityController::class,'article'])->name('blog.show');
 
 Route::get('/workspace/sponsors/{sponsorship}/plaque',[\App\Http\Controllers\CommunityController::class,'sponsorSheet'])->name('sponsor.sheet');
+
+Route::get('/workspace/preview/{project:slug}/rallye',[\App\Http\Controllers\CommunityController::class,'previewRally'])->name('rally.preview');
+Route::get('/workspace/preview/{project:slug}/engagements',[\App\Http\Controllers\CommunityController::class,'previewCommunity'])->name('community.preview');
+Route::get('/workspace/preview/{project:slug}/blog',[\App\Http\Controllers\CommunityController::class,'previewBlog'])->name('blog.preview');
+Route::get('/workspace/preview/{project:slug}/blog/{post}',[\App\Http\Controllers\CommunityController::class,'previewArticle'])->name('blog.article-preview');
