@@ -4,6 +4,8 @@ use App\Models\Scenario;
 final class LaunchReport {
  public function calculate(Scenario $s,array $base): array {
   $r=['missing'=>[],'stands'=>[],'site_cost_cents'=>0,'site_gross_cents'=>0,'verified_net_cents'=>0,'verified_gross_cents'=>0,'advance_due_cents'=>0,'prepaid_margin_cents'=>0,'prepaid_cash_cents'=>0,'launch_ready'=>false,'expansion_ready'=>false,'tent_estimate'=>null];
+  if($s->eventProject->prize_policy_version)$r['missing']=array_merge($r['missing'],app(\App\Domain\Awards\Forquilha::class)->report($s->eventProject,$s)['missing']);
+  $pack=\App\Models\WelcomePackPlan::where('event_project_id',$s->event_project_id)->first();if($pack){$wr=$pack->report();if(!$wr['cost_complete']||$pack->shirtCostLine?->scenario_id!==$s->id)$r['missing'][]='Welcome pack : effectifs, quantité budgétée, devis complet et IVA à valider dans ce scénario';foreach($wr['missing'] as $missing)$r['missing'][]='Welcome pack : '.$missing;}
   $costNet=$s->organizer_full_monthly_cents*$s->months;$costGross=$costNet;
   foreach($s->budgetLines as $l){
    $gross=($l->unit_gross_cents??0);$net=$l->vat_basis_points===null?($l->kind==='cost'?$gross:0):Money::net($gross,$l->vat_basis_points);

@@ -14,6 +14,7 @@ final class Readiness {
      || ($item->expires_at && $item->expires_at->lt($project->ends_at?->copy()->startOfDay() ?? today()))) $blockers[]=config('events.requirements.'.$code,$code);
   }
   if (!$project->starts_at || !$project->ends_at || $project->ends_at<=$project->starts_at || blank($project->venue) || $project->capacity<1) $blockers[]='Date, lieu et capacité à confirmer';
+  if($project->prize_policy_version&&in_array($action,['registration','sales','live'],true)){$award=app(\App\Domain\Awards\Forquilha::class)->report($project);if(!$award['secured'])$blockers=array_merge($blockers,$award['missing']);if($action==='live'&&!$award['production_ready'])$blockers[]='Forquilha de Ouro : conception, fabrication et peinture à réceptionner avant les Jeux';}
   if ($action==='sales') $blockers[]='Contrats versionnés, facturation et paiement à intégrer (v0.2)';
   if ($action==='live') {
    foreach(\App\Models\SiteInfrastructure::where('event_project_id',$project->id)->get() as $infrastructure)if(!$infrastructure->available())$blockers[]=$infrastructure->name.' : disponibilité et validation technique requises';

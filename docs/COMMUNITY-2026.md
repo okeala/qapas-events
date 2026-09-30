@@ -97,3 +97,5 @@ php artisan serve --host=127.0.0.1 --port=8890
 Migration additive `000013`, seeder versionné et rejouable. Ne pas lancer `migrate:fresh` sur une base existante. Pas d'ouverture automatique des ventes, de publication ni d'envoi. Renseigner les dates confirmées, contrats, fiscalité, coût réel des boissons et validation sécurité avant activation ; maintenir `EVENTS_PROMOTION_EXTERNAL_ENABLED=false` pendant la préparation.
 
 Les nouvelles pages engagements, rallye et blog disposent aussi de prévisualisations privées, liées depuis la prévisualisation de l’édition ; elles exigent `APP_ENV=local` et un administrateur actif.
+
+Voir [prix, trophée et welcome pack](RECOGNITION-SPONSORSHIP.md) : préfinancement, tailles, réserve et sponsoring.

@@ -6,6 +6,7 @@ class Idea extends Record {
  public function eventProject(){return $this->belongsTo(EventProject::class);}
  public function isValidated(array $seen=[]): bool {
   if(in_array($this->id,$seen)||$this->status!=='validated'||blank($this->owner)||blank($this->evidence))return false;$seen[]=$this->id;
+  if(in_array($this->template_key,['forquilha-prefund','forquilha-ready'],true)){$award=app(\App\Domain\Awards\Forquilha::class)->report($this->eventProject);if(!$award[$this->template_key==='forquilha-prefund'?'secured':'production_ready'])return false;}
   foreach($this->depends_on??[] as $id){$d=self::find($id);if(!$d||$d->event_project_id!==$this->event_project_id||!$d->isValidated($seen))return false;}return true;
  }
  protected static function booted(): void {parent::booted();static::saving(function(self $i){

@@ -165,3 +165,5 @@ Ne pas employer `migrate:fresh` sur vos données. Les migrations ajoutent les ta
 - Les six euros QAPAS sont avant IVA/frais/prestations, pas une marge de 60 %. Le rapport préventes ne double pas automatiquement les lignes budgétaires ; les crédits boissons des candidats non retenus restent dus. Aucun contrat boissons ne doit se fonder sur le brut collecté chez un relais.
 
 L’email est facultatif dans la prévente, y compris au relais pour les candidats : nom et numéro SMS suffisent. Sans email, la déduplication utilise une empreinte protégée du nom et du numéro ; aucun faux email n’est fabriqué. Les vérifications locales d’identité et du scrutin restent nécessaires. Un paiement candidat reçu après sa clôture est conservé en revue, sans validation ni SMS de confirmation, et peut être remboursé avec preuve.
+
+Voir [prix, trophée et welcome pack](docs/RECOGNITION-SPONSORSHIP.md) : préfinancement, tailles, réserve et sponsoring.
