@@ -4,6 +4,7 @@
  @if(session('received'))<div class="notice success" role="status">{{ __('events.received') }}</div>@endif
  <div class="event-grid four-ps">@foreach(['product','price','place','promotion'] as $pillar)<section class="event-card"><p class="eyebrow">0{{ $loop->iteration }}</p><h2>{{ __('events.'.$pillar) }}</h2><p>{{ app()->getLocale()==='pt' ? __('events.'.(['product'=>'official','price'=>'free','place'=>'election','promotion'=>'lead'][$pillar])) : $project->$pillar }}</p></section>@endforeach</div>
  @if($project->registrationCampaign)<section class="event-section event-card"><p>{{ __('registration.intro') }}</p><a class="text-link" href="{{ route('registration.show',['project'=>$project->slug]) }}">{{ __('registration.cta') }} →</a></section>@endif
+ @if($project->require_activity_trials)<section class="event-section event-card"><h2>{{ __('events.trials_title') }}</h2><p>{{ __('events.trials_body') }}</p></section>@endif
  <section class="event-section" id="expert-roles"><h2>{{ __('events.expert_roles_title') }}</h2><p>{{ __('events.expert_roles_intro') }}</p>
  <div class="event-grid">
  @foreach(\App\Domain\Teams\ExpertRoles::CODES as $roleCode)
@@ -18,6 +19,7 @@
  </article>@endforeach</div><p>{{ __('events.propose_activity') }} <a href="#interest">{{ __('events.interest') }} →</a></p></section>
  @if($launchScenario)<section class="event-section"><h2>{{ __('events.launch_format') }}</h2><p>{{ __('events.launch_rules') }}</p><p>{{ __('events.independent_contribution') }}</p><div class="event-grid">@foreach($milestones as $milestone)<article class="event-card"><p class="eyebrow">{{ $milestone->isValidated() ? __('events.milestone_done') : __('events.milestone_pending') }}</p><h3>{{ $milestone->public_label }}</h3></article>@endforeach</div></section>@endif
  <section class="event-section"><h2>{{ __('events.hospitality_title') }}</h2><div class="event-grid"><article class="event-card"><h3>{{ __('events.soup_title') }}</h3><p>{{ __('events.soup_body') }}</p></article><article class="event-card"><h3>{{ __('events.shelter_title') }}</h3><p>{{ __('events.shelter_body') }}</p></article><article class="event-card"><h3>{{ __('events.relay_meeting_title') }}</h3><p>{{ __('events.relay_meeting_body') }}</p></article></div><p>{{ __('events.food_rules') }}</p></section>
+ @if($project->require_activity_trials)<section class="event-section event-card"><h2>{{ __('events.cups_title') }}</h2><p>{{ __('events.cups_body') }}</p></section>@endif
  <section class="event-section"><h2>{{ __('events.relay_reveal_title') }}</h2><p>{{ __('events.relay_reveal_body',['count'=>$relayProgress['active_freguesias']]) }}</p></section>
  @if($press->isNotEmpty())<section class="event-section"><h2>{{ __('events.press') }}</h2>@foreach($press as $release)<p><a class="text-link" href="{{ route('press.show',['project'=>$project->slug,'press'=>$release->public_id]) }}">{{ app()->getLocale()==='pt'&&$release->title_pt?$release->title_pt:$release->name }}</a></p>@endforeach</section>@endif
  <x-geographic-plan :plan="$geoPlan" />

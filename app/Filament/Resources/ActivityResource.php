@@ -35,7 +35,7 @@ class ActivityResource extends Resource {
    TextInput::make('name')->label('Titre')->required()->maxLength(255),
    Select::make('track')->label('Parcours')->options(['official'=>'Compétition officielle','public'=>'Animation / essai public'])->required()->default('public'),
    Select::make('proposer_type')->label('Proposé par')->options(['organization'=>'Organisation','village'=>'Équipe de freguesia','independent'=>'Stand indépendant'])->required()->default('organization'),
-   TextInput::make('proposer_name')->label('Équipe / stand')->maxLength(255),
+   Select::make('stand_id')->label('Stand maintenu si le défi est retiré')->relationship('stand','name',fn($query,Get $get)=>$query->where('event_project_id',$get('event_project_id'))),TextInput::make('proposer_name')->label('Équipe / stand')->maxLength(255),
    TextInput::make('sort_order')->label('Ordre dans le programme')->integer()->minValue(1)->maxValue(1000)->default(100),
    Textarea::make('summary')->label('Accroche de la carte publique')->maxLength(1000)->columnSpanFull(),
    Textarea::make('original_concept')->label('Idée d’origine · interne')->maxLength(10000)->columnSpanFull(),
@@ -65,8 +65,8 @@ class ActivityResource extends Resource {
  ]);}
  public static function table(Table $table): Table {return $table->columns([
   TextColumn::make('sort_order')->label('Ordre')->sortable(),TextColumn::make('name')->label('Épreuve')->searchable()->wrap(),TextColumn::make('eventProject.name')->label('Édition'),TextColumn::make('track')->label('Parcours')->badge(),TextColumn::make('status')->label('État')->badge(),TextColumn::make('terrace.name')->label('Terrasse')->placeholder('À placer'),
-  TextColumn::make('material_total')->label('Matériel TTC')->getStateUsing(fn(Activity $record)=>\App\Domain\Finance\Money::format($record->costReport()['gross_cents']).($record->costReport()['complete']?'':' · incomplet')),
-  ])->defaultSort('sort_order')->recordActions([\Filament\Actions\Action::make('costing')->label('Chiffrer')->url(fn($record)=>static::getUrl('edit',['record'=>$record])),EditAction::make()->modalWidth('7xl')]);}
- public static function getRelations(): array {return [\App\Filament\RelationManagers\MaterialsRelationManager::class];}
+  TextColumn::make('preparation')->label('Essais')->getStateUsing(fn(Activity $record)=>$record->preparation()->label($record))->wrap(),TextColumn::make('material_total')->label('Matériel TTC')->getStateUsing(fn(Activity $record)=>\App\Domain\Finance\Money::format($record->costReport()['gross_cents']).($record->costReport()['complete']?'':' · incomplet')),
+  ])->defaultSort('sort_order')->recordActions([\Filament\Actions\Action::make('withdraw')->label('Maintenir uniquement le stand')->visible(fn($record)=>$record->proposer_type!=='organization'&&$record->participation_decision!=='stand_only')->schema([Textarea::make('reason')->label('Motif du retrait du défi')->required()->minLength(10)->maxLength(5000)])->action(fn($record,array $data)=>$record->preparation()->withdraw($record,$data['reason'])),\Filament\Actions\Action::make('costing')->label('Chiffrer')->url(fn($record)=>static::getUrl('edit',['record'=>$record])),EditAction::make()->modalWidth('7xl')]);}
+ public static function getRelations(): array {return [\App\Filament\RelationManagers\MaterialsRelationManager::class,\App\Filament\RelationManagers\ActivityTrialsRelationManager::class];}
  public static function getPages(): array {return ['index'=>\App\Filament\Resources\ActivityResource\Pages\ManageRecords::route('/'),'edit'=>\App\Filament\Resources\ActivityResource\Pages\EditRecord::route('/{record}/edit')];}
 }

@@ -5,6 +5,7 @@ final class ScenarioCalculator {
  public function calculate(Scenario $scenario): array {
   $result=['forecast_margin_cents'=>0,'secured_margin_cents'=>0,'paid_operating_gross_cents'=>0,'restricted_receipts_cents'=>0,'vat_reserve_cents'=>0,'missing'=>[]];
   $lines=$scenario->budgetLines;
+  if($lines->groupBy(fn($line)=>BudgetIdentity::key($line->getAttributes()))->contains(fn($group)=>$group->count()>1))$result['missing'][]='Doublons budgétaires à examiner dans ce scénario';
   if($scenario->is_archived)$result['missing'][]='Scénario archivé : ne peut pas débloquer le lancement';
   if (!$scenario->costs_complete) $result['missing'][]='Périmètre des coûts à confirmer';
   if (!$lines->contains('kind','cost') && $scenario->includedActivities->isEmpty() && $scenario->includedFeatures->isEmpty()) $result['missing'][]='Coûts d’exploitation absents';

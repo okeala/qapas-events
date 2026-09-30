@@ -19,7 +19,10 @@ final class Readiness {
    $activeScenarios=$project->scenarios->where('is_archived',false);$fundingScenarios=$activeScenarios->contains('launch_model',true)?$activeScenarios->where('launch_model',true):$activeScenarios;
    foreach($project->teams as $team)if($team->status!=='elected'||!$team->composition()['complete'])$blockers[]=$team->name.' : treize rôles experts et choix local à compléter';
    if (!$fundingScenarios->contains(fn($scenario)=>$scenario->launch_model?$scenario->report()['expansion_ready']:$scenario->report()['target_secured'])) $blockers[]='Aucun scénario ne couvre les coûts et l’objectif QAPAS par des engagements';
-   foreach($project->activities()->where('status','approved')->get() as $activity) {
+   $operational=$project->activities()->where('status','approved')->get()->filter(fn($a)=>$a->participation_decision!=='stand_only'&&($a->proposer_type==='organization'||$a->preparation()->ready($a)));
+   foreach($operational as $activity) {
+    if(!$activity->preparation()->ready($activity)&&$activity->proposer_type==='organization')$blockers[]=$activity->name.' : répétition officielle à valider';
+    if($activity->proposer_type!=='organization'&&!$activity->preparation()->ready($activity))continue;
     $locations=$activity->locations()->with('siteFeature')->get();$performances=$locations->where('role','performance');$spectators=$locations->where('role','spectator');
     $geoZones=$performances->isNotEmpty()&&$spectators->isNotEmpty()&&$performances->every(fn($l)=>$l->siteFeature->category==='quartel'&&$l->siteFeature->access!=='public')&&$spectators->every(fn($l)=>$l->siteFeature->access==='public'&&!$performances->contains('site_feature_id',$l->site_feature_id));
     if($performances->contains(fn($l)=>$l->geometry!==null)||$spectators->contains(fn($l)=>$l->geometry!==null)){
@@ -31,9 +34,9 @@ final class Readiness {
     if($activity->broadcast_planned&&blank($activity->media_plan)) $blockers[]=$activity->name.' : dispositif de captation à préparer';
    }
    if (!$project->runItems()->exists()) $blockers[]='Conducteur et responsables absents';
-   if (!$project->activities()->where('track','official')->where('status','approved')->exists()) $blockers[]='Programme officiel non validé';
-   if (!$project->activities()->where('track','public')->where('status','approved')->exists()) $blockers[]='Créneaux grand public non validés';
-   if ($project->activities()->where('status','approved')->where(function($q){$q->where('risk_reviewed',false)->orWhereNull('risk_evidence')->orWhereNull('referee')->orWhere('capacity',0);})->exists()) $blockers[]='Activité validée sans sécurité, capacité ou responsable';
+   if (!$operational->contains('track','official')) $blockers[]='Programme officiel non validé';
+   if (!$operational->contains('track','public')) $blockers[]='Créneaux grand public non validés';
+   if ($operational->contains(fn($a)=>!$a->risk_reviewed||blank($a->risk_evidence)||blank($a->referee)||$a->capacity<1)) $blockers[]='Activité validée sans sécurité, capacité ou responsable';
   }
   return $blockers;
  }

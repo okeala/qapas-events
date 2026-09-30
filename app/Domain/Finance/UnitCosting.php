@@ -9,7 +9,7 @@ final class UnitCosting {
    if($line->forecast_quantity===0)continue;
    if(!in_array($line->kind,['cost','revenue'],true))continue;
    $key=$line->stand_id?'stand-'.$line->stand_id:$line->scope;
-   if(!isset($groups[$key]))$groups[$key]=['name'=>$line->stand?->name??(['common'=>'Frais communs','bar'=>'Boissons et vin chaud','soup'=>'Soupe au chou','structural'=>'Partenariats généraux','fries'=>'Friterie historique'][$line->scope]??$line->scope),'stand'=>$line->stand,'cost'=>0,'revenue'=>0,'gross_revenue'=>0,'uncertain'=>false];
+   if(!isset($groups[$key]))$groups[$key]=['name'=>$line->stand?->name??(['common'=>'Frais communs','bar'=>'Boissons et vin chaud','cups'=>'Gobelets et circuit réutilisable','soup'=>'Soupe au chou','structural'=>'Partenariats généraux','fries'=>'Friterie historique'][$line->scope]??$line->scope),'stand'=>$line->stand,'cost'=>0,'revenue'=>0,'gross_revenue'=>0,'uncertain'=>false];
    $amount=Pricing::forecast($line,$line->forecast_quantity);$gross=($line->unit_gross_cents??0)*$line->forecast_quantity;
    if($line->unit_gross_cents===null)$missingPrices[]=$line->name;
    if($amount===null||Pricing::pending($line)||$line->vat_basis_points===null)$groups[$key]['uncertain']=true;

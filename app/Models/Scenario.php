@@ -5,7 +5,7 @@ class Scenario extends Record {
 protected function casts(): array {return ['is_archived'=>'boolean','furniture_paid_by_participant'=>'boolean','costs_complete'=>'boolean','launch_model'=>'boolean'];}
  public function eventProject() {return $this->belongsTo(EventProject::class);}
  public function includedActivities(){return $this->belongsToMany(Activity::class);}
- public function budgetLines() {return $this->hasMany(BudgetLine::class);}
+ public function budgetLines() {return $this->hasMany(BudgetLine::class)->whereNull('superseded_by_id');}
  public function includedStands(){return $this->belongsToMany(Stand::class);}
  public function includedFeatures(){return $this->belongsToMany(SiteFeature::class,'scenario_site_feature');}
  public function programSlots(){return $this->hasMany(ProgramSlot::class);}

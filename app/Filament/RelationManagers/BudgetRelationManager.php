@@ -26,7 +26,7 @@ abstract class BudgetRelationManager extends RelationManager {
   return $schema->columns(2)->components([
    Select::make('scenario_id')->label('Scénario de cette unité')->options(fn()=>$this->scenarios()->pluck('name','id'))->default(fn()=>$this->getTableFilterState('scenario_id')['value']??$this->defaultScenario())->required()->live()->disabledOn('edit')->visible($stand),
    TextInput::make('name')->label('Poste')->required()->maxLength(255),
-   Select::make('scope')->label('Périmètre')->options(['common'=>'Commun','stand'=>'Unité stand','bar'=>'Boissons','soup'=>'Soupe','structural'=>'Partenariat général'])->required()->default('common')->live()->visible(!$stand),
+   Select::make('scope')->label('Périmètre')->options(['common'=>'Commun','stand'=>'Unité stand','bar'=>'Boissons','soup'=>'Soupe','structural'=>'Partenariat général','cups'=>'Gobelets réutilisables'])->required()->default('common')->live()->visible(!$stand),
    Select::make('stand_id')->label('Stand du scénario')->options(fn()=>$this->getOwnerRecord() instanceof Scenario?$this->getOwnerRecord()->includedStands()->pluck('name','stands.id'):[])->visible(fn(Get $get)=>!$stand&&$get('scope')==='stand')->required(fn(Get $get)=>!$stand&&$get('scope')==='stand')->live(),
    Select::make('stand_partner_id')->label('Parrain / relais payeur')->options(fn(Get $get)=>\App\Models\StandPartner::where('stand_id',$stand?$this->getOwnerRecord()->id:$get('stand_id'))->pluck('name','id'))->nullable(),
    ...BudgetLineResource::financialFields(),
@@ -57,6 +57,6 @@ abstract class BudgetRelationManager extends RelationManager {
     TextColumn::make('price_source')->label('Source / limites')->wrap()->toggleable(isToggledHiddenByDefault:true),
    ])->filters($stand?[SelectFilter::make('scenario_id')->label('Scénario — un seul à la fois')->options(fn()=>$this->scenarios()->pluck('name','id'))->default(fn()=>$this->defaultScenario())->query(fn(Builder $query,array $data)=>$query->where('scenario_id',$data['value']??0))]:[])
    ->headerActions([CreateAction::make()->label(static::$nature==='cost'?'Ajouter un coût':'Ajouter une recette')->mutateDataUsing(fn(array $data)=>$this->contextualData($data))])
-   ->recordActions([EditAction::make()->mutateDataUsing(fn(array $data,BudgetLine $record)=>$this->contextualData($data,$record))])->defaultSort('id');
+   ->groups(BudgetLineResource::groups())->defaultGroup($stand?'pricing_status':'scope')->recordActions([\App\Filament\Resources\CostConsultationResource::requestAction(),EditAction::make()->mutateDataUsing(fn(array $data,BudgetLine $record)=>$this->contextualData($data,$record))])->defaultSort('id');
  }
 }

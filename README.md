@@ -132,3 +132,5 @@ Le scénario actuel, le chiffrage du mobilier Douglas, les relais et leur seuil 
 ## Chiffrage par unité
 
 Le menu **Chiffrer → Chiffrage par unité** compare les stands, services et épreuves d’un scénario. Les fiches **Chiffrer** ouvrent les tableaux liés Coûts/Recettes ou Matériel. La simulation privée de deux jours contient les premières provisions, sans engagement ni paiement. Voir [hypothèses, calculs et sources](docs/UNIT-COSTING.md). Après mise à jour : `php artisan migrate --seed`, puis rebuild des assets.
+
+Les répétitions, demandes de devis, allocations de gobelets et regroupements budgétaires sont décrits dans [le guide opérationnel](docs/REHEARSALS-PROCUREMENT-CUPS.md).

@@ -17,5 +17,5 @@ class MaterialsRelationManager extends \Filament\Resources\RelationManagers\Rela
   TextColumn::make('cost')->label('Coût retenu')->getStateUsing(fn(ActivityMaterial $record)=>filled($record->shared_cost_key)?'Budget commun : '.$record->shared_cost_key:($record->quantity===null?'À chiffrer':(($value=Pricing::forecast($record,$record->quantity*($record->basis==='per_run'?$this->getOwnerRecord()->planned_runs:1)))===null?'À chiffrer':Money::format($value)))),
   TextColumn::make('pricing_status')->label('Fiabilité')->formatStateUsing(fn($state)=>Pricing::STATUSES[$state]??$state)->badge(),
   TextColumn::make('price_source')->label('Source / limites')->wrap()->toggleable(isToggledHiddenByDefault:true),
-  ])->headerActions([CreateAction::make()])->recordActions([EditAction::make()])->defaultSort('id');}
+  ])->headerActions([CreateAction::make()])->recordActions([\App\Filament\Resources\CostConsultationResource::requestAction(),EditAction::make()])->defaultSort('id');}
 }

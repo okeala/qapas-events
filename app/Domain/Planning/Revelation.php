@@ -3,7 +3,7 @@ namespace App\Domain\Planning;
 use App\Models\Activity;
 final class Revelation {
  public function confirmable(Activity $a): bool {
-  if($a->status!=='approved'||!$a->risk_reviewed||blank($a->risk_evidence)||!$a->fundingScenario||!$a->fundingScenario->launch_model)return false;
+  if(!$a->preparation()->ready($a)||$a->status!=='approved'||!$a->risk_reviewed||blank($a->risk_evidence)||!$a->fundingScenario||!$a->fundingScenario->launch_model)return false;
   if(!$a->fundingScenario->includedActivities()->where('activities.id',$a->id)->exists())return false;
   return $a->fundingScenario->report()['expansion_ready']&&app(Readiness::class)->blockers($a->eventProject,'live')===[];
  }

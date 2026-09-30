@@ -27,3 +27,5 @@ Route::get('/events/{project:slug}/epreuves/{activity}',[\App\Http\Controllers\A
 Route::get('/plans/{project}/image',[\App\Http\Controllers\ActivityController::class,'image'])->name('plan.image');
 Route::get('/workspace/plans/{project}/image',[\App\Http\Controllers\ActivityController::class,'privateImage'])->name('plan.private-image');
 Route::get('/events/{project:slug}/presse/{press}',[\App\Http\Controllers\PressController::class,'show'])->name('press.show');
+
+Route::get('/workspace/consultations/{consultation}/email/{locale}',[\App\Http\Controllers\ConsultationController::class,'email'])->name('consultation.email');
