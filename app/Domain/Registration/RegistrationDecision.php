@@ -12,7 +12,7 @@ final class RegistrationDecision {
    $selected=TeamRoleAssignment::where('interest_id',$r->interest_id)->where('status','confirmed')->whereHas('team',fn($q)=>$q->where('status','elected')->whereNotNull('election_minutes'))->exists();
    if(($decision==='selected')!==$selected)throw ValidationException::withMessages(['decision'=>'Le résultat doit correspondre aux rôles confirmés dans une équipe dont le vote est consigné.']);
    $r->update(['decision'=>$decision,'vote_evidence'=>$evidence,'decision_at'=>now(),'decision_by'=>auth('admin')->id()]);
-   if($decision==='not_selected')DrinkCredit::firstOrCreate(['candidate_registration_id'=>$r->id],['face_cents'=>$r->credit_cents]);
+   if($decision==='not_selected'&&$r->credit_cents>0)DrinkCredit::firstOrCreate(['candidate_registration_id'=>$r->id],['face_cents'=>$r->credit_cents]);
   },3);
  }
  public function redeem(DrinkCredit $credit,int $cents,string $description,string $operationId): void {

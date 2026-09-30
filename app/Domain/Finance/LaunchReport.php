@@ -11,7 +11,7 @@ final class LaunchReport {
    if($l->kind==='revenue'&&!in_array($l->scope,['bar','fries','soup'],true)&&$l->verified()){$r['verified_net_cents']+=$net*$l->paid_quantity;$r['verified_gross_cents']+=$gross*$l->paid_quantity;}
    if($l->stand_id&&!$s->includedStands->contains('id',$l->stand_id))$r['missing'][]='Ligne rattachée à un stand absent du scénario : '.$l->name;
   }
-  foreach($s->includedActivities as $a){foreach($a->materials->whereNotNull('shared_cost_key') as $material)if(!$s->budgetLines->contains(fn($line)=>$line->costing_key===$material->shared_cost_key&&$line->kind==='cost'&&$line->forecast_quantity>0))$r['missing'][]=$a->name.' : coût mutualisé absent du scénario ('.$material->shared_cost_key.')';$c=$a->costReport();$costNet+=$c['economic_cents'];$costGross+=$c['gross_cents'];}
+  foreach($s->includedActivities as $a){if($a->track==='official'&&$a->sponsorships()->exists()&&!$a->sponsorships()->get()->contains(fn($sponsor)=>$sponsor->agreed()))$r['missing'][]=$a->name.' : sponsor d’épreuve à contractualiser';foreach($a->materials->whereNotNull('shared_cost_key') as $material)if(!$s->budgetLines->contains(fn($line)=>$line->costing_key===$material->shared_cost_key&&$line->kind==='cost'&&$line->forecast_quantity>0))$r['missing'][]=$a->name.' : coût mutualisé absent du scénario ('.$material->shared_cost_key.')';$c=$a->costReport();$costNet+=$c['economic_cents'];$costGross+=$c['gross_cents'];}
   foreach($s->includedFeatures as $f){
    if($f->event_project_id!==$s->event_project_id){$r['missing'][]='Équipement hors édition';continue;}
    if(!$f->needs_complete)$r['missing'][]=$f->name.' : besoins à confirmer';

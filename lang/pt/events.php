@@ -11,7 +11,7 @@ return [
 'price'=>'Participar, expor, apoiar',
 'place'=>'Encontrar e organizar',
 'promotion'=>'Trazer a sua freguesia',
-'free'=>'Entrada prevista gratuita para o público. Não é necessário comprar para experimentar uma atividade.',
+'free'=>'O bilhete comum inclui entrada e vantagens anunciadas antes da compra, para visitantes e candidatos. Pré-vendas e abertura por confirmar.',
 'official'=>'As equipas disputam as provas oficiais em horários reservados. O público tem sessões separadas, dentro das capacidades anunciadas.',
 'election'=>'As candidaturas são voluntárias. Os habitantes escolhem a equipa através de boletim local, na junta ou noutro local acordado. O regulamento e o calendário serão anunciados antes da votação.',
 'offers'=>'O que propomos construir',

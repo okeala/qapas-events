@@ -6,6 +6,7 @@ use Illuminate\Validation\ValidationException;
 class Activity extends Record {
  protected $attributes=['proposer_type'=>'organization','track'=>'public','capacity'=>0,'risk_reviewed'=>false,'status'=>'idea','risk_category'=>'manual','access'=>'team','is_public'=>false,'broadcast_planned'=>false,'materials_complete'=>false,'planned_runs'=>1,'sort_order'=>100,'publication_level'=>'details'];
  protected function casts(): array {return ['relay_reveal'=>'boolean','risk_reviewed'=>'boolean','is_public'=>'boolean','broadcast_planned'=>'boolean','materials_complete'=>'boolean','map_x'=>'float','map_y'=>'float'];}
+ public function sponsorships(){return $this->hasMany(Sponsorship::class);}
  public function stand(){return $this->belongsTo(Stand::class);}
  public function trials(){return $this->hasMany(ActivityTrial::class);}
  public function preparation(){return app(\App\Domain\Planning\ActivityPreparation::class);}

@@ -11,7 +11,7 @@ return [
 'price'=>'Participer, exposer, soutenir',
 'place'=>'Se retrouver et s’organiser',
 'promotion'=>'Faire venir son village',
-'free'=>'Entrée grand public prévue gratuite. Aucun achat requis pour essayer une activité.',
+'free'=>'Le ticket commun comprend l’entrée et les avantages annoncés avant achat, pour visiteurs et candidats. Préventes et ouverture à confirmer.',
 'official'=>'Les équipes disputent les épreuves officielles sur des créneaux réservés. Le public dispose de séances distinctes, selon les capacités annoncées.',
 'election'=>'Les candidats sont volontaires. Les habitants choisissent leur équipe par bulletin local, à la junta ou dans un autre lieu accepté. Le protocole et le calendrier seront annoncés avant le vote.',
 'offers'=>'Ce que nous proposons de construire',

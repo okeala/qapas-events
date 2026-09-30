@@ -1,0 +1,1 @@
+<div class="space-y-4"><h3>{{ $dispatch->payload['subject'] }}</h3><p class="whitespace-pre-line">{{ $dispatch->payload['body'] }}</p><h4>Facebook / X · noms et lien inclus</h4><p class="whitespace-pre-line">{{ $dispatch->payload['social'] }}</p><p>Version {{ $dispatch->version }} · {{ $dispatch->status }}</p></div>

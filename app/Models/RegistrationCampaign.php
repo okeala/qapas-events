@@ -3,7 +3,7 @@ namespace App\Models;
 use Illuminate\Validation\ValidationException;
 class RegistrationCampaign extends Record {
  protected $attributes=['is_open'=>false,'drinks_allocated_cents'=>0];
- protected function casts(): array {return ['is_open'=>'boolean','closes_at'=>'datetime','reviewed_at'=>'datetime','vote_closed_at'=>'datetime'];}
+ protected function casts(): array {return ['unified_ticket_terms'=>'boolean','is_open'=>'boolean','closes_at'=>'datetime','reviewed_at'=>'datetime','vote_closed_at'=>'datetime'];}
  public function eventProject(){return $this->belongsTo(EventProject::class);}
  public function registrations(){return $this->hasMany(CandidateRegistration::class);}
  public function blockers(): array {return app(\App\Domain\Registration\RegistrationGate::class)->blockers($this);}
@@ -11,7 +11,7 @@ class RegistrationCampaign extends Record {
  protected static function booted(): void {parent::booted();static::saving(function(self $c){
   \Illuminate\Support\Facades\Validator::make($c->getAttributes(),['bank_available_cents'=>'nullable|integer|between:0,100000000','vat_basis_points'=>'nullable|integer|between:0,10000','terms_version'=>'required|string|max:100','drinks_contract_cents'=>'nullable|integer|min:0|max:100000000','drinks_allocated_cents'=>'integer|min:0|max:100000000','refund_reserve_cents'=>'nullable|integer|min:0|max:100000000'])->validate();
   if($c->exists&&$c->isDirty('event_project_id'))throw ValidationException::withMessages(['event_project_id'=>'Campagne liée à son édition.']);
-  if($c->exists&&$c->isDirty(['terms_version','terms_fr','terms_pt','refund_policy_fr','refund_policy_pt','vat_basis_points','stripe_tax_rate_id','billing_procedure','closes_at','validation_evidence'])){
+  if($c->exists&&$c->isDirty(['unified_ticket_terms','terms_version','terms_fr','terms_pt','refund_policy_fr','refund_policy_pt','vat_basis_points','stripe_tax_rate_id','billing_procedure','closes_at','validation_evidence'])){
    if($c->registrations()->exists()&&!$c->isDirty('terms_version'))throw ValidationException::withMessages(['terms_version'=>'Changer de version lorsque les conditions évoluent ; les inscriptions conservent leur texte accepté.']);
    $c->is_open=false;$c->reviewed_at=null;$c->reviewed_by=null;
   }

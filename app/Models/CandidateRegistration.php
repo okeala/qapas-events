@@ -7,5 +7,5 @@ class CandidateRegistration extends Record {
  public function campaign(){return $this->belongsTo(RegistrationCampaign::class,'registration_campaign_id');}
  public function interest(){return $this->belongsTo(Interest::class);}
  public function drinkCredit(){return $this->hasOne(DrinkCredit::class);}
- public function isPaid(): bool {return $this->is_live===(bool)config('registration.live')&&$this->payment_status==='paid'&&$this->paid_at!==null&&$this->amount_cents===1000&&$this->currency==='eur'&&$this->refunded_cents===0;}
+ public function isPaid(): bool {return $this->is_live===(bool)config('registration.live')&&$this->payment_status==='paid'&&$this->paid_at!==null&&($this->amount_cents===1000||($this->amount_cents>1000&&$this->credit_cents===0&&$this->ticket?->includes_admission))&&$this->currency==='eur'&&$this->refunded_cents===0;}
 }

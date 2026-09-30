@@ -1,5 +1,7 @@
 # Os Jogos do Agricultor — QAPAS Events
 
+> Version active : [tickets-avantages, prospection, sponsoring, plantations et communication par phase](docs/ADVANTAGES-MOBILIZATION.md). Les paragraphes historiques ci-dessous sur soutien facultatif / entrée gratuite et contrepartie candidat distincte restent applicables aux anciens contrats seulement.
+
 **Version du 30 septembre 2026 :** mobilier à la charge des participants (location privilégiée), treize rôles experts par équipe, candidature de 10 € TTC et tickets boissons pour les non-retenus. Paiement Stripe livré **désactivé**, avec ouverture conditionnée et suivi du financement du contrat boissons. Voir [le fonctionnement et l’activation](docs/EXPERT-REGISTRATION.md). Le scénario actif est `costing-rental-experts-v1` ; les chiffrages Douglas ci-dessous relèvent de l’historique.
 
 

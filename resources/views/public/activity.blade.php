@@ -10,4 +10,4 @@
  <x-event-plan :plan="$plan" />
  <section class="event-section"><h2>{{ __('events.join_activity') }}</h2><p>{{ __('events.propose_activity') }}</p><a class="qapas-button" href="{{ route(($preview??false)?'event.preview':'event.show',['project'=>$project->slug]) }}#interest">{{ __('events.interest') }} →</a></section>
  </div>
-</x-layout>
+<x-event-sponsors :project="$project" :activity="$activity" /></x-layout>

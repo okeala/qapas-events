@@ -4,6 +4,7 @@
   <p>Une demande ne vaut ni vente ni encaissement. Comparez les formats, documentez les coûts, puis engagez le palier adapté.</p>
   <p>Les montants du simulateur sont saisis manuellement, en centimes TTC. Ils ne constituent pas une comptabilité ni un rapprochement bancaire.</p>
  </x-filament::section>
+ <x-filament::section heading="Relances prospects · prochaines actions"><div class="overflow-x-auto"><table class="w-full"><thead><tr><th>Date Lisbonne</th><th>Município</th><th>Prospect / contact</th><th>Action</th></tr></thead><tbody>@forelse($this->followups() as $prospect)<tr><td>{{ $prospect->followup_at->timezone('Europe/Lisbon')->format('d/m/Y H:i') }} {{ $prospect->followup_at->isPast()?'· À relancer':'' }}</td><td>{{ $prospect->municipality }}</td><td><a href="{{ \App\Filament\Resources\ProspectResource::getUrl('index',['tableSearch'=>$prospect->name]) }}">{{ $prospect->name }}</a> · {{ $prospect->contact_name }} {{ $prospect->phone }}</td><td>{{ $prospect->next_action }}</td></tr>@empty<tr><td colspan="4">Aucune relance planifiée. Une visite permet de programmer la prochaine action.</td></tr>@endforelse</tbody></table></div></x-filament::section>
  @forelse($this->projects() as $project)
  <x-filament::section :heading="$project->name">
   <p>{{ $project->phase }} · {{ $project->interests_count }} demandes · {{ $project->teams_count }} équipes en préparation</p>

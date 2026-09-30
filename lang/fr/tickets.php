@@ -1,6 +1,6 @@
 <?php
 return [
-'presale'=>'Prévente officielle',
+'previous_presale'=>'Prévente officielle',
 'closed'=>'Préventes fermées : conditions et ouverture à confirmer. Aucun encaissement autorisé ici.',
 'support'=>'Soutien facultatif. L’entrée grand public reste prévue gratuite. Ce soutien n’est ni un repas, ni un crédit boissons, ni un droit publicitaire.',
 'admission'=>'Billet d’entrée : les droits et modalités applicables sont détaillés ci-dessous.',
@@ -67,4 +67,14 @@ return [
 'state_review'=>'À vérifier',
 'state_refunded'=>'Remboursé',
 'state_cancelled'=>'Annulé',
+'presale'=>'Tickets-avantages en prévente',
+'unified_notice'=>'Visiteur ou candidat : une même entrée, un même prix et les mêmes avantages garantis. La candidature aux rôles experts est facultative et reste soumise au vote local. Aucun supplément de candidature ni bonus lié au résultat du vote.',
+'benefits'=>'Avantages garantis de ce billet',
+'entry_included'=>'Entrée comprise selon les dates et conditions du billet. Chaque avantage est contrôlé séparément ; le paiement ne garantit pas une place dans une équipe.',
+'phase_early'=>'Prévente / early bird',
+'phase_standard'=>'Tarif et avantages ordinaires',
+'until'=>'Fin de la prévente :',
+'full_price'=>'Prix plein ensuite',
+'relay_change'=>'Commission relais réduite à partir du',
+'benefit_used'=>'Remise de l’avantage enregistrée.',
 ];

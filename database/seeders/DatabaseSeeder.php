@@ -5,7 +5,7 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder {
  public function run(): void {
   // Never overwrite an edition that has already been worked on.
-  if(EventProject::whereIn('slug',['forqua-de-ouro','os-jogos-do-agricultor'])->exists()) {$this->call(OfficialActivitiesSeeder::class);$this->call(LaunchModelSeeder::class);$this->call(HospitalityOperationsSeeder::class);$this->call(CostingSeeder::class);$this->call(ParticipantFurnitureAndRolesSeeder::class);$this->call(RegistrationCampaignSeeder::class);$this->call(RehearsalProcurementSeeder::class);$this->call(OutreachPresalesSeeder::class);return;}
+  if(EventProject::whereIn('slug',['forqua-de-ouro','os-jogos-do-agricultor'])->exists()) {$this->call(OfficialActivitiesSeeder::class);$this->call(LaunchModelSeeder::class);$this->call(HospitalityOperationsSeeder::class);$this->call(CostingSeeder::class);$this->call(ParticipantFurnitureAndRolesSeeder::class);$this->call(RegistrationCampaignSeeder::class);$this->call(RehearsalProcurementSeeder::class);$this->call(OutreachPresalesSeeder::class);$this->call(AdvantagesMobilizationSeeder::class);return;}
   $p=EventProject::create([
    'name'=>'Os Jogos do Agricultor','slug'=>'os-jogos-do-agricultor','phase'=>'concept','is_public'=>app()->environment('local','testing'),
    'product'=>'Une fête autour des freguesias, de défis accessibles et des savoir-faire agricoles. Les équipes de volontaires représentent leur village ; les habitants viennent les soutenir. Des temps distincts sont réservés aux essais du grand public.',
@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder {
   foreach ($offers as [$name,$kind,$price,$capacity,$includes,$excludes]) $p->offers()->create(['name'=>$name,'kind'=>$kind,'price_gross_cents'=>$price,'capacity'=>$capacity,'includes'=>$includes,'excludes'=>$excludes,'delivery'=>'Proposition à consolider avant ouverture des ventes.','is_public'=>true]);
   $this->call(OfficialActivitiesSeeder::class);
   $p->ideas()->create(['name'=>'Mobiliser une première équipe avant de louer plus grand','pillar'=>'promotion','hypothesis'=>'La fierté de la freguesia peut entraîner des soutiens au-delà des joueurs.','experiment'=>'Rencontrer des volontaires, recueillir les intentions et chiffrer le plus petit format viable.']);
-  $this->call(LaunchModelSeeder::class);$this->call(HospitalityOperationsSeeder::class);$this->call(CostingSeeder::class);$this->call(ParticipantFurnitureAndRolesSeeder::class);$this->call(RegistrationCampaignSeeder::class);$this->call(RehearsalProcurementSeeder::class);$this->call(OutreachPresalesSeeder::class);
+  $this->call(LaunchModelSeeder::class);$this->call(HospitalityOperationsSeeder::class);$this->call(CostingSeeder::class);$this->call(ParticipantFurnitureAndRolesSeeder::class);$this->call(RegistrationCampaignSeeder::class);$this->call(RehearsalProcurementSeeder::class);$this->call(OutreachPresalesSeeder::class);$this->call(AdvantagesMobilizationSeeder::class);
  }
 }

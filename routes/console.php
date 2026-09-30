@@ -21,3 +21,6 @@ Schedule::command('events:prune-interests')->dailyAt('03:00');
 
 \Illuminate\Support\Facades\Artisan::command('events:ticket-sms',function(){ $count=app(\App\Domain\Tickets\TicketSms::class)->dispatch();$this->info($count.' SMS acceptés par le prestataire. Voir les états de livraison.');});
 \Illuminate\Support\Facades\Schedule::command('events:ticket-sms')->everyMinute()->withoutOverlapping();
+
+Artisan::command('events:promotion',function(){ $count=app(\App\Domain\Promotion\PromotionPipeline::class)->tick();$this->info($count.' diffusions traitées ; consulter les références et blocages.');});
+Schedule::command('events:promotion')->everyMinute()->withoutOverlapping();

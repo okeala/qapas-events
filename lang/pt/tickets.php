@@ -1,6 +1,6 @@
 <?php
 return [
-'presale'=>'Pré-venda oficial',
+'previous_presale'=>'Pré-venda oficial',
 'closed'=>'Pré-venda fechada: condições e abertura por confirmar. Não é autorizado qualquer recebimento aqui.',
 'support'=>'Apoio facultativo. A entrada do público continua prevista como gratuita. Este apoio não inclui refeição, vales de bebidas nem direitos publicitários.',
 'admission'=>'Bilhete de entrada: direitos e condições descritos abaixo.',
@@ -67,4 +67,14 @@ return [
 'state_review'=>'Em verificação',
 'state_refunded'=>'Reembolsado',
 'state_cancelled'=>'Anulado',
+'presale'=>'Bilhetes com vantagens em pré-venda',
+'unified_notice'=>'Visitante ou candidato: a mesma entrada, o mesmo preço e as mesmas vantagens garantidas. A candidatura aos papéis da equipa é opcional e depende do voto local. Sem taxa adicional nem vantagem dependente do resultado.',
+'benefits'=>'Vantagens garantidas deste bilhete',
+'entry_included'=>'Entrada incluída nas datas e condições do bilhete. Cada vantagem é controlada separadamente; o pagamento não garante seleção na equipa.',
+'phase_early'=>'Pré-venda / early bird',
+'phase_standard'=>'Preço e vantagens normais',
+'until'=>'Fim da pré-venda:',
+'full_price'=>'Preço normal depois',
+'relay_change'=>'Comissão do distribuidor reduzida a partir de',
+'benefit_used'=>'Entrega da vantagem registada.',
 ];

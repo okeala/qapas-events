@@ -54,3 +54,11 @@ Route::get('/workspace/billets/{ticket}',[\App\Http\Controllers\TicketController
 Route::post('/workspace/billets/{ticket}/controler',[\App\Http\Controllers\TicketController::class,'redeem'])->middleware('throttle:30,1')->name('ticket.redeem');
 
 Route::get('/workspace/tournees/{visit}/courriers',[\App\Http\Controllers\OutreachController::class,'letter'])->name('outreach.letter');
+
+Route::post('/workspace/billets/{ticket}/avantages',[\App\Http\Controllers\TicketController::class,'benefit'])->middleware('throttle:30,1')->name('ticket.benefit');
+
+Route::get('/events/{project:slug}/plantation',[\App\Http\Controllers\PlantingController::class,'show'])->name('planting.show');
+Route::post('/billets/{ticket}/plantation',[\App\Http\Controllers\PlantingController::class,'reserve'])->middleware(['signed','throttle:10,1'])->name('planting.reserve');
+Route::post('/billets/{ticket}/arbres/{slot}/retirer-nom',[\App\Http\Controllers\PlantingController::class,'unlist'])->middleware(['signed','throttle:10,1'])->name('planting.unlist');
+
+Route::get('/workspace/campagne/{poster}',function(string $poster){abort_unless(auth('admin')->user()?->is_active,403);abort_unless(in_array($poster,['01-teaser','02-candidatures','03-programme'],true),404);return response()->file(resource_path('campaign/'.$poster.'.webp'),['Content-Type'=>'image/webp','Cache-Control'=>'private, no-store','X-Robots-Tag'=>'noindex, nofollow']);})->name('campaign.poster');

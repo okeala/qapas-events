@@ -1,5 +1,7 @@
 # Produit et trajectoire
 
+> Version active : [tickets-avantages, prospection, sponsoring, plantations et communication par phase](ADVANTAGES-MOBILIZATION.md). Les paragraphes historiques ci-dessous sur soutien facultatif / entrée gratuite et contrepartie candidat distincte restent applicables aux anciens contrats seulement.
+
 > Évolution du 30 septembre 2026 : [équipes expertes, locations, candidatures payantes et contrat boissons](EXPERT-REGISTRATION.md). Cette évolution remplace la fabrication Douglas et introduit un paiement de candidature distinct des ventes de stands, toujours fermées.
 
 
