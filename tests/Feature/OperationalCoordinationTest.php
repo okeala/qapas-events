@@ -116,7 +116,7 @@ class OperationalCoordinationTest extends TestCase
         $this->assertStringContainsString('Real team : rôles indispensables', $blockers);
     }
 
-    public function test_accessible_proposal_matches_current_seed_baseline_without_applying_prices(): void
+    public function test_withdrawn_proposal_no_longer_counts_twelve_local_sponsors(): void
     {
         $this->seed();
         $plan = CommercialPlan::firstOrFail();
@@ -124,11 +124,11 @@ class OperationalCoordinationTest extends TestCase
         $this->assertSame(1516134, $report['known_outlay_cents']);
         $this->assertSame(200000, $report['unknown_allowance_cents']);
         $this->assertSame(948365, $report['fixed_net_cents']);
-        $net = $report['fixed_net_cents'] + 6 * Money::net(50000, 2300) + 6 * Money::net(100000, 2300) + 12 * Money::net(25000, 2300);
+        $net = $report['fixed_net_cents'] + 6 * Money::net(50000, 2300) + 6 * Money::net(100000, 2300);
         $outlay = $report['known_outlay_cents'] + $report['unknown_allowance_cents'];
-        $this->assertSame(1923971, $net);
-        $this->assertSame(207837, $net - $outlay);
-        $this->assertSame(411837, $net - $outlay + 144000 + 60000);
+        $this->assertSame(1680071, $net);
+        $this->assertSame(-36063, $net - $outlay);
+        $this->assertSame(167937, $net - $outlay + 144000 + 60000);
         $this->assertSame(65000, $plan->fresh()->independent_price_cents);
         $this->assertSame(175000, $report['village_unit_cents']);
         $this->assertSame(400000, $report['target_cents']);

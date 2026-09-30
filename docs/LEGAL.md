@@ -1,5 +1,7 @@
 # Contraintes juridiques — exigences, pas avis de conformité
 
+> Règle active : [cabanes en récupération, raccord d’échafaudage au centre du partenariat principal](RECLAIMED-CABINS.md). Équipes constructrices, locations QAPAS, coûts à chiffrer et dévoilement contrôlé.
+
 > Évolution active du 30 septembre 2026 : [communauté et continuité 2027](COMMUNITY-2026.md) — 10 € de boissons pour tous les billets payés, six rôles indispensables, conventions, prix de 500 €, QR et retours. Ces règles prévalent sur les exemples historiques divergents.
 
 > Version active : [tickets-avantages, prospection, sponsoring, plantations et communication par phase](ADVANTAGES-MOBILIZATION.md). Les paragraphes historiques ci-dessous sur soutien facultatif / entrée gratuite et contrepartie candidat distincte restent applicables aux anciens contrats seulement.

@@ -1,4 +1,6 @@
-# Proposition de financement accessible · 6 freguesias + 6 indépendants
+# Historique · proposition de financement retirée
+
+> **PROPOSITION RETIRÉE.** La prospection de 12 partenaires de proximité à 250 € a été explicitement rejetée : elle ne correspond pas aux moyens locaux. Le tableau ci-dessous est historique, jamais appliqué. Sans ces douze recettes, sa simulation donne 16 800,71 € nets pour 17 161,34 € de dépenses et réserve, soit **−360,63 € avant objectif QAPAS et nouveaux coûts des cabanes**. Même les 2 040 € d’économies supposées laisseraient seulement 1 679,37 €, et ces économies ne sont pas acquises. Aucun équilibre ni bénéfice n’est sécurisé. La suite est le [prototype des cabanes en récupération](RECLAIMED-CABINS.md), les coûts réellement évités et le raccord d’échafaudage comme pièce maîtresse du partenariat.
 
 **Document de décision privé, 30 septembre 2026. Proposition non appliquée aux offres, contrats ni au scénario actif. Aucun partenaire ou apport ci-dessous n’est acquis.** Les chiffres décrivent le jeu de données initial courant ; recalculer si la base locale contient d’autres coûts, quantités ou engagements.
 

@@ -2,6 +2,7 @@
 namespace App\Models;
 class Stand extends Record {
  protected $attributes=['included_furniture_sets'=>0,'furniture_source'=>'rental','furniture_quantity'=>2,'furniture_confirmed'=>false];
+ public function cabinProject(){return $this->hasOne(CabinProject::class);}
  public function furnitureBudget(): array {$rental=$this->furniture_source==='rental';$known=$rental&&$this->furniture_unit_gross_cents!==null&&$this->furniture_delivery_cents!==null;$total=$known?$this->furniture_unit_gross_cents*$this->furniture_quantity+$this->furniture_delivery_cents:null;return ['gross_cents'=>$total,'deposit_cents'=>$this->furniture_deposit_cents,'confirmed'=>$this->furniture_confirmed&&filled($this->furniture_evidence)&&in_array($this->furniture_source,['rental','own','loan'],true)&&(!$rental||($known&&$this->furniture_deposit_cents!==null))];}
  public function quartel(){return $this->belongsTo(SiteFeature::class,'quartel_id');}
  public function requirements(){return $this->hasMany(StandRequirement::class);}

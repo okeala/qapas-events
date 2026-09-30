@@ -1,0 +1,96 @@
+<?php
+namespace App\Filament\Resources;
+
+use App\Domain\Cabins\CabinRules;
+use App\Models\{CabinProject, Stand, BudgetLine};
+use Filament\Resources\Resource;
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\{Section, Utilities\Get};
+use Filament\Forms\Components\{TextInput, Textarea, Select, Toggle, Repeater, DatePicker};
+use Filament\Tables\Table;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Actions\{Action, EditAction};
+
+class CabinProjectResource extends Resource
+{
+    protected static ?string $model = CabinProject::class;
+    protected static ?string $modelLabel = 'Cabane en récupération';
+    protected static ?string $pluralModelLabel = 'Cabanes · équipes et locations';
+    protected static string|\UnitEnum|null $navigationGroup = '1 · Concevoir';
+    protected static ?int $navigationSort = 45;
+
+    private static function budgetOptions(Get $get, string $kind): array
+    {
+        return BudgetLine::where('stand_id',$get('stand_id'))->where('kind',$kind)->whereNull('superseded_by_id')
+            ->whereHas('scenario',fn($q)=>$q->where('event_project_id',$get('event_project_id'))->where('is_archived',false))->pluck('name','id')->all();
+    }
+    public static function form(Schema $schema): Schema
+    {
+        return $schema->columns(2)->components([
+            Section::make('Da mimosa à cabana')->description('Gabarit extérieur 2,40 × 2,40 × 2,40 m. Pièce maîtresse : le raccord d’échafaudage, autour duquel s’assemblent les tubes récupérés auprès des démolisseurs ; bardage et couverture en plessis de mimosa et/ou cannes. Ligatures en sisal ou fibre naturelle adaptée. Pas d’amiante, de plastique ni de bois neuf. Décoration libre en récupération.')->columns(2)->schema([
+                Select::make('event_project_id')->label('Édition')->relationship('eventProject','name')->required()->live()->disabledOn('edit'),
+                Select::make('stand_id')->label('Stand / emplacement')->options(fn(Get $get)=>Stand::where('event_project_id',$get('event_project_id'))->pluck('name','id')->all())->required()->live()->disabledOn('edit'),
+                TextInput::make('name')->label('Nom de la cabane')->required()->maxLength(200),
+                Select::make('supply_mode')->label('Construction et fourniture')->options(['team_build'=>'L’équipe construit son stand','qapas_rental'=>'QAPAS fabrique et loue à l’indépendant'])->required()->default('team_build')->disabledOn('edit'),
+                TextInput::make('owner')->label('Responsable du chantier')->maxLength(255),
+                Select::make('status')->label('Avancement')->options(CabinRules::STATUSES)->default('concept')->required()->helperText('La réception requiert inventaire, implantation, contrôle sur site et suivi de la végétation. Elle ne vaut pas validation du financement.'),
+                ...array_map(fn($key,$label)=>TextInput::make($key)->label($label.' · mm')->integer()->rules(['in:2400'])->default(2400)->required(),['width_mm','depth_mm','height_mm'],['Largeur extérieure','Profondeur extérieure','Hauteur extérieure']),
+            ])->columnSpanFull(),
+            Section::make('Inventaire de récupération')->description('Quantités réelles à relever. Raccords d’échafaudage : type, référence et compatibilité avec les tubes à documenter dans l’origine. Tubes de démolition, palettes saines pour les décors, cannes identifiées, perches et branchages de contrôle. Seuls connecteurs, visserie et ligatures peuvent être achetés neufs. Les équipements/outils de chantier sont chiffrés séparément.')->schema([
+                Repeater::make('materials')->label('Pièces et panneaux')->schema([
+                    TextInput::make('name')->label('Pièce / usage précis')->required()->maxLength(200),
+                    Select::make('part')->label('Partie de la cabane')->options(CabinRules::PARTS)->required(),
+                    Select::make('material')->label('Matière')->options(CabinRules::MATERIALS)->required(),
+                    Select::make('source')->label('Provenance')->options(CabinRules::SOURCES)->required(),
+                    TextInput::make('quantity')->label('Quantité')->integer()->minValue(1)->maxValue(100000)->required(),
+                    TextInput::make('unit')->label('Unité')->required()->maxLength(40)->default('pièce'),
+                    Textarea::make('origin')->label('Origine, don/prêt, espèce et état · privé')->maxLength(2000)->required()->columnSpanFull(),
+                ])->columns(2)->defaultItems(0)->maxItems(80)->collapsible()->itemLabel(fn(array $state)=>$state['name']??'Matériau'),
+            ])->columnSpanFull(),
+            Section::make('Contrôle de la végétation et réception')->description('Valoriser le bois du chantier ne prouve pas l’éradication. Prévenir la dispersion de graines, gousses, terre et rhizomes ; préparation des parties végétales et suivi des rejets à documenter. Pas de chantier de coupe chronométré devant le public.')->columns(2)->schema([
+                Textarea::make('harvest_origin')->label('Parcelle, autorisation du propriétaire et origine des végétaux')->maxLength(5000)->columnSpanFull(),
+                Textarea::make('control_plan')->label('Méthode de contrôle, préparation sans propagation, déplacement et devenir après démontage')->maxLength(10000)->rows(4)->columnSpanFull(),
+                TextInput::make('follow_up_owner')->label('Responsable du suivi des rejets / repousses')->maxLength(255),
+                DatePicker::make('follow_up_on')->label('Prochaine inspection prévue'),
+                Textarea::make('follow_up_notes')->label('Constats du suivi, dates et actions')->maxLength(10000)->columnSpanFull(),
+                Textarea::make('reception_evidence')->label('Réception : gabarit mesuré, matériaux inspectés, assemblages, stabilité, fixation, accès, feu et pluie')->helperText('Référence et auteur du contrôle sur place. Aucun dimensionnement structurel ni étanchéité certifiés par l’application. Toute modification du dossier ou déplacement du stand impose une nouvelle réception.')->maxLength(10000)->rows(4)->columnSpanFull(),
+            ])->columnSpanFull(),
+            Section::make('Coûts et location')->description('Le bois disponible n’efface pas découpe, connecteurs, sisal, préparation, main-d’œuvre, montage, reprise et entretien. Les dépenses QAPAS sont comptées une seule fois dans les lignes du scénario. La caution reste séparée des recettes.')->columns(2)->schema([
+                Select::make('cost_line_id')->label('Fabrication QAPAS · poste budgétaire')->options(fn(Get $get)=>self::budgetOptions($get,'cost'))->searchable()->visible(fn(Get $get)=>$get('supply_mode')==='qapas_rental'),
+                Select::make('rental_line_id')->label('Location · ligne de supplément éventuel')->options(fn(Get $get)=>self::budgetOptions($get,'revenue'))->searchable()->visible(fn(Get $get)=>$get('supply_mode')==='qapas_rental'),
+                Select::make('rental_pricing')->label('Traitement commercial de la location')->options(['unpriced'=>'À chiffrer, aucune nouvelle recette','included'=>'Incluse dans le prix global du stand','extra'=>'Supplément distinct explicite'])->default('unpriced')->required()->helperText('Ligne de location à quantité zéro tant que non tarifée ou incluse. Aucune seconde recette pour une prestation déjà comprise.'),
+                TextInput::make('deposit_cents')->label('Caution remboursable · centimes')->integer()->minValue(0),
+                Textarea::make('rental_terms')->label('Durée, inclusions, livraison, montage, démontage, état, casse et restitution')->maxLength(10000)->columnSpanFull(),
+                TextInput::make('participant_cost_cents')->label('Budget de construction payé par l’équipe · centimes')->integer()->minValue(0),
+                Textarea::make('participant_cost_evidence')->label('Détail participant, contributions et justificatifs · hors budget QAPAS')->maxLength(5000),
+            ])->columnSpanFull(),
+            Section::make('Présentation')->columns(2)->schema([
+                Toggle::make('is_public')->label('Présenter cette cabane quand le défi et le stand sont publics'),
+                Textarea::make('summary_fr')->label('Histoire de la cabane · FR')->maxLength(5000),
+                Textarea::make('summary_pt')->label('História da cabana · PT')->maxLength(5000),
+            ])->columnSpanFull(),
+        ]);
+    }
+    public static function table(Table $table): Table
+    {
+        return $table->columns([
+            TextColumn::make('name')->label('Cabane')->searchable()->wrap(),
+            TextColumn::make('stand.freguesia')->label('Freguesia')->placeholder('Indépendant / à attribuer'),
+            TextColumn::make('supply_mode')->label('Fourniture')->formatStateUsing(fn($state)=>$state==='team_build'?'Équipe constructrice':'Location QAPAS')->badge(),
+            TextColumn::make('stand.pitch_number')->label('Emplacement'),
+            TextColumn::make('stand.quartel.name')->label('Quartel'),
+            TextColumn::make('status')->label('Avancement')->formatStateUsing(fn($state,CabinProject $record)=>$state==='received'&&!$record->received()?'Réception à refaire':CabinRules::STATUSES[$state])->badge(),
+            TextColumn::make('follow_up_on')->label('Suivi végétation')->date('d/m/Y')->sortable(),
+        ])->filters([
+            SelectFilter::make('event_project_id')->label('Édition')->relationship('eventProject','name'),
+            SelectFilter::make('supply_mode')->label('Fourniture')->options(['team_build'=>'Équipes','qapas_rental'=>'Locations QAPAS']),
+            SelectFilter::make('status')->label('Avancement')->options(CabinRules::STATUSES),
+        ])->defaultSort('stand_id')->recordActions([
+            EditAction::make()->modalWidth('7xl'),
+            Action::make('stand')->label('Emplacement et budget')->url(fn(CabinProject $record)=>StandResource::getUrl('edit',['record'=>$record->stand])),
+            Action::make('preview')->label('Aperçu local')->visible(fn()=>app()->environment('local'))->url(fn(CabinProject $record)=>route('cabins.preview',['project'=>$record->eventProject->slug]).'#cabane-'.$record->public_id),
+        ]);
+    }
+    public static function getPages(): array { return ['index'=>\App\Filament\Resources\CabinProjectResource\Pages\ManageRecords::route('/')]; }
+}

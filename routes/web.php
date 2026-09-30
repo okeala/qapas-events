@@ -93,3 +93,6 @@ Route::get('/events/{project:slug}/equipes/{team}',[\App\Http\Controllers\Mobili
 Route::get('/events/{project:slug}/relais-locaux',[\App\Http\Controllers\MobilizationController::class,'relays'])->name('mobilization.relays');
 Route::get('/events/{project:slug}/partenaires',[\App\Http\Controllers\MobilizationController::class,'sponsors'])->name('mobilization.sponsors');
 Route::get('/events/{project:slug}/grandir',[\App\Http\Controllers\MobilizationController::class,'growth'])->name('mobilization.growth');
+
+Route::get('/events/{project:slug}/cabanes',[\App\Http\Controllers\CabinController::class,'index'])->name('cabins.index');
+Route::get('/workspace/preview/{project:slug}/cabanes',[\App\Http\Controllers\CabinController::class,'preview'])->name('cabins.preview');
