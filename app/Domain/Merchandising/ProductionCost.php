@@ -10,6 +10,6 @@ final class ProductionCost {
   $cash=$qty*$variable+$labor+($option->machine_cost_cents??0)+($option->other_fixed_cents??0);$opportunity=(int)ceil($option->qapas_minutes*($option->opportunity_hourly_cents??0)/60);
   $internalUnit=$variable+(int)ceil(($option->minutes_per_piece??0)*($option->hourly_cost_cents??0)/60);$saving=$option->external_unit_cents!==null?$option->external_unit_cents-$internalUnit:null;
   $investment=($option->machine_cost_cents??0)+($option->other_fixed_cents??0)+(int)ceil($option->setup_minutes*($option->hourly_cost_cents??0)/60);
-  return ['quantity'=>$qty,'event_quantity'=>$plan->report()['total'],'prototypes'=>$option->prototype_quantity,'minutes'=>$minutes,'cash_cents'=>$cash,'opportunity_cents'=>$opportunity,'economic_cents'=>$cash+$opportunity,'missing'=>$missing,'complete'=>!$missing,'saving_per_piece_cents'=>$saving,'machine_payback_quantity'=>$saving!==null&&$saving>0?(int)ceil(max(0,$investment-($option->external_fixed_cents??0))/$saving):null];
+  return ['quantity'=>$qty,'event_quantity'=>$plan->report()['total'],'prototypes'=>$option->prototype_quantity,'minutes'=>$minutes,'cash_cents'=>$cash,'opportunity_cents'=>$opportunity,'economic_cents'=>$cash+$opportunity,'missing'=>$missing,'complete'=>!$missing,'saving_per_piece_cents'=>$saving,'machine_payback_quantity'=>!$missing&&$option->external_fixed_cents!==null&&$saving!==null&&$saving>0?(int)ceil(max(0,$investment-($option->external_fixed_cents??0))/$saving):null];
  }
 }

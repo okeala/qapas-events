@@ -21,8 +21,8 @@ class MerchandisingCommercialTest extends TestCase {
  }
  public function test_charges_are_never_free_or_double_counted_and_opportunity_is_not_cash(): void {
   $plan=$this->seedPlan();$s=$plan->scenario;$s->update(['months'=>2,'organizer_full_monthly_cents'=>100000]);$this->assertSame(200000,OrganizerCost::amount($s));$s->update(['organizer_full_monthly_cents'=>0]);$this->assertSame(80000,OrganizerCost::amount($s));
-  $o=MerchandisingOption::where('method','inhouse')->first();$r=$o->report();$this->assertSame(132,$r['quantity']);$this->assertGreaterThan(130,$r['machine_payback_quantity']);$this->assertSame($r['cash_cents']+$r['opportunity_cents'],$r['economic_cents']);$cost=$r['cash_cents'];$o->update(['opportunity_hourly_cents'=>5000]);$this->assertSame($cost,$o->report()['cash_cents']);$o->update(['external_unit_cents'=>1]);$this->assertNull($o->report()['machine_payback_quantity']);
-  $this->invalid(fn()=>$s->update(['minimum_organizer_charges_cents'=>-1]));
+  $o=MerchandisingOption::where('method','inhouse')->first();$r=$o->report();$this->assertSame(132,$r['quantity']);$this->assertGreaterThan(130,$r['machine_payback_quantity']);$this->assertSame($r['cash_cents']+$r['opportunity_cents'],$r['economic_cents']);$cost=$r['cash_cents'];$o->update(['opportunity_hourly_cents'=>5000]);$this->assertSame($cost,$o->report()['cash_cents']);$o->update(['external_fixed_cents'=>null]);$this->assertNull($o->report()['machine_payback_quantity']);$o->update(['external_fixed_cents'=>10000,'external_unit_cents'=>1]);$this->assertNull($o->report()['machine_payback_quantity']);
+  $this->invalid(fn()=>$s->update(['minimum_organizer_charges_cents'=>-1]));$s->refresh();$this->invalid(fn()=>$s->update(['minimum_organizer_charges_cents'=>0]));
  }
  public function test_tariff_solver_excludes_uncertain_onsite_sales_and_preserves_signed_prices(): void {
   $plan=$this->seedPlan();$before=$plan->report()['village_unit_cents'];$line=$plan->scenario->budgetLines()->where('costing_key','bar-sales')->first();$line->update(['unit_gross_cents'=>999999]);$this->assertSame($before,$plan->fresh()->report()['village_unit_cents']);
@@ -41,11 +41,14 @@ class MerchandisingCommercialTest extends TestCase {
  }
  public function test_badge_is_not_transferable_or_valid_for_a_removed_holder_or_fake_player(): void {
   $b=$this->badge();$duplicate=$b->replicate(['public_id','serial']);$this->invalid(fn()=>$duplicate->save());$this->invalid(fn()=>$b->update(['person_key'=>'another']));$b->refresh();$pack=$b->welcomePackPlan;$pack->update(['people'=>[]]);$this->assertFalse($b->fresh()->valid());$this->travel(3)->days();$this->assertFalse($b->fresh()->valid());
+  $pack->update(['people'=>[['person_key'=>'fake-player','category'=>'players','size'=>'L','confirmed'=>true]]]);$this->invalid(fn()=>EventBadge::create(['event_project_id'=>$b->event_project_id,'welcome_pack_plan_id'=>$pack->id,'person_key'=>'fake-player','role'=>'players','status'=>'active','valid_from'=>now()->subDay(),'valid_until'=>now()->addDay(),'evidence'=>'A roster entry alone is not an election result']));
   $b->eventProject->update(['is_public'=>false]);$this->get($b->url())->assertNotFound();
  }
  public function test_merchandising_and_badge_forms_and_comparison_views_render_for_admin_only(): void {
   $plan=$this->seedPlan();foreach(['CommercialPlan','MerchandisingOption','EventBadge'] as $name){$resource='App\\Filament\\Resources\\'.$name.'Resource';$this->get($resource::getUrl())->assertOk();\Livewire\Livewire::test($resource.'\\Pages\\ManageRecords')->mountAction('create')->assertHasNoActionErrors();}
-  \Livewire\Livewire::test(\App\Filament\Resources\CommercialPlanResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('report')->table($plan))->assertSee('PRÉVISION CONDITIONNELLE')->assertSuccessful();
-  \Livewire\Livewire::test(\App\Filament\Resources\MerchandisingOptionResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('compare')->table(MerchandisingOption::first()))->assertSee('Alternatives de travail')->assertSuccessful();
+  $prices=\Livewire\Livewire::test(\App\Filament\Resources\CommercialPlanResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('report')->table($plan))->assertActionMounted('report')->assertSuccessful();
+  $this->assertStringContainsString('PRÉVISION CONDITIONNELLE',$prices->instance()->getMountedAction()->getModalContent()->render());
+  $comparison=\Livewire\Livewire::test(\App\Filament\Resources\MerchandisingOptionResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('compare')->table(MerchandisingOption::first()))->assertActionMounted('compare')->assertSuccessful();
+  $this->assertStringContainsString('Alternatives de travail',$comparison->instance()->getMountedAction()->getModalContent()->render());
  }
 }
