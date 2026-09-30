@@ -25,6 +25,8 @@ class ActivityResource extends Resource {
   TextInput::make('unit_gross_cents')->label('Prix unitaire TTC en centimes, vide = inconnu')->integer()->minValue(0)->maxValue(100000000),
   TextInput::make('vat_basis_points')->label('IVA : 2300 = 23 %, vide = inconnu')->integer()->minValue(0)->maxValue(10000),
   Toggle::make('deductible')->label('IVA déductible confirmé'),
+  TextInput::make('shared_cost_key')->label('Clé du poste commun (facultatif)')->maxLength(120)->helperText('Ex. common-broadcast. Si renseigné, le coût figure uniquement dans la ligne budgétaire commune de même clé.'),
+  ...\App\Domain\Finance\Pricing::fields(),
   Textarea::make('evidence')->label('Devis, référence ou preuve de gratuité')->maxLength(5000)->columnSpanFull(),
  ];}
  public static function form(Schema $schema): Schema {return $schema->components([
@@ -45,7 +47,7 @@ class ActivityResource extends Resource {
   Section::make('Matériel et chiffrage')->description('Les quantités et prix inconnus restent à chiffrer. Sélectionner cette épreuve dans un scénario pour inclure ses coûts, sans recopier les lignes.')->columns(2)->schema([
    TextInput::make('planned_runs')->label('Nombre de passages prévus')->integer()->minValue(1)->maxValue(10000)->required()->default(1),
    Toggle::make('materials_complete')->label('Inventaire complet confirmé'),
-   Repeater::make('materials')->label('Besoins')->relationship()->schema(self::materialFields())->columns(2)->defaultItems(0)->deletable(false)->collapsible()->itemLabel(fn(array $state)=>$state['name']??'Nouveau besoin')->columnSpanFull(),
+   Repeater::make('materials')->hiddenOn('edit')->label('Besoins')->relationship()->schema(self::materialFields())->columns(2)->defaultItems(0)->deletable(false)->collapsible()->itemLabel(fn(array $state)=>$state['name']??'Nouveau besoin')->columnSpanFull(),
   ])->columnSpanFull(),
   Section::make('Accès, implantation et validation')->columns(2)->schema([
    Select::make('risk_category')->label('Type de dispositif')->options(['manual'=>'Jeu manuel','machinery'=>'Engin motorisé','water'=>'Eau','grafting'=>'Démonstration de greffe'])->required()->default('manual'),
@@ -64,6 +66,7 @@ class ActivityResource extends Resource {
  public static function table(Table $table): Table {return $table->columns([
   TextColumn::make('sort_order')->label('Ordre')->sortable(),TextColumn::make('name')->label('Épreuve')->searchable()->wrap(),TextColumn::make('eventProject.name')->label('Édition'),TextColumn::make('track')->label('Parcours')->badge(),TextColumn::make('status')->label('État')->badge(),TextColumn::make('terrace.name')->label('Terrasse')->placeholder('À placer'),
   TextColumn::make('material_total')->label('Matériel TTC')->getStateUsing(fn(Activity $record)=>\App\Domain\Finance\Money::format($record->costReport()['gross_cents']).($record->costReport()['complete']?'':' · incomplet')),
-  ])->defaultSort('sort_order')->recordActions([EditAction::make()->modalWidth('7xl')]);}
- public static function getPages(): array {return ['index'=>\App\Filament\Resources\ActivityResource\Pages\ManageRecords::route('/')];}
+  ])->defaultSort('sort_order')->recordActions([\Filament\Actions\Action::make('costing')->label('Chiffrer')->url(fn($record)=>static::getUrl('edit',['record'=>$record])),EditAction::make()->modalWidth('7xl')]);}
+ public static function getRelations(): array {return [\App\Filament\RelationManagers\MaterialsRelationManager::class];}
+ public static function getPages(): array {return ['index'=>\App\Filament\Resources\ActivityResource\Pages\ManageRecords::route('/'),'edit'=>\App\Filament\Resources\ActivityResource\Pages\EditRecord::route('/{record}/edit')];}
 }

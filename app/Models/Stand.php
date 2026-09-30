@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 class Stand extends Record {
+ public function budgetLines(){return $this->hasMany(BudgetLine::class);}
  protected function casts(): array {return ['direct_costs_complete'=>'boolean','hospitality_validated'=>'boolean','larger_tent_requested'=>'boolean'];}
  public function siteFeature(){return $this->belongsTo(SiteFeature::class);}
  public function partners(){return $this->hasMany(StandPartner::class);}

@@ -6,20 +6,21 @@ final class LaunchReport {
   $r=['missing'=>[],'stands'=>[],'site_cost_cents'=>0,'site_gross_cents'=>0,'verified_net_cents'=>0,'verified_gross_cents'=>0,'advance_due_cents'=>0,'prepaid_margin_cents'=>0,'prepaid_cash_cents'=>0,'launch_ready'=>false,'expansion_ready'=>false,'tent_estimate'=>null];
   $costNet=$s->organizer_full_monthly_cents*$s->months;$costGross=$costNet;
   foreach($s->budgetLines as $l){
-   $gross=($l->unit_gross_cents??0);$net=$l->vat_basis_points===null?0:Money::net($gross,$l->vat_basis_points);
+   $gross=($l->unit_gross_cents??0);$net=$l->vat_basis_points===null?($l->kind==='cost'?$gross:0):Money::net($gross,$l->vat_basis_points);
    if($l->kind==='cost'){$costNet+=($l->deductible?$net:$gross)*$l->forecast_quantity;$costGross+=$gross*$l->forecast_quantity;if($l->paid_by==='organizer')$r['advance_due_cents']+=$gross*$l->paid_quantity-$l->reimbursed_cents;}
    if($l->kind==='revenue'&&!in_array($l->scope,['bar','fries','soup'],true)&&$l->verified()){$r['verified_net_cents']+=$net*$l->paid_quantity;$r['verified_gross_cents']+=$gross*$l->paid_quantity;}
    if($l->stand_id&&!$s->includedStands->contains('id',$l->stand_id))$r['missing'][]='Ligne rattachée à un stand absent du scénario : '.$l->name;
   }
-  foreach($s->includedActivities as $a){$c=$a->costReport();$costNet+=$c['economic_cents'];$costGross+=$c['gross_cents'];}
+  foreach($s->includedActivities as $a){foreach($a->materials->whereNotNull('shared_cost_key') as $material)if(!$s->budgetLines->contains(fn($line)=>$line->costing_key===$material->shared_cost_key&&$line->kind==='cost'&&$line->forecast_quantity>0))$r['missing'][]=$a->name.' : coût mutualisé absent du scénario ('.$material->shared_cost_key.')';$c=$a->costReport();$costNet+=$c['economic_cents'];$costGross+=$c['gross_cents'];}
   foreach($s->includedFeatures as $f){
    if($f->event_project_id!==$s->event_project_id){$r['missing'][]='Équipement hors édition';continue;}
    if(!$f->needs_complete)$r['missing'][]=$f->name.' : besoins à confirmer';
    if($f->needs->isEmpty())$r['missing'][]=$f->name.' : besoin ou mise à disposition à documenter';
    foreach($f->needs as $n){
-    if($n->quantity===null||$n->unit_gross_cents===null||$n->vat_basis_points===null||($n->basis==='per_day'&&!$s->event_days)){$r['missing'][]=$f->name.' / '.$n->name.' : chiffrage incomplet';continue;}
+    if($n->quantity===null||$n->unit_gross_cents===null||($n->basis==='per_day'&&!$s->event_days)){$r['missing'][]=$f->name.' / '.$n->name.' : chiffrage incomplet';continue;}
+    if(Pricing::pending($n)||$n->vat_basis_points===null)$r['missing'][]=$n->name.' : prix ou IVA à valider';
     if($n->unit_gross_cents===0&&blank($n->evidence))$r['missing'][]=$n->name.' : gratuité à justifier';
-    $count=$n->quantity*($n->basis==='per_day'?$s->event_days:1);$gross=$n->unit_gross_cents*$count;$net=($n->deductible?Money::net($n->unit_gross_cents,$n->vat_basis_points):$n->unit_gross_cents)*$count;
+    $count=$n->quantity*($n->basis==='per_day'?$s->event_days:1);$gross=$n->unit_gross_cents*$count;$net=($n->deductible&&$n->vat_basis_points!==null?Money::net($n->unit_gross_cents,$n->vat_basis_points):$n->unit_gross_cents)*$count;
     $r['site_cost_cents']+=$net;$r['site_gross_cents']+=$gross;
    }
   }
@@ -30,9 +31,10 @@ final class LaunchReport {
    $lines=$s->budgetLines->where('stand_id',$stand->id);
    if(!$stand->direct_costs_complete||!$lines->contains('kind','cost')||!$lines->contains('kind','revenue')){$r['missing'][]=$stand->name.' : revenus et coûts directs à recenser';$contribution['complete']=false;}
    foreach($lines as $l){
-    if(!in_array($l->kind,['cost','revenue']))continue;
-    if($l->unit_gross_cents===null||$l->vat_basis_points===null){$contribution['complete']=false;continue;}
-    $net=Money::net($l->unit_gross_cents,$l->vat_basis_points);
+    if(!in_array($l->kind,['cost','revenue'])||($l->forecast_quantity===0&&$l->committed_quantity===0&&$l->paid_quantity===0))continue;
+    if(Pricing::pending($l)||$l->vat_basis_points===null)$contribution['complete']=false;
+    if($l->unit_gross_cents===null||($l->kind==='revenue'&&$l->vat_basis_points===null)){$contribution['complete']=false;continue;}
+    $net=$l->vat_basis_points===null?$l->unit_gross_cents:Money::net($l->unit_gross_cents,$l->vat_basis_points);
     if($l->kind==='cost'){$v=($l->deductible?$net:$l->unit_gross_cents)*$l->forecast_quantity;foreach(['forecast_cents','committed_cents','verified_cents'] as $key)$contribution[$key]-=$v;}
     else{$contribution['forecast_cents']+=$net*$l->forecast_quantity;$contribution['committed_cents']+=$net*$l->committed_quantity;$contribution['verified_cents']+=$l->verified()?$net*$l->paid_quantity:0;}
    }

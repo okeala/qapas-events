@@ -9,7 +9,7 @@ class AdminPanelProvider extends PanelProvider {
    ->viteTheme('resources/css/filament/admin/theme.css')
    ->discoverResources(in:app_path('Filament/Resources'),for:'App\\Filament\\Resources')
    ->navigationGroups(['1 · Concevoir','2 · Chiffrer','3 · Mobiliser','4 · Préparer','5 · Exploiter','6 · Clôturer'])
-   ->pages([\App\Filament\Pages\Dashboard::class,\App\Filament\Pages\SitePlan::class,\App\Filament\Pages\GeographicSite::class])
+   ->pages([\App\Filament\Pages\UnitCosting::class,\App\Filament\Pages\Dashboard::class,\App\Filament\Pages\SitePlan::class,\App\Filament\Pages\GeographicSite::class])
    ->middleware([
     \Illuminate\Cookie\Middleware\EncryptCookies::class,
     \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,

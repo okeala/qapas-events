@@ -8,14 +8,15 @@ class BudgetLine extends Record {
  public function scenario(){return $this->belongsTo(Scenario::class);}
  public function stand(){return $this->belongsTo(Stand::class);}
  public function standPartner(){return $this->belongsTo(StandPartner::class);}
- public function verified(): bool {return $this->paid_quantity>0&&filled($this->receipt_reference)&&$this->reconciled_at&&!$this->reconciled_at->isFuture()&&$this->reconciled_by!==null;}
- protected static function booted(): void {parent::booted();static::saving(function(self $l){
-  Validator::make($l->getAttributes(),['unit_gross_cents'=>'nullable|integer|between:0,1000000000','vat_basis_points'=>'nullable|integer|between:0,10000','forecast_quantity'=>'integer|between:0,1000000','committed_quantity'=>'integer|min:0|lte:forecast_quantity','paid_quantity'=>'integer|min:0|lte:committed_quantity','scope'=>'in:common,stand,bar,fries,soup,structural','paid_by'=>'in:qapas,organizer'])->validate();
+ public function verified(): bool {return !\App\Domain\Finance\Pricing::pending($this)&&$this->paid_quantity>0&&filled($this->receipt_reference)&&$this->reconciled_at&&!$this->reconciled_at->isFuture()&&$this->reconciled_by!==null;}
+ protected static function booted(): void {parent::booted();static::saving(function(self $l){\App\Domain\Finance\Pricing::validate($l);
+  Validator::make($l->getAttributes(),['unit_gross_cents'=>'nullable|integer|between:0,1000000000','vat_basis_points'=>'nullable|integer|between:0,10000','forecast_quantity'=>'integer|between:0,1000000','committed_quantity'=>'integer|min:0|lte:forecast_quantity','paid_quantity'=>'integer|min:0|lte:committed_quantity','expense_type'=>'sometimes|in:operating,investment','unit'=>'sometimes|string|max:80','kind'=>'required|in:revenue,cost,deposit,earmarked,third_party','scope'=>'in:common,stand,bar,fries,soup,structural','paid_by'=>'in:qapas,organizer'])->validate();
+  if($l->exists&&$l->isDirty('scenario_id'))throw ValidationException::withMessages(['scenario_id'=>'Une ligne existante ne change pas de scénario.']);
   if($l->stand_id&&(!Stand::whereKey($l->stand_id)->where('event_project_id',$l->scenario?->event_project_id)->exists()||$l->scope!=='stand'))throw ValidationException::withMessages(['stand_id'=>'Choisir un stand de cette édition, avec le périmètre Stand.']);
   if($l->scope==='stand'&&!$l->stand_id)throw ValidationException::withMessages(['stand_id'=>'Le périmètre Stand exige un stand.']);
   if($l->stand_partner_id&&StandPartner::find($l->stand_partner_id)?->stand_id!==$l->stand_id)throw ValidationException::withMessages(['stand_partner_id'=>'Partenaire d’un autre stand.']);
   if($l->reimbursed_cents<0||$l->reimbursed_cents>($l->unit_gross_cents??0)*$l->paid_quantity||($l->reimbursed_cents>0&&($l->paid_by!=='organizer'||$l->kind!=='cost')))throw ValidationException::withMessages(['reimbursed_cents'=>'Remboursement supérieur à l’avance ou ligne non concernée.']);
-  if($l->isDirty(['unit_gross_cents','vat_basis_points','paid_quantity','kind','scope','stand_id','stand_partner_id'])){$l->reconciled_at=null;$l->reconciled_by=null;}
+  if($l->isDirty(['unit_gross_cents','vat_basis_points','paid_quantity','kind','scope','stand_id','stand_partner_id','pricing_status','price_source'])){$l->reconciled_at=null;$l->reconciled_by=null;}
   if(($l->isDirty('reconciled_at')||$l->isDirty('receipt_reference'))&&$l->reconciled_at){
    if(!auth('admin')->user()?->is_active||blank($l->receipt_reference)||$l->reconciled_at->isFuture())throw ValidationException::withMessages(['reconciled_at'=>'Administrateur actif, date passée et référence du justificatif requis.']);
    if(self::where('scenario_id',$l->scenario_id)->where('receipt_reference',$l->receipt_reference)->whereNotNull('reconciled_by')->where('id','!=',$l->id)->exists())throw ValidationException::withMessages(['receipt_reference'=>'Ce paiement est déjà rapproché dans ce scénario.']);

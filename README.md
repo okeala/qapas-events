@@ -125,3 +125,7 @@ Le seeder ajoute le nouveau socle une seule fois, conserve les travaux antérieu
 ### Accueil, mobilisation et exploitation
 
 Le scénario actuel, le chiffrage du mobilier Douglas, les relais et leur seuil de révélation, la presse et les emprises d’épreuves sont décrits dans [docs/HOSPITALITY-OPERATIONS.md](docs/HOSPITALITY-OPERATIONS.md). Après mise à jour : `composer install`, `php artisan migrate`, `php artisan db:seed`, `npm ci`, `npm run build`. Le catalogue reste une collecte de besoins sans paiement ni réservation.
+
+## Chiffrage par unité
+
+Le menu **Chiffrer → Chiffrage par unité** compare les stands, services et épreuves d’un scénario. Les fiches **Chiffrer** ouvrent les tableaux liés Coûts/Recettes ou Matériel. La simulation privée de deux jours contient les premières provisions, sans engagement ni paiement. Voir [hypothèses, calculs et sources](docs/UNIT-COSTING.md). Après mise à jour : `php artisan migrate --seed`, puis rebuild des assets.

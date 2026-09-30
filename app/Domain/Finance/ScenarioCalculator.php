@@ -20,9 +20,10 @@ final class ScenarioCalculator {
     $result['restricted_receipts_cents']+=$line->unit_gross_cents*$line->paid_quantity;
     continue;
    }
-   if ($line->vat_basis_points===null) {$result['missing'][]='IVA à confirmer : '.$line->name;continue;}
+   if(Pricing::pending($line))$result['missing'][]='Prix à valider : '.$line->name;
+   if ($line->vat_basis_points===null) {$result['missing'][]='IVA à confirmer : '.$line->name;if($line->kind==='revenue')continue;}
    $gross=(int)$line->unit_gross_cents;
-   $net=Money::net($gross,(int)$line->vat_basis_points);
+   $net=$line->vat_basis_points===null?$gross:Money::net($gross,(int)$line->vat_basis_points);
    if ($line->kind==='revenue') {
     $result['forecast_margin_cents']+=$net*$line->forecast_quantity;
     $result['secured_margin_cents']+=($scenario->launch_model&&in_array($line->scope,['bar','fries','soup'],true))?0:$net*$line->committed_quantity;
