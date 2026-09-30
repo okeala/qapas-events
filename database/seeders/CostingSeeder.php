@@ -34,9 +34,11 @@ class CostingSeeder extends Seeder {
   $r=$f->report();$line(['name'=>'Fabrication Douglas : matières pour douze ensembles six places','costing_key'=>'furniture-manufacture','expense_type'=>'investment','unit_gross_cents'=>$r['cash_batch_cents'],'price_source'=>$f->evidence.' Instantané initial du calcul mobilier ; réviser cette ligne après toute modification du plan de débit ou des prix. Aucun amortissement appliqué au préfinancement.']);
   // Only fill untouched inventories, never overwrite quantities, prices or a user's quotation.
   $materials=json_decode(file_get_contents(database_path('data/costing-materials-2026.json')),true,512,JSON_THROW_ON_ERROR);
+  $templates=collect(json_decode(file_get_contents(database_path('data/official-activities.json')),true,512,JSON_THROW_ON_ERROR))->keyBy('template_key');
   $activities=$base->includedActivities;$s->includedActivities()->sync($activities->pluck('id'));
   foreach($activities as $i=>$a){
    $untouched=$a->status==='idea'&&!$a->materials_complete&&$a->materials()->whereNotNull('unit_gross_cents')->doesntExist()&&$a->materials()->whereNotNull('evidence')->doesntExist();
+   if($untouched){$original=$templates->get($a->template_key)['materials']??[];$current=$a->materials()->get();$untouched=count($original)===$current->count();foreach($original as $definition){$existing=$current->firstWhere('name',$definition['name']);if(!$existing){$untouched=false;break;}foreach(['quantity','unit','basis','procurement'] as $field)if($existing->$field!=($definition[$field]??null))$untouched=false;}}
    if($untouched&&$a->planned_runs===1){$a->update(['planned_runs'=>6]);foreach($materials as $data)if($data['activity_key']===$a->template_key){unset($data['activity_key']);$m=$a->materials()->where('name',$data['name'])->first();if($m)$m->update($data);}}
    if($i<6)$s->programSlots()->create(['activity_id'=>$a->id,'day_number'=>intdiv($i,3)+1,'time_label'=>'À planifier — hypothèse trois épreuves / jour']);
   }

@@ -34,10 +34,16 @@ class UnitCostingTest extends TestCase {
  public function test_seed_has_a_separate_costed_working_scenario_and_preserves_edits(): void {
   $this->seed();$s=Scenario::where('template_key','costing-two-days-v1')->firstOrFail();$r=app(UnitCosting::class)->calculate($s);
   $this->assertCount(12,$s->includedStands);$this->assertSame(2,$s->event_days);$this->assertCount(6,$s->programSlots);$this->assertCount(6,$r['activities']);$this->assertGreaterThan(0,$r['investment_cents']);$this->assertGreaterThan(0,$r['gross_cost_cents']);$this->assertSame(0,$s->budgetLines->sum('committed_quantity'));$this->assertSame(0,$s->budgetLines->sum('paid_quantity'));$this->assertFalse($r['report']['launch_ready']);$this->assertNull($s->organizer_full_monthly_cents);
-  $this->assertSame(844994,$r['gross_revenue_cents']);$this->assertLessThan(0,$r['report']['forecast_margin_cents']);
+  $this->assertSame(844994,$r['gross_revenue_cents']);$this->assertSame(1215708,$r['gross_cost_cents']);$this->assertSame(-628524,$r['report']['forecast_margin_cents']);$this->assertLessThan(0,$r['report']['forecast_margin_cents']);
   $independent=collect($r['groups'])->first(fn($g)=>$g['stand']?->kind==='independent');$this->assertSame(16000,$independent['cost']);$this->assertSame(24650,$independent['revenue']-$independent['cost']);
   $line=$s->budgetLines()->where('costing_key','wc')->firstOrFail();$line->update(['unit_gross_cents'=>17500]);$count=$s->budgetLines()->count();$s->update(['event_days'=>3]);$this->seed();$this->assertSame(17500,$line->fresh()->unit_gross_cents);$this->assertSame(3,$s->fresh()->event_days);$this->assertSame($count,$s->budgetLines()->count());
   $this->get('/events/os-jogos-do-agricultor')->assertOk()->assertDontSee('Chiffrage de travail')->assertDontSee('450 €/m³');
+ }
+ public function test_upgrade_preserves_a_previously_customized_inventory(): void {
+  EventProject::create(['name'=>'Os Jogos do Agricultor','slug'=>'os-jogos-do-agricultor']);
+  $this->seed(\Database\Seeders\OfficialActivitiesSeeder::class);$this->seed(\Database\Seeders\LaunchModelSeeder::class);$this->seed(\Database\Seeders\HospitalityOperationsSeeder::class);
+  $a=Activity::where('template_key','omelete-retro')->firstOrFail();$m=$a->materials()->firstOrFail();$m->update(['quantity'=>12]);
+  $this->seed(\Database\Seeders\CostingSeeder::class);$this->assertSame(12,$m->fresh()->quantity);$this->assertNull($m->fresh()->unit_gross_cents);$this->assertSame(1,$a->fresh()->planned_runs);
  }
  public function test_costing_pages_and_related_tables_render_for_active_admin_only(): void {
   $this->seed();$admin=$this->admin();$s=Scenario::where('template_key','costing-two-days-v1')->firstOrFail();
@@ -55,6 +61,7 @@ class UnitCostingTest extends TestCase {
   $data=['scenario_id'=>$s->id,'name'=>'Delivery','unit'=>'trajet','expense_type'=>'operating','unit_gross_cents'=>2000,'vat_basis_points'=>2300,'forecast_quantity'=>2,'committed_quantity'=>0,'paid_quantity'=>0,'paid_by'=>'qapas','reimbursed_cents'=>0,'pricing_status'=>'estimate'];
   Livewire::test(CostsRelationManager::class,$params)->callAction(TestAction::make('create')->table(),data:$data)->assertHasNoActionErrors();
   $l=$s->budgetLines()->firstOrFail();$this->assertSame($stand->id,$l->stand_id);$this->assertSame('cost',$l->kind);$this->assertSame('stand',$l->scope);
+  Livewire::test(CostsRelationManager::class,$params)->callAction(TestAction::make('edit')->table($l),data:['forecast_quantity'=>3])->assertHasNoActionErrors();$this->assertSame(3,$l->fresh()->forecast_quantity);
   $other=$s->eventProject->scenarios()->create(['name'=>'Not included']);
   Livewire::test(CostsRelationManager::class,$params)->callAction(TestAction::make('create')->table(),data:array_replace($data,['scenario_id'=>$other->id,'name'=>'Forbidden']))->assertHasActionErrors(['scenario_id']);$this->assertSame(1,$s->budgetLines()->count());$this->assertSame(0,$other->budgetLines()->count());
  }
@@ -63,7 +70,9 @@ class UnitCostingTest extends TestCase {
   $data=['name'=>'Own','kind'=>'cost','scope'=>'stand','stand_id'=>$stand->id,'forecast_quantity'=>1,'unit_gross_cents'=>1000,'vat_basis_points'=>0];$own=$s->budgetLines()->create($data);$foreign=$s->budgetLines()->create(array_replace($data,['stand_id'=>$other->id,'name'=>'Foreign']));
   $second=$s->eventProject->scenarios()->create(['name'=>'Alternative']);$second->includedStands()->attach($stand);$alternative=$second->budgetLines()->create($data);
   $grid=Livewire::test(CostsRelationManager::class,['ownerRecord'=>$stand,'pageClass'=>\App\Filament\Resources\StandResource\Pages\EditRecord::class])->filterTable('scenario_id',$s->id)->assertCanSeeTableRecords([$own])->assertCanNotSeeTableRecords([$foreign,$alternative]);
-  $grid->callAction(TestAction::make('edit')->table($foreign),data:['name'=>'Hacked']);$this->assertSame('Foreign',$foreign->fresh()->name);
   $grid->filterTable('scenario_id',null)->assertCanNotSeeTableRecords([$own,$foreign,$alternative]);
+  $grid->filterTable('scenario_id',$s->id);
+  try{$grid->callAction(TestAction::make('edit')->table($foreign),data:['name'=>'Hacked']);$this->fail('A foreign row must not resolve in this relation.');}catch(\Filament\Actions\Exceptions\ActionNotResolvableException $e){$this->assertStringContainsString('no longer exists',$e->getMessage());}
+  $this->assertSame('Foreign',$foreign->fresh()->name);
  }
 }
