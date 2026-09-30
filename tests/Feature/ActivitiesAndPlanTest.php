@@ -73,6 +73,7 @@ class ActivitiesAndPlanTest extends TestCase {
   $url=route('plan.image',['project'=>$p->public_id]);$private=route('plan.private-image',['project'=>$p->public_id]);
   $this->get($url)->assertNotFound();$this->get($private)->assertForbidden();$this->assertNull(app(SitePlan::class)->data($p));
   $p->update(['plan_is_public'=>true]);$this->get($url)->assertOk()->assertHeader('Content-Type','image/png');$data=app(SitePlan::class)->data($p);
+  $this->get('/events/test')->assertOk()->assertSee('data-plan-canvas',false)->assertDontSee('Hidden terrace')->assertDontSee('Secret game');
   $this->assertCount(1,$data['terraces']);$this->assertCount(1,$data['activities']);$this->assertSame('Public game',$data['activities'][0]['name']);
   $this->actingAs($this->admin(),'admin')->get($private)->assertOk();$p->update(['is_public'=>false]);$this->get($url)->assertNotFound();
  }

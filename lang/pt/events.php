@@ -50,7 +50,7 @@ return [
 'privacy_rights'=>'Para pedir acesso, retificação, eliminação ou oposição, contacte o organizador. Pode também apresentar reclamação à CNPD. A resposta ao pedido corresponde às diligências que solicita; as novidades opcionais dependem do seu consentimento.',
 'organizer'=>'Responsável pelo tratamento',
 'pending'=>'Contactos a completar antes de abrir os pedidos',
-'local_times'=>'Horários de Portugal continental'
+'local_times'=>'Horários de Portugal continental',
  'programme'=>'Programa em preparação',
  'activities'=>'Saber-fazer, jogos e espetáculo',
  'activity_intro'=>'Seis desafios oficiais e cenários cómicos propostos pelas equipas das freguesias e pelos expositores independentes. As regras finais dependem dos ensaios.',

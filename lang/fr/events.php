@@ -50,7 +50,7 @@ return [
 'privacy_rights'=>'Pour demander l’accès, la rectification, la suppression ou l’opposition au traitement, contactez l’organisateur. Vous pouvez également saisir la CNPD au Portugal. La réponse à votre demande relève des démarches que vous sollicitez ; les nouvelles facultatives reposent sur votre consentement.',
 'organizer'=>'Responsable du traitement',
 'pending'=>'Coordonnées à compléter avant ouverture de la collecte',
-'local_times'=>'Horaires du Portugal continental'
+'local_times'=>'Horaires du Portugal continental',
  'programme'=>'Le programme en préparation',
  'activities'=>'Du savoir-faire, du jeu et du grand spectacle',
  'activity_intro'=>'Six défis officiels, et des scénarios comiques imaginés par les équipes de freguesia et les stands indépendants. Les modalités restent à tester avant confirmation.',
