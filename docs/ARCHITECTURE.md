@@ -27,3 +27,11 @@ L’administration initiale est un atelier commun aux organisateurs de confiance
 ## Exploitation future
 
 Les dates sont stockées en UTC, saisies en Europe/Lisbon dans les séquences. SQLite facilite le démarrage ; avant la vente concurrente, choisir PostgreSQL ou MySQL et tester transactions, verrous, idempotence et sauvegarde/restauration. Prévoir stockage privé des preuves, files de traitement, supervision des callbacks, limitation des imports et rétention documentée. Ne pas déployer la collecte tant que sa notice, ses contacts et son hébergement ne sont pas validés.
+
+## Épreuves et terrasses (v0.2)
+
+`activities` porte la carte publique et le dossier interne ; `activity_materials` est sa nomenclature. Le pivot unique `activity_scenario` sélectionne les épreuves chiffrées sans copier leurs coûts. `ActivityCost` marque les besoins incomplets et `ScenarioCalculator` en déduit coûts économiques et réserves TTC. Leaflet 1.9.4 est la nouvelle dépendance npm, verrouillée ; aucun fournisseur de tuiles externe n’est appelé.
+
+`terraces.boundary` contient un polygone simple relatif à l’image, de 3 à 80 sommets dans [0,100]. Géométrie, appartenance à l’édition et inclusion des points sont contrôlées sur le serveur. La réduction d’une terrasse ne peut abandonner une épreuve hors de sa zone. Toute modification opérationnelle invalide sa revue de risque. Les champs internes ne sont pas sérialisés dans la projection publique.
+
+Le plan est réencodé PNG via GD et stocké sur le disque privé avec un UUID. Les routes image contrôlent les deux indicateurs publics, ou le guard admin actif. Le service de publication limite les polygones/points aux objets publics ; il ne masque pas des pixels dans l’image de fond. Le remplacement d’un fond déjà positionné n’est pas implémenté. Les garde-fous applicatifs ne remplacent pas la visite du site, l’étude de stabilité ou les autorisations.

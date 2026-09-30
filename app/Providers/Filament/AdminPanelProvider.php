@@ -5,10 +5,11 @@ use Filament\PanelProvider;
 class AdminPanelProvider extends PanelProvider {
  public function panel(Panel $panel): Panel {
   return $panel->default()->id('admin')->path('admin')->login()->authGuard('admin')
-   ->brandName('QAPAS Events · Atelier')->colors(['primary'=>\Filament\Support\Colors\Color::Emerald])
+   ->brandName('Os Jogos do Agricultor · Atelier')->colors(['primary'=>\Filament\Support\Colors\Color::Emerald])
    ->viteTheme('resources/css/filament/admin/theme.css')
    ->discoverResources(in:app_path('Filament/Resources'),for:'App\\Filament\\Resources')
-   ->pages([\App\Filament\Pages\Dashboard::class])
+   ->navigationGroups(['1 · Concevoir','2 · Chiffrer','3 · Mobiliser','4 · Préparer','5 · Exploiter','6 · Clôturer'])
+   ->pages([\App\Filament\Pages\Dashboard::class,\App\Filament\Pages\SitePlan::class])
    ->middleware([
     \Illuminate\Cookie\Middleware\EncryptCookies::class,
     \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,

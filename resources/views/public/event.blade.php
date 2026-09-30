@@ -1,8 +1,15 @@
-<x-layout :title="$project->name.' · QAPAS Events'">
+<x-layout :title="$project->name.' · QAPAS'">
  <section class="event-hero event-hero--small"><div><p class="eyebrow">{{ __('events.draft') }}</p><h1>{{ $project->name }}</h1><p class="lead">{{ __('events.lead') }}</p><a class="qapas-button" href="#interest">{{ __('events.interest') }} ↘</a></div></section>
  <div class="event-content">
  @if(session('received'))<div class="notice success" role="status">{{ __('events.received') }}</div>@endif
  <div class="event-grid four-ps">@foreach(['product','price','place','promotion'] as $pillar)<section class="event-card"><p class="eyebrow">0{{ $loop->iteration }}</p><h2>{{ __('events.'.$pillar) }}</h2><p>{{ app()->getLocale()==='pt' ? __('events.'.(['product'=>'official','price'=>'free','place'=>'election','promotion'=>'lead'][$pillar])) : $project->$pillar }}</p></section>@endforeach</div>
+ <section class="event-section"><p class="eyebrow">{{ __('events.programme') }}</p><h2>{{ __('events.activities') }}</h2><p>{{ __('events.activity_intro') }}</p>
+ <div class="event-grid activity-grid">@foreach($activities as $activity)<article class="event-card activity-card">
+ <p class="eyebrow">{{ __('events.track_'.$activity->track) }} · {{ __('events.status_'.$activity->status) }}</p><h3>{{ $activity->name }}</h3><p>{{ $activity->summary }}</p>
+ <p class="activity-access">{{ __('events.access_'.$activity->access) }}</p>@if($activity->broadcast_planned)<p>{{ __('events.broadcast') }}</p>@endif
+ <a class="text-link" href="{{ route('activity.show',['project'=>$project->slug,'activity'=>$activity->public_id]) }}">{{ __('events.discover_activity') }} →</a>
+ </article>@endforeach</div><p>{{ __('events.propose_activity') }} <a href="#interest">{{ __('events.interest') }} →</a></p></section>
+ <x-event-plan :plan="$plan" />
  <section class="event-section"><h2>{{ __('events.offers') }}</h2><p>{{ __('events.indicative') }}</p><div class="event-grid">
  @foreach($offers as $offer)<article class="event-card"><h3>{{ $offer->name }}</h3><p class="price">{{ $offer->price_gross_cents===null ? __('events.quote') : \App\Domain\Finance\Money::format($offer->price_gross_cents) }}</p><p>{{ $offer->capacity>0 ? $offer->capacity.' '.__('events.capacity') : __('events.not_confirmed') }}</p><dl><dt>{{ __('events.included') }}</dt><dd>{{ $offer->includes }}</dd>@if($offer->excludes)<dt>{{ __('events.excluded') }}</dt><dd>{{ $offer->excludes }}</dd>@endif<dt>{{ __('events.delivery') }}</dt><dd>{{ $offer->delivery ?: __('events.not_confirmed') }}</dd></dl><a class="text-link" href="#interest">{{ __('events.interest') }} →</a></article>@endforeach</div></section>
  <section class="event-section interest" id="interest"><div><p class="eyebrow">{{ __('events.interest') }}</p><h2>{{ __('events.headline') }}</h2><p>{{ __('events.interest_intro') }}</p></div><div>

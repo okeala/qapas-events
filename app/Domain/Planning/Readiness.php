@@ -17,6 +17,11 @@ final class Readiness {
   if ($action==='sales') $blockers[]='Contrats versionnés, facturation et paiement à intégrer (v0.2)';
   if ($action==='live') {
    if (!$project->scenarios->contains(fn($scenario)=>$scenario->report()['target_secured'])) $blockers[]='Aucun scénario ne couvre les coûts et l’objectif QAPAS par des engagements';
+   foreach($project->activities()->where('status','approved')->get() as $activity) {
+    if($activity->risk_category==='machinery' && ($activity->access!=='qualified'||blank($activity->operator_requirements)||blank($activity->technical_review)||!$activity->terrace_id||$activity->map_x===null||!$activity->spectator_terrace_id||$activity->terrace_id===$activity->spectator_terrace_id||$activity->terrace?->access==='public'||$activity->spectatorTerrace?->access!=='public')) $blockers[]=$activity->name.' : qualification, zones séparées et validation technique à compléter';
+    if(in_array($activity->risk_category,['water','grafting'],true)&&blank($activity->technical_review)) $blockers[]=$activity->name.' : validation technique à compléter';
+    if($activity->broadcast_planned&&blank($activity->media_plan)) $blockers[]=$activity->name.' : dispositif de captation à préparer';
+   }
    if (!$project->runItems()->exists()) $blockers[]='Conducteur et responsables absents';
    if (!$project->activities()->where('track','official')->where('status','approved')->exists()) $blockers[]='Programme officiel non validé';
    if (!$project->activities()->where('track','public')->where('status','approved')->exists()) $blockers[]='Créneaux grand public non validés';

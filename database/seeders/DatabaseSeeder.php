@@ -5,9 +5,9 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder {
  public function run(): void {
   // Never overwrite an edition that has already been worked on.
-  if(EventProject::where('slug','forqua-de-ouro')->exists()) return;
+  if(EventProject::whereIn('slug',['forqua-de-ouro','os-jogos-do-agricultor'])->exists()) {$this->call(OfficialActivitiesSeeder::class);return;}
   $p=EventProject::create([
-   'name'=>'Forqua de Ouro','slug'=>'forqua-de-ouro','phase'=>'concept','is_public'=>app()->environment('local','testing'),
+   'name'=>'Os Jogos do Agricultor','slug'=>'os-jogos-do-agricultor','phase'=>'concept','is_public'=>app()->environment('local','testing'),
    'product'=>'Une fête autour des freguesias, de défis accessibles et des savoir-faire agricoles. Les équipes de volontaires représentent leur village ; les habitants viennent les soutenir. Des temps distincts sont réservés aux essais du grand public.',
    'price'=>'Entrée grand public prévue gratuite. Les emplacements, services et prestations publicitaires contribuent au financement de l’organisation. Les prix affichés incluent l’IVA ; les ventes restent fermées pendant la préparation.',
    'place'=>'Un site accessible reste à confirmer. Les équipes se constituent localement. Les citoyens élisent des volontaires à la junta ou dans un autre lieu accepté. Les indépendants peuvent également proposer une animation.',
@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder {
    ['Soutenir un stand de freguesia','village',null,0,'Prestation publicitaire et aide matérielle précisément décrites sur devis.','Le sponsor paie QAPAS ; QAPAS documente les achats. Pas de versement informel à une équipe.'],
   ];
   foreach ($offers as [$name,$kind,$price,$capacity,$includes,$excludes]) $p->offers()->create(['name'=>$name,'kind'=>$kind,'price_gross_cents'=>$price,'capacity'=>$capacity,'includes'=>$includes,'excludes'=>$excludes,'delivery'=>'Proposition à consolider avant ouverture des ventes.','is_public'=>true]);
+  $this->call(OfficialActivitiesSeeder::class);
   $p->ideas()->create(['name'=>'Mobiliser une première équipe avant de louer plus grand','pillar'=>'promotion','hypothesis'=>'La fierté de la freguesia peut entraîner des soutiens au-delà des joueurs.','experiment'=>'Rencontrer des volontaires, recueillir les intentions et chiffrer le plus petit format viable.']);
-  foreach(['Panier de fruits en mousse','Plateau coopératif de récolte','Mini-tracteur télécommandé','Puzzle sec de circulation de l’eau','Empilage de caisses légères','Transfert de fruits avec grandes moufles'] as $name) $p->activities()->create(['name'=>$name,'track'=>'official','rules'=>'Idée à prototyper : règles simples, temps court, critères visibles. Matériel léger ; pas de machines conduites, outils tranchants, alcool ou épreuve de force. Prévoir une variante accessible et des essais publics séparés.']);
  }
 }

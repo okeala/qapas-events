@@ -6,7 +6,7 @@ final class ScenarioCalculator {
   $result=['forecast_margin_cents'=>0,'secured_margin_cents'=>0,'paid_operating_gross_cents'=>0,'restricted_receipts_cents'=>0,'vat_reserve_cents'=>0,'missing'=>[]];
   $lines=$scenario->budgetLines;
   if (!$scenario->costs_complete) $result['missing'][]='Périmètre des coûts à confirmer';
-  if (!$lines->contains('kind','cost')) $result['missing'][]='Coûts d’exploitation absents';
+  if (!$lines->contains('kind','cost') && $scenario->includedActivities->isEmpty()) $result['missing'][]='Coûts d’exploitation absents';
   if ($scenario->organizer_full_monthly_cents===null || $scenario->organizer_full_monthly_cents<$scenario->organizer_net_monthly_cents) $result['missing'][]='Coût complet de la rémunération et des charges à confirmer';
   $fixedPay=($scenario->organizer_full_monthly_cents??0)*$scenario->months;
   $result['forecast_margin_cents']-=$fixedPay;
@@ -34,6 +34,14 @@ final class ScenarioCalculator {
     $result['vat_reserve_cents']-=($line->deductible?($gross-$net):0)*$line->paid_quantity;
     $unpaidCosts+=$gross*max(0,$line->forecast_quantity-$line->paid_quantity);
    }
+  }
+  // Activity bills of materials are included directly, never copied as duplicate budget lines.
+  $result['activity_cost_cents']=0;
+  foreach($scenario->includedActivities as $activity){
+   if($activity->event_project_id!==$scenario->event_project_id){$result['missing'][]='Épreuve liée à une autre édition';continue;}
+   $cost=$activity->costReport();$result['activity_cost_cents']+=$cost['economic_cents'];
+   $result['forecast_margin_cents']-=$cost['economic_cents'];$result['secured_margin_cents']-=$cost['economic_cents'];$unpaidCosts+=$cost['gross_cents'];
+   foreach($cost['missing'] as $missing) $result['missing'][]=$activity->name.' : '.$missing;
   }
   $result['vat_reserve_cents']=max(0,$result['vat_reserve_cents']);
   $result['cash_after_reserves_cents']=$result['paid_operating_gross_cents']-$result['vat_reserve_cents']-$unpaidCosts;
