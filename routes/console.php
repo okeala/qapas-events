@@ -14,7 +14,7 @@ Artisan::command('events:admin {email}',function(){
  $this->info('Administrateur créé.');return 0;
 })->purpose('Créer un administrateur local, distinct des comptes Platform');
 Artisan::command('events:prune-interests',function(){
- $count=Interest::where('created_at','<',now()->subDays(config('events.interest_retention_days')))->delete();
+ $count=Interest::whereDoesntHave('registration')->where('created_at','<',now()->subDays(config('events.interest_retention_days')))->delete();
  $this->info($count.' demandes anciennes supprimées.');
 })->purpose('Appliquer la durée de conservation des demandes initiales');
 Schedule::command('events:prune-interests')->dailyAt('03:00');

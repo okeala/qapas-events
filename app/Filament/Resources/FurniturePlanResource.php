@@ -9,8 +9,9 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\{EditAction,Action};
 class FurniturePlanResource extends Resource {
  protected static ?string $model=FurniturePlan::class;
- protected static ?string $modelLabel='Chiffrage mobilier';
- protected static ?string $pluralModelLabel='Fabrication et location du mobilier';
+ protected static bool $shouldRegisterNavigation=false;
+ protected static ?string $modelLabel='Ancien chiffrage Douglas (historique)';
+ protected static ?string $pluralModelLabel='Fabrication Douglas abandonnée · historique';
  protected static string|\UnitEnum|null $navigationGroup='2 · Chiffrer';
  protected static ?int $navigationSort=35;
  public static function form(Schema $schema): Schema {

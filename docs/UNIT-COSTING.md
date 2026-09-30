@@ -1,5 +1,8 @@
 # Chiffrage par unité — simulation du 30 septembre 2026
 
+> Évolution du 30 septembre 2026 : [équipes expertes, locations, candidatures payantes et contrat boissons](EXPERT-REGISTRATION.md). Cette évolution remplace la fabrication Douglas et introduit un paiement de candidature distinct des ventes de stands, toujours fermées.
+
+
 ## Où travailler
 
 **Chiffrer → Chiffrage par unité** : sélectionner un scénario, comparer stands et services, ouvrir une unité. **Scénarios → Chiffrer** et **Stands → Chiffrer** : onglets **Coûts / Recettes**, ajout et édition en tableau lié (Relation Managers Filament 5). **Épreuves → Chiffrer** : nomenclature du matériel et prestations, quantités fixes ou par passage.

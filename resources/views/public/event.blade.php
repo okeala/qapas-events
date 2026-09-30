@@ -3,6 +3,13 @@
  <div class="event-content">
  @if(session('received'))<div class="notice success" role="status">{{ __('events.received') }}</div>@endif
  <div class="event-grid four-ps">@foreach(['product','price','place','promotion'] as $pillar)<section class="event-card"><p class="eyebrow">0{{ $loop->iteration }}</p><h2>{{ __('events.'.$pillar) }}</h2><p>{{ app()->getLocale()==='pt' ? __('events.'.(['product'=>'official','price'=>'free','place'=>'election','promotion'=>'lead'][$pillar])) : $project->$pillar }}</p></section>@endforeach</div>
+ @if($project->registrationCampaign)<section class="event-section event-card"><p>{{ __('registration.intro') }}</p><a class="text-link" href="{{ route('registration.show',['project'=>$project->slug]) }}">{{ __('registration.cta') }} →</a></section>@endif
+ <section class="event-section" id="expert-roles"><h2>{{ __('events.expert_roles_title') }}</h2><p>{{ __('events.expert_roles_intro') }}</p>
+ <div class="event-grid">
+ @foreach(\App\Domain\Teams\ExpertRoles::CODES as $roleCode)
+  <article class="event-card"><h3>{{ __('events.roles.'.$roleCode) }}</h3><p>{{ __('events.role_descriptions.'.$roleCode) }}</p></article>
+ @endforeach
+ </div><p>{{ __('events.expert_roles_process') }}</p><a class="text-link" href="#interest">{{ __('events.interest') }} →</a></section>
  <section class="event-section"><p class="eyebrow">{{ __('events.programme') }}</p><h2>{{ __('events.activities') }}</h2><p>{{ __('events.activity_intro') }}</p>
  <div class="event-grid activity-grid">@foreach($activities as $activity)<article class="event-card activity-card">
  <p class="eyebrow">{{ __('events.track_'.$activity->track) }} · {{ __('events.reveal_'.app(\App\Domain\Planning\Revelation::class)->label($activity)) }}</p><h3>{{ $activity->name }}</h3><p>{{ $activity->summary }}</p>
@@ -20,12 +27,18 @@
  <section class="event-section interest" id="interest"><div><p class="eyebrow">{{ __('events.interest') }}</p><h2>{{ __('events.headline') }}</h2><p>{{ __('events.interest_intro') }}</p></div><div>
  @if(config('events.privacy_ready') && filled(config('events.organizer_name')) && filter_var(config('events.contact_email'), FILTER_VALIDATE_EMAIL))
  @if($errors->any())<div class="notice" role="alert"><ul>@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul></div>@endif
+ <p>{{ __('registration.free') }}</p>
  <form method="post" action="{{ route('event.interest',['project'=>$project->slug]) }}" class="event-form">@csrf
   <label>{{ __('events.profile') }}<select name="profile" required>@foreach(['resident','team','junta','exhibitor','relay','sponsor','volunteer'] as $profile)<option value="{{ $profile }}" @selected(old('profile')===$profile)>{{ __('events.'.$profile) }}</option>@endforeach</select></label>
   <label>{{ __('events.name') }}<input name="name" autocomplete="name" maxlength="120" required value="{{ old('name') }}"></label>
   <label>{{ __('events.email') }}<input name="email" type="email" autocomplete="email" maxlength="254" required value="{{ old('email') }}"></label>
   <label>{{ __('events.freguesia') }}<input name="freguesia" maxlength="120" value="{{ old('freguesia') }}"></label>
   <label>{{ __('events.message') }}<textarea name="message" rows="4" maxlength="3000">{{ old('message') }}</textarea></label>
+  <fieldset><legend>{{ __('events.expert_roles_select') }}</legend><p>{{ __('events.expert_roles_notice') }}</p>
+  @foreach(\App\Domain\Teams\ExpertRoles::CODES as $roleCode)
+   <label class="check"><input type="checkbox" name="expert_roles[]" value="{{ $roleCode }}" @checked(in_array($roleCode,(array)old('expert_roles',[]),true))><span>{{ __('events.roles.'.$roleCode) }}</span></label>
+  @endforeach
+  </fieldset>
   <fieldset><legend>{{ __('events.stand_options') }}</legend><p>{{ __('events.options_notice') }}</p>
   <label>{{ __('events.expected_guests') }}<input type="number" name="expected_guests" min="1" max="10000" value="{{ old('expected_guests') }}"></label>
   <label class="check"><input type="checkbox" name="larger_tent_requested" value="1" @checked(old('larger_tent_requested'))><span>{{ __('events.larger_tent') }}</span></label>

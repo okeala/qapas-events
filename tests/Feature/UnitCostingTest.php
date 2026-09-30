@@ -50,7 +50,7 @@ class UnitCostingTest extends TestCase {
   foreach(['Scenario'=>$s,'Stand'=>$s->includedStands->first(),'Activity'=>$s->includedActivities->first()] as $name=>$record){$class='App\\Filament\\Resources\\'.$name.'Resource';$this->get($class::getUrl('edit',['record'=>$record]))->assertOk();}
   $this->get(\App\Filament\Pages\UnitCosting::getUrl())->assertOk()->assertSee('Chiffrage par unité')->assertSee('À chiffrer');
   $pageClass=\App\Filament\Resources\StandResource\Pages\EditRecord::class;$stand=$s->includedStands->first();
-  Livewire::test(CostsRelationManager::class,['ownerRecord'=>$stand,'pageClass'=>$pageClass])->assertCanSeeTableRecords($s->budgetLines->where('stand_id',$stand->id)->where('kind','cost'));
+  Livewire::test(CostsRelationManager::class,['ownerRecord'=>$stand,'pageClass'=>$pageClass])->filterTable('scenario_id',$s->id)->assertCanSeeTableRecords($s->budgetLines->where('stand_id',$stand->id)->where('kind','cost'));
   Livewire::test(RevenuesRelationManager::class,['ownerRecord'=>$s,'pageClass'=>\App\Filament\Resources\ScenarioResource\Pages\EditRecord::class])->assertCanSeeTableRecords($s->budgetLines->where('kind','revenue')->take(2));
   Livewire::test(MaterialsRelationManager::class,['ownerRecord'=>$s->includedActivities->first(),'pageClass'=>\App\Filament\Resources\ActivityResource\Pages\EditRecord::class])->assertCanSeeTableRecords($s->includedActivities->first()->materials);
   $admin->update(['is_active'=>false]);$this->get(\App\Filament\Pages\UnitCosting::getUrl())->assertForbidden();

@@ -1,5 +1,8 @@
 # Produit et trajectoire
 
+> Évolution du 30 septembre 2026 : [équipes expertes, locations, candidatures payantes et contrat boissons](EXPERT-REGISTRATION.md). Cette évolution remplace la fabrication Douglas et introduit un paiement de candidature distinct des ventes de stands, toujours fermées.
+
+
 ## Principe de croissance
 
 Le format n’est pas décidé par un objectif de fréquentation non prouvé. On propose une expérience compréhensible ; on mesure l’intérêt ; on chiffre un format minimum ; on obtient les engagements ; on prépare ce que l’on peut réellement livrer. Une demande, un devis, un contrat et un paiement ont des valeurs différentes.

@@ -4,9 +4,10 @@ return [
  'contact_email'=>env('EVENTS_CONTACT_EMAIL'),
  'privacy_ready'=>(bool) env('EVENTS_PRIVACY_READY',false),
  'interest_retention_days'=>180,
- // Configuration cannot enable payment: there is intentionally no checkout in v0.1.
+ // Stand sales remain closed. Candidate fees have a separate gated registration configuration.
  'checkout_enabled'=>false,
  'gates'=>[
+   'registration'=>['organizer','site','terms','tax','insurance','privacy'],
    'sales'=>['organizer','site','terms','tax','insurance','privacy'],
    'live'=>['organizer','site','terms','tax','insurance','privacy','safety','food','music'],
  ],

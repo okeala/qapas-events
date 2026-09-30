@@ -5,6 +5,7 @@ final class ScenarioCalculator {
  public function calculate(Scenario $scenario): array {
   $result=['forecast_margin_cents'=>0,'secured_margin_cents'=>0,'paid_operating_gross_cents'=>0,'restricted_receipts_cents'=>0,'vat_reserve_cents'=>0,'missing'=>[]];
   $lines=$scenario->budgetLines;
+  if($scenario->is_archived)$result['missing'][]='Scénario archivé : ne peut pas débloquer le lancement';
   if (!$scenario->costs_complete) $result['missing'][]='Périmètre des coûts à confirmer';
   if (!$lines->contains('kind','cost') && $scenario->includedActivities->isEmpty() && $scenario->includedFeatures->isEmpty()) $result['missing'][]='Coûts d’exploitation absents';
   if ($scenario->organizer_full_monthly_cents===null || $scenario->organizer_full_monthly_cents<$scenario->organizer_net_monthly_cents) $result['missing'][]='Coût complet de la rémunération et des charges à confirmer';

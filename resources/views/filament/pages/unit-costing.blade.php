@@ -6,7 +6,7 @@
   <select id="costing-scenario" wire:model.live="scenarioId" class="mt-2 w-full rounded-lg border border-gray-300 bg-white p-3 text-gray-900 dark:bg-gray-900 dark:text-white">
    <option value="">Choisir un scénario</option>
    @foreach($this->scenarios() as $option)
-    <option value="{{ $option->public_id }}">{{ $option->eventProject->name }} · {{ $option->name }}</option>
+    <option value="{{ $option->public_id }}">{{ $option->eventProject->name }} · {{ $option->name }}{{ $option->is_archived ? ' · ARCHIVE' : '' }}</option>
    @endforeach
   </select>
   <p class="mt-3 text-sm">Un scénario à la fois. Les quantités × prix unitaires alimentent les sous-totaux. Une option à quantité zéro reste inactive. Les cautions et fonds affectés ne sont pas des recettes libres.</p>
@@ -33,6 +33,17 @@
     @endforeach
    </tbody></table></div>
   </x-filament::section>
+  @if($scenario->furniture_paid_by_participant)
+  <x-filament::section heading="Mobilier : budget du participant">
+   <p>Location privilégiée et réglée par le participant au loueur. Ces montants restent séparés du budget QAPAS. Aucun ensemble inclus, aucune fabrication Douglas. La caution remboursable s’ajoute au besoin de trésorerie du participant, pas au prix de la location.</p>
+   <div class="overflow-x-auto"><table class="mt-3 w-full text-left text-sm"><thead><tr><th class="p-3">Stand</th><th class="p-3">Fourniture</th><th class="p-3">Location et transport TTC</th><th class="p-3">Caution</th><th class="p-3">État</th></tr></thead><tbody>
+   @foreach($scenario->includedStands as $stand)
+    @php($furniture = $stand->furnitureBudget())
+    <tr class="border-b"><td class="p-3"><a class="text-primary-600" href="{{ \App\Filament\Resources\StandResource::getUrl('edit',['record'=>$stand]) }}">{{ $stand->name }}</a></td><td class="p-3">{{ ['rental'=>'Location','own'=>'Mobilier propre','loan'=>'Prêt','undecided'=>'À organiser'][$stand->furniture_source] ?? 'À organiser' }}</td><td class="p-3">{{ $stand->furniture_source !== 'rental' ? 'Apport à documenter' : ($furniture['gross_cents'] === null ? 'Devis à obtenir' : \App\Domain\Finance\Money::format($furniture['gross_cents'])) }}</td><td class="p-3">{{ $furniture['deposit_cents'] === null ? 'À confirmer' : \App\Domain\Finance\Money::format($furniture['deposit_cents']) }}</td><td class="p-3">{{ $furniture['confirmed'] ? 'Fourniture confirmée' : 'À confirmer' }}</td></tr>
+   @endforeach
+   </tbody></table></div>
+  </x-filament::section>
+  @endif
   <x-filament::section heading="Épreuves : nomenclatures comptées une seule fois">
    <div class="overflow-x-auto"><table class="w-full text-left text-sm"><thead><tr class="border-b"><th class="p-3">Épreuve</th><th class="p-3">Passages</th><th class="p-3">Coût TTC</th><th class="p-3">État</th></tr></thead><tbody>
     @foreach($costing['activities'] as $item)

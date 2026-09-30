@@ -1,5 +1,8 @@
 # Architecture indépendante
 
+> Évolution du 30 septembre 2026 : [équipes expertes, locations, candidatures payantes et contrat boissons](EXPERT-REGISTRATION.md). Cette évolution remplace la fabrication Douglas et introduit un paiement de candidature distinct des ventes de stands, toujours fermées.
+
+
 Monolithe Laravel 13 : domaine et données propres, controllers publics fins, services financiers/de transition, administration Filament 5/Livewire 4. Le produit a sa propre base, clé, cookie, identité `events` et configuration. Aucun appel à Platform n’est nécessaire pour lire une édition ou utiliser l’atelier local.
 
 `packages/qapas-shared` 0.1.8 est un instantané de présentation repris de `okeala/qapas-application`, source inspectée au 30 septembre 2026, arbre Git `661dfb0758f2350f776d772872d962b55454120d`. Le paquet est utilisé pour la navigation publique et les styles, pas comme application mère. Les composants supplémentaires restent disponibles sans exposer leurs routes. Les dépendances Composer/npm ont été reprises verrouillées à l’identique de cette source ; seul le nom du projet et l’empreinte de métadonnées racine ont changé.

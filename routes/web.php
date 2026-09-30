@@ -11,6 +11,11 @@ Route::get('/events/forqua-de-ouro',function(){
 });
 Route::get('/events/{project:slug}',[PublicEventController::class,'show'])->name('event.show');
 Route::post('/events/{project:slug}/interest',[PublicEventController::class,'interest'])->middleware('throttle:interest')->name('event.interest');
+Route::get('/events/{project:slug}/candidature',[\App\Http\Controllers\RegistrationController::class,'show'])->name('registration.show');
+Route::post('/events/{project:slug}/candidature',[\App\Http\Controllers\RegistrationController::class,'store'])->middleware('throttle:interest')->name('registration.store');
+Route::get('/candidatures/{registration}',[\App\Http\Controllers\RegistrationController::class,'status'])->middleware(['signed','throttle:60,1'])->name('registration.status');
+Route::post('/candidatures/{registration}/payer',[\App\Http\Controllers\RegistrationController::class,'pay'])->middleware(['signed','throttle:6,1'])->name('registration.pay');
+Route::post('/payments/stripe/webhook',[\App\Http\Controllers\RegistrationController::class,'webhook'])->middleware('throttle:120,1')->name('registration.webhook');
 Route::view('/privacy','public.privacy')->name('privacy');
 Route::post('/language',function(Request $request){
  $data=$request->validate(['locale'=>['required',Rule::in(config('qapas_application.locales'))]]);

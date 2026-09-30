@@ -26,6 +26,7 @@ final class LaunchReport {
   }
   $costNet+=$r['site_cost_cents'];$costGross+=$r['site_gross_cents'];
   foreach($s->includedStands as $stand){
+   if($s->furniture_paid_by_participant&&!$stand->furnitureBudget()['confirmed'])$r['missing'][]=$stand->name.' : mobilier à charge participant, location/apport à confirmer';
    if($stand->event_project_id!==$s->event_project_id){$r['missing'][]='Stand hors édition';continue;}
    $contribution=['name'=>$stand->name,'forecast_cents'=>0,'committed_cents'=>0,'verified_cents'=>0,'complete'=>$stand->direct_costs_complete];
    $lines=$s->budgetLines->where('stand_id',$stand->id);

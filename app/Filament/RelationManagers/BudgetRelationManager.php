@@ -20,7 +20,7 @@ abstract class BudgetRelationManager extends RelationManager {
   $owner=$this->getOwnerRecord();
   return Scenario::where('event_project_id',$owner->event_project_id)->when($owner instanceof Stand,fn($q)=>$q->whereHas('includedStands',fn($q)=>$q->where('stands.id',$owner->id)))->when($owner instanceof Scenario,fn($q)=>$q->whereKey($owner->id));
  }
- private function defaultScenario(): ?int {return $this->scenarios()->orderByRaw("CASE WHEN template_key = 'costing-two-days-v1' THEN 0 ELSE 1 END")->orderByDesc('id')->value('id');}
+ private function defaultScenario(): ?int {return $this->scenarios()->orderByRaw("CASE WHEN template_key = 'costing-rental-experts-v1' THEN 0 WHEN template_key = 'costing-two-days-v1' THEN 1 ELSE 2 END")->orderByDesc('id')->value('id');}
  public function form(Schema $schema): Schema {
   $stand=$this->getOwnerRecord() instanceof Stand;
   return $schema->columns(2)->components([

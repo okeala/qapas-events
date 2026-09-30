@@ -1,5 +1,8 @@
 # Contraintes juridiques — exigences, pas avis de conformité
 
+> Évolution du 30 septembre 2026 : [équipes expertes, locations, candidatures payantes et contrat boissons](EXPERT-REGISTRATION.md). Cette évolution remplace la fabrication Douglas et introduit un paiement de candidature distinct des ventes de stands, toujours fermées.
+
+
 Le règlement Belmonte Medieval fournit une structure intéressante : dossier de candidature, admission, périmètre du stand, obligations, sécurité, délais et responsabilités. Ses tarifs municipaux ne prouvent pas le coût commercial de QAPAS. Ses clauses ne deviennent pas automatiquement opposables dans un événement privé.
 
 ## Dès la fondation

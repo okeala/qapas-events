@@ -1,5 +1,8 @@
 # Os Jogos do Agricultor — QAPAS Events
 
+**Version du 30 septembre 2026 :** mobilier à la charge des participants (location privilégiée), treize rôles experts par équipe, candidature de 10 € TTC et tickets boissons pour les non-retenus. Paiement Stripe livré **désactivé**, avec ouverture conditionnée et suivi du financement du contrat boissons. Voir [le fonctionnement et l’activation](docs/EXPERT-REGISTRATION.md). Le scénario actif est `costing-rental-experts-v1` ; les chiffrages Douglas ci-dessous relèvent de l’historique.
+
+
 Application autonome de conception et de pilotage d’événements locaux. **v0.3 — lancement 6 + 6, contributions et plan géographique**. Elle ne copie pas Farmers Games et ne repose pas sur l’application Platform. Elle réutilise le paquet de présentation QAPAS.
 
 ## Installation locale
