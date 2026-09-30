@@ -3,6 +3,7 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 for required in php composer node npm; do command -v "$required" >/dev/null || { echo "Manquant : $required" >&2; exit 1; }; done
 php -r 'if (PHP_VERSION_ID < 80400) {fwrite(STDERR, "PHP 8.4+ requis pour les tests verrouillés (Laravel : 8.3+).\n");exit(1);}'
+php -r 'if (!extension_loaded("gd")) {fwrite(STDERR, "Extension PHP GD requise pour importer les plans et exécuter les tests. Activez GD pour votre interpréteur PHP CLI, puis relancez ce script.\n");exit(1);}'
 [[ "$(node -p 'process.versions.node.split(".")[0]')" == 24 ]] || { echo 'Node 24 requis (.nvmrc).' >&2; exit 1; }
 if [[ ! -f .env ]]; then cp .env.example .env; fi
 if ! grep -Eq '^APP_ENV=local$' .env; then echo 'Ce script est réservé à APP_ENV=local.' >&2; exit 1; fi
