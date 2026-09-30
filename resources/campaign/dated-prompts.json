@@ -1,0 +1,15 @@
+{
+  "mode": "built-in imagegen edit",
+  "date": "2026-09-30",
+  "targets": [
+    "01-teaser.webp",
+    "02-candidatures.webp",
+    "03-programme.webp"
+  ],
+  "prompts": [
+    "Use case: text-localization. Edit target is the attached Portuguese rural teaser poster. Preserve its woodcut artwork, forest green, cream and ochre palette, QAPAS heading, village title and main teaser message. Integrate prominently, clearly, accurately in the lower text area this exact schedule: 'SÁBADO 12 E DOMINGO 13' then 'DE DEZEMBRO DE 2026' then '10h–22h · ALDEIA DO SOUTO'. Rearrange lower text spacing as needed without crowding. Keep 'Em breve, no site oficial' with '[ENDEREÇO A CONFIRMAR]' smaller and retain 'PROTÓTIPO · NÃO PUBLICAR' in footer. No invented URL or partner.",
+    "Use case: text-localization. Edit target is the attached Portuguese candidatures poster. Preserve all people and rural woodcut artwork, title and palette. Add a prominent clear date block: 'SÁBADO 12 E DOMINGO 13' / 'DE DEZEMBRO DE 2026' / '10h–22h · ALDEIA DO SOUTO'. Replace the three small benefit columns with a simpler clear strip '10 € COM IVA · 10 € EM VALES DE BEBIDAS' and underneath 'Selecionado ou não, apoias a tua freguesia.' Then 'Podes candidatar-te a vários papéis.' Keep 'CANDIDATURAS ABERTAS' as a future campaign prototype and smaller note 'Texto a usar apenas após abertura oficial'. Footer '[SITE OFICIAL A CONFIRMAR]' and 'PROTÓTIPO · NÃO PUBLICAR'. Avoid tiny text, correct accents, no invented URL.",
+    "Use case: text-localization. Edit target is the attached Portuguese programme/sponsors rural woodcut poster. Preserve rural family planting illustration, all headings, green cream ochre palette and principal sponsor plus three partner boxes including COPOS. Replace [DATA CONFIRMADA] and [SITE OFICIAL] strip with a full-width legible date block: 'SÁBADO 12 E DOMINGO 13' / 'DE DEZEMBRO DE 2026 · 10h–22h'. Keep a smaller '[SITE OFICIAL A CONFIRMAR]'. Keep ALDEIA DO SOUTO and PROTÓTIPO · NÃO PUBLICAR. No actual sponsor names invented. Clear accurate date typography, enlarge date area if needed."
+  ],
+  "final_correction": "Use case: text-localization. Edit this programme poster ONLY in its sponsorship area at the bottom. The large full-width cream sponsor box currently says '[SITE OFICIAL A CONFIRMAR]'. Replace that text with exactly 'PATROCINADOR PRINCIPAL'. Keep the three boxes below exactly 'PARCEIRO 1', 'PARCEIRO 2', 'COPOS'. Keep the full date block exactly 'SÁBADO 12 E DOMINGO 13' / 'DE DEZEMBRO DE 2026 · 10h–22h', all artwork, typography, title and PROTÓTIPO · NÃO PUBLICAR untouched. If needed add '[SITE OFICIAL A CONFIRMAR]' only as a tiny footer line outside the sponsor boxes. Preserve all the rest unchanged."
+}

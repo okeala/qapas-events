@@ -64,3 +64,16 @@ Route::post('/billets/{ticket}/arbres/{slot}/retirer-nom',[\App\Http\Controllers
 Route::get('/workspace/campagne/{poster}',function(string $poster){abort_unless(auth('admin')->user()?->is_active,403);abort_unless(in_array($poster,['01-teaser','02-candidatures','03-programme'],true),404);return response()->file(resource_path('campaign/'.$poster.'.webp'),['Content-Type'=>'image/webp','Cache-Control'=>'private, no-store','X-Robots-Tag'=>'noindex, nofollow']);})->name('campaign.poster');
 
 Route::get('/workspace/preview/{project:slug}/plantation',[\App\Http\Controllers\PlantingController::class,'preview'])->name('planting.preview');
+
+Route::post('/workspace/billets/{ticket}/boissons',[\App\Http\Controllers\TicketController::class,'drinks'])->middleware('throttle:30,1')->name('ticket.drinks');
+Route::get('/signaler/{point}',[\App\Http\Controllers\CommunityController::class,'report'])->middleware('throttle:60,1')->name('incident.report');
+Route::post('/signaler/{point}',[\App\Http\Controllers\CommunityController::class,'submitReport'])->middleware('throttle:6,1')->name('incident.submit');
+Route::get('/workspace/plaques/{point}',[\App\Http\Controllers\CommunityController::class,'pointSheet'])->name('incident.sheet');
+Route::get('/merci/{invitation}',[\App\Http\Controllers\CommunityController::class,'feedback'])->middleware('throttle:30,1')->name('feedback.show');
+Route::post('/merci/{invitation}',[\App\Http\Controllers\CommunityController::class,'saveFeedback'])->middleware('throttle:6,1')->name('feedback.submit');
+Route::get('/events/{project:slug}/rallye',[\App\Http\Controllers\CommunityController::class,'rally'])->name('rally.show');
+Route::get('/events/{project:slug}/engagements',[\App\Http\Controllers\CommunityController::class,'commitments'])->name('community.show');
+Route::get('/events/{project:slug}/blog',[\App\Http\Controllers\CommunityController::class,'blog'])->name('blog.index');
+Route::get('/events/{project:slug}/blog/{post}',[\App\Http\Controllers\CommunityController::class,'article'])->name('blog.show');
+
+Route::get('/workspace/sponsors/{sponsorship}/plaque',[\App\Http\Controllers\CommunityController::class,'sponsorSheet'])->name('sponsor.sheet');

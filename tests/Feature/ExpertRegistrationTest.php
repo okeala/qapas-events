@@ -27,7 +27,7 @@ class ExpertRegistrationTest extends TestCase {
  private function closeVote(RegistrationCampaign $c): void {$this->travel(11)->days();$c->update(['vote_closed_at'=>now(),'vote_minutes_reference'=>'Signed local vote minutes']);}
  public function test_seed_archives_douglas_and_has_no_fabrication_or_included_furniture_in_current_scenario(): void {
   $this->seed();$s=Scenario::where('template_key','costing-rental-experts-v1')->firstOrFail();$r=app(UnitCosting::class)->calculate($s);
-  $this->assertTrue($s->furniture_paid_by_participant);$this->assertSame(1146634,$r['gross_cost_cents']);$this->assertSame(-559450,$r['report']['forecast_margin_cents']);$this->assertFalse($r['report']['launch_ready']);
+  $this->assertTrue($s->furniture_paid_by_participant);$this->assertSame(1196634,$r['gross_cost_cents']);$this->assertSame(-609450,$r['report']['forecast_margin_cents']);$this->assertFalse($r['report']['launch_ready']);
   $this->assertFalse($s->budgetLines()->where('costing_key','furniture-manufacture')->exists());$this->assertSame(0,$s->includedStands->sum('included_furniture_sets'));$this->assertTrue(Scenario::where('template_key','costing-two-days-v1')->first()->is_archived);
   $stand=$s->includedStands->first();$stand->update(['furniture_unit_gross_cents'=>2000,'furniture_delivery_cents'=>1000,'furniture_deposit_cents'=>5000,'furniture_evidence'=>'Rental quote']);$stand->update(['furniture_confirmed'=>true]);$this->assertSame(5000,$stand->furnitureBudget()['gross_cents']);$this->assertTrue($stand->furnitureBudget()['confirmed']);
   $this->seed();$this->assertSame(2000,$stand->fresh()->furniture_unit_gross_cents);$this->assertDatabaseCount('registration_campaigns',1);$this->assertFalse(RegistrationCampaign::first()->is_open);
@@ -35,7 +35,7 @@ class ExpertRegistrationTest extends TestCase {
   $this->withSession(['locale'=>'pt'])->followingRedirects()->get('/events/os-jogos-do-agricultor/candidature')->assertOk()->assertSee('10 € com IVA');
  }
  public function test_thirteen_roles_require_review_and_documented_cumulation_before_election(): void {
-  $this->admin();$p=EventProject::create(['name'=>'Village','slug'=>'village']);$team=$p->teams()->create(['name'=>'Team','freguesia'=>'Belmonte']);$this->assertCount(13,$team->roleAssignments);ExpertRoles::seedSlots($team);$this->assertCount(13,$team->fresh()->roleAssignments);
+  $this->admin();$p=EventProject::create(['name'=>'Village','slug'=>'village']);$team=$p->teams()->create(['name'=>'Team','freguesia'=>'Belmonte']);$this->assertCount(14,$team->roleAssignments);ExpertRoles::seedSlots($team);$this->assertCount(14,$team->fresh()->roleAssignments);
   foreach($team->roleAssignments as $role)$role->update(['candidate_name'=>'Expert','candidate_reference'=>'register-1','consent_confirmed'=>true,'competence_evidence'=>'Skill checked','status'=>'confirmed']);
   $this->assertSame(13,$team->composition()['covered']);$this->assertFalse($team->composition()['complete']);$team->update(['role_cumulation_evidence'=>'All timetables and responsibilities checked','election_minutes'=>'Signed local ballot minutes']);$team->update(['status'=>'elected']);$this->assertTrue($team->composition()['complete']);
   $team->roleAssignments->first()->update(['candidate_name'=>'Replacement']);$this->assertFalse($team->fresh()->composition()['complete']);$this->assertNull($team->fresh()->role_cumulation_evidence);

@@ -1,8 +1,8 @@
 <?php
 return [
  'title'=>'Representar a minha freguesia',
- 'intro'=>'Uma candidatura: 10 € com IVA por pessoa e edição, mesmo para vários papéis. A candidatura fica validada após confirmação do pagamento. A votação local determina a seleção. Se não for selecionado, recebe 10 € em vales de bebidas no bar QAPAS.',
- 'cta'=>'Ver condições de candidatura · 10 € com IVA',
+ "intro"=>"A tua participação de 10 € com IVA apoia a tua freguesia e ajuda a fazer destes Jogos um grande encontro. Podes candidatar-te a vários papéis com uma única inscrição por pessoa e edição. Após confirmação do pagamento, recebes sempre 10 € em vales de bebidas no bar QAPAS, sejas ou não selecionado. A votação local escolhe os membros da equipa.",
+ "cta"=>"Juntar-me à minha equipa",
  'closed'=>'As candidaturas pagas ainda não estão abertas. Pode manifestar gratuitamente o seu interesse na página do evento.',
  'conditions'=>'Condições da candidatura',
  'refund'=>'Cancelamento, adiamento e reembolso',

@@ -1,5 +1,7 @@
 # Contraintes juridiques — exigences, pas avis de conformité
 
+> Évolution active du 30 septembre 2026 : [communauté et continuité 2027](COMMUNITY-2026.md) — 10 € de boissons pour tous les billets payés, six rôles indispensables, conventions, prix de 500 €, QR et retours. Ces règles prévalent sur les exemples historiques divergents.
+
 > Version active : [tickets-avantages, prospection, sponsoring, plantations et communication par phase](ADVANTAGES-MOBILIZATION.md). Les paragraphes historiques ci-dessous sur soutien facultatif / entrée gratuite et contrepartie candidat distincte restent applicables aux anciens contrats seulement.
 
 > Évolution du 30 septembre 2026 : [équipes expertes, locations, candidatures payantes et contrat boissons](EXPERT-REGISTRATION.md). Cette évolution remplace la fabrication Douglas et introduit un paiement de candidature distinct des ventes de stands, toujours fermées.

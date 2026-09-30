@@ -1,5 +1,7 @@
 # Os Jogos do Agricultor — QAPAS Events
 
+> Évolution active du 30 septembre 2026 : [communauté et continuité 2027](docs/COMMUNITY-2026.md) — 10 € de boissons pour tous les billets payés, six rôles indispensables, conventions, prix de 500 €, QR et retours. Ces règles prévalent sur les exemples historiques divergents.
+
 > Version active : [tickets-avantages, prospection, sponsoring, plantations et communication par phase](docs/ADVANTAGES-MOBILIZATION.md). Les paragraphes historiques ci-dessous sur soutien facultatif / entrée gratuite et contrepartie candidat distincte restent applicables aux anciens contrats seulement.
 
 **Version du 30 septembre 2026 :** mobilier à la charge des participants (location privilégiée), treize rôles experts par équipe, candidature de 10 € TTC et tickets boissons pour les non-retenus. Paiement Stripe livré **désactivé**, avec ouverture conditionnée et suivi du financement du contrat boissons. Voir [le fonctionnement et l’activation](docs/EXPERT-REGISTRATION.md). Le scénario actif est `costing-rental-experts-v1` ; les chiffrages Douglas ci-dessous relèvent de l’historique.

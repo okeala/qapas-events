@@ -11,7 +11,7 @@ class RegistrationController {
  public function store(Request $request,EventProject $project){
   abort_if(\App\Models\PresalePlan::where('event_project_id',$project->id)->exists(),409,'Utiliser la prévente de cette édition.');
   abort_unless($project->is_public,404);
-  $data=$request->validate(['name'=>'required|string|max:120','email'=>'required|email:rfc|max:254','freguesia'=>'required|string|max:120','expert_roles'=>'required|array|min:1|max:13','expert_roles.*'=>['required','string','distinct',Rule::in(ExpertRoles::CODES)],'terms_version'=>'required|string|max:100','terms'=>'accepted','privacy'=>'accepted','website'=>'nullable|string|max:0']);
+  $data=$request->validate(['name'=>'required|string|max:120','email'=>'required|email:rfc|max:254','freguesia'=>'required|string|max:120','expert_roles'=>'required|array|min:1|max:14','expert_roles.*'=>['required','string','distinct',Rule::in(ExpertRoles::CODES)],'terms_version'=>'required|string|max:100','terms'=>'accepted','privacy'=>'accepted','website'=>'nullable|string|max:0']);
   $registration=DB::transaction(function()use($data,$project,$request){
    $c=RegistrationCampaign::where('event_project_id',$project->id)->lockForUpdate()->firstOrFail();
    abort_unless($c->is_open&&!$c->blockers(),409);if($data['terms_version']!==$c->terms_version)throw ValidationException::withMessages(['terms'=>__('registration.changed')]);

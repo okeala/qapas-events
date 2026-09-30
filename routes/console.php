@@ -24,3 +24,6 @@ Schedule::command('events:prune-interests')->dailyAt('03:00');
 
 Artisan::command('events:promotion',function(){ $count=app(\App\Domain\Promotion\PromotionPipeline::class)->tick();$this->info($count.' diffusions traitées ; consulter les références et blocages.');});
 Schedule::command('events:promotion')->everyMinute()->withoutOverlapping();
+
+Artisan::command('events:feedback',function(){ $this->info(app(\App\Domain\Community\Feedback::class)->tick().' invitation(s) acceptée(s) par le transport.'); })->purpose('Remerciements après événement, uniquement autorisés et contacts revus');
+\Illuminate\Support\Facades\Schedule::command('events:feedback')->everyMinute()->withoutOverlapping();

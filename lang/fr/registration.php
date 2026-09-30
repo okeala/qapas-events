@@ -1,8 +1,8 @@
 <?php
 return [
  'title'=>'Représenter ma freguesia',
- 'intro'=>'Une candidature : 10 € TTC par personne et par édition, même pour plusieurs rôles. Votre candidature est validée après confirmation du paiement. Le vote local détermine la sélection. Si vous n’êtes pas retenu, vous recevez 10 € en tickets boissons au bar QAPAS.',
- 'cta'=>'Voir les conditions de candidature · 10 € TTC',
+ "intro"=>"Votre participation de 10 € TTC soutient votre freguesia et aide à faire de ces Jeux un grand rendez-vous. Vous pouvez postuler à plusieurs rôles avec une seule candidature par personne et par édition. Après confirmation du paiement, vous disposez dans tous les cas de 10 € en tickets-boissons au bar QAPAS, que vous soyez sélectionné ou non. Le vote local choisit les membres de l’équipe.",
+ "cta"=>"Rejoindre mon équipe",
  'closed'=>'Les candidatures payantes ne sont pas encore ouvertes. Vous pouvez signaler gratuitement votre intérêt depuis la page de l’événement.',
  'conditions'=>'Conditions de candidature',
  'refund'=>'Annulation, report et remboursement',

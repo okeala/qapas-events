@@ -20,7 +20,7 @@ class PublicEventController {
    'freguesia'=>['nullable','string','max:120'],'message'=>['nullable','string','max:3000'],
    'privacy'=>['accepted'],'marketing_opt_in'=>['sometimes','boolean'],
    'larger_tent_requested'=>['sometimes','boolean'],'extra_furniture_requested'=>['sometimes','boolean'],'expected_guests'=>['nullable','integer','between:1,10000'],
-   'expert_roles'=>['nullable','array','max:13'],'expert_roles.*'=>['string','distinct',Rule::in(\App\Domain\Teams\ExpertRoles::CODES)],
+   'expert_roles'=>['nullable','array','max:14'],'expert_roles.*'=>['string','distinct',Rule::in(\App\Domain\Teams\ExpertRoles::CODES)],
    'website'=>['nullable','string','max:0'],
    'source'=>['nullable',Rule::in(['direct','junta','relay','field','social'])],
   ]);

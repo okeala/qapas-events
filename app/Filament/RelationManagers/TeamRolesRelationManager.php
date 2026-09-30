@@ -10,13 +10,13 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Actions\EditAction;
 class TeamRolesRelationManager extends RelationManager {
  protected static string $relationship='roleAssignments';
- protected static ?string $title='Les treize rôles à pourvoir';
+ protected static ?string $title='Rôles indispensables et talents complémentaires';
  public function form(Schema $schema): Schema {return $schema->columns(2)->components([
   Select::make('role_code')->label('Rôle expert')->options(ExpertRoles::labels())->disabled(),
   Select::make('interest_id')->label('Candidature reçue')->options(fn(?TeamRoleAssignment $record)=>Interest::where('event_project_id',$this->getOwnerRecord()->event_project_id)->whereJsonContains('expert_roles',$record?->role_code)->get()->mapWithKeys(fn($interest)=>[$interest->id=>$interest->name.' · '.$interest->freguesia]))->searchable()->helperText('Proposition locale possible ; pour confirmer un rôle dans une édition payante, lier le dossier dont les 10 € ont été effectivement payés.'),
   TextInput::make('candidate_name')->label('Personne proposée')->maxLength(120),
   TextInput::make('candidate_reference')->label('Référence de personne au registre de l’édition')->maxLength(120)->helperText('Réutiliser la même référence pour une même personne. Référence interne, pas de numéro de pièce d’identité. Sert à vérifier les cumuls et l’unicité entre équipes.'),
-  Toggle::make('consent_confirmed')->label('La personne accepte cette candidature et ce rôle'),
+  Toggle::make('shared_operator')->label('Pelliste partagé entre équipes'),Textarea::make('sharing_evidence')->label('Accords des équipes, horaires, impartialité et contrôle de chaque passage')->helperText('Même candidature et même paiement ; aucun passage simultané. Le partage doit être confirmé sur chaque affectation.'),Toggle::make('consent_confirmed')->label('La personne accepte cette candidature et ce rôle'),
   Textarea::make('competence_evidence')->label('Compétence vérifiée, disponibilité et référence de contrôle')->maxLength(5000)->helperText('Noter qui a vérifié et sur quelle base. Pour le comptable : exercice professionnel. Pour les engins : expérience, titres et autorisation adaptés à contrôler. Aucun document d’identité ni renseignement médical ici.')->columnSpanFull(),
   Select::make('status')->label('Avancement')->options(['vacant'=>'À recruter','proposed'=>'Personne proposée, à vérifier','confirmed'=>'Rôle pourvu et vérifié'])->required()->helperText('La confirmation d’un rôle ne remplace pas le résultat du vote local. Modifier la personne ou les preuves impose une nouvelle confirmation.'),
  ]);}

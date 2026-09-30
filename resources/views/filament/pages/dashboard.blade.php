@@ -1,4 +1,6 @@
 <x-filament-panels::page>
+<section wire:poll.15s><h2 class="text-xl font-semibold">Permanence · signalements à traiter</h2><div class="grid gap-3 md:grid-cols-2">@forelse($this->urgentIncidents() as $incident)<a class="rounded-xl border p-4" href="{{ \App\Filament\Resources\IncidentResource::getUrl('index',['tableSearch'=>$incident->name]) }}"><strong>{{ $incident->severity==='stop'?'URGENT · ':'' }}{{ $incident->name }}</strong><p>{{ $incident->owner }} · {{ $incident->status }}</p><p>{{ $incident->created_at->timezone('Europe/Lisbon')->format('d/m H:i') }}</p></a>@empty<p>Aucun signalement ouvert.</p>@endforelse</div></section>
+
  <div class="space-y-6">
  <x-filament::section heading="Grandir au rythme des engagements">
   <p>Une demande ne vaut ni vente ni encaissement. Comparez les formats, documentez les coûts, puis engagez le palier adapté.</p>

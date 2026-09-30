@@ -26,6 +26,7 @@ final class LaunchReport {
   }
   $costNet+=$r['site_cost_cents'];$costGross+=$r['site_gross_cents'];
   foreach($s->includedStands as $stand){
+   if($s->eventProject->community_version&&$stand->kind==='village'&&!\App\Models\FreguesiaAgreement::where('stand_id',$stand->id)->where('status','signed')->exists())$r['missing'][]=$stand->name.' : convention de la freguesia à faire signer par son représentant habilité';
    foreach($stand->requirements as $need)if(!$need->valid())$r['missing'][]=$stand->name.' : besoin technique à valider · '.$need->name;
    if($s->furniture_paid_by_participant&&!$stand->furnitureBudget()['confirmed'])$r['missing'][]=$stand->name.' : mobilier à charge participant, location/apport à confirmer';
    if($stand->event_project_id!==$s->event_project_id){$r['missing'][]='Stand hors édition';continue;}
