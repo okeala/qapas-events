@@ -41,14 +41,14 @@ class MerchandisingCommercialTest extends TestCase {
  }
  public function test_badge_is_not_transferable_or_valid_for_a_removed_holder_or_fake_player(): void {
   $b=$this->badge();$duplicate=$b->replicate(['public_id','serial']);$this->invalid(fn()=>$duplicate->save());$this->invalid(fn()=>$b->update(['person_key'=>'another']));$b->refresh();$pack=$b->welcomePackPlan;$pack->update(['people'=>[]]);$this->assertFalse($b->fresh()->valid());$this->travel(3)->days();$this->assertFalse($b->fresh()->valid());
-  $pack->update(['people'=>[['person_key'=>'fake-player','category'=>'players','size'=>'L','confirmed'=>true]]]);$this->invalid(fn()=>EventBadge::create(['event_project_id'=>$b->event_project_id,'welcome_pack_plan_id'=>$pack->id,'person_key'=>'fake-player','role'=>'players','status'=>'active','valid_from'=>now()->subDay(),'valid_until'=>now()->addDay(),'evidence'=>'A roster entry alone is not an election result']));
+  $pack->update(['people'=>[['person_key'=>'fake-player','name'=>'Unselected private person','category'=>'players','size'=>'L','confirmed'=>true]]]);$this->invalid(fn()=>EventBadge::create(['event_project_id'=>$b->event_project_id,'welcome_pack_plan_id'=>$pack->id,'person_key'=>'fake-player','role'=>'players','status'=>'active','valid_from'=>now()->subDay(),'valid_until'=>now()->addDay(),'evidence'=>'A roster entry alone is not an election result']));
   $b->eventProject->update(['is_public'=>false]);$this->get($b->url())->assertNotFound();
  }
  public function test_merchandising_and_badge_forms_and_comparison_views_render_for_admin_only(): void {
   $plan=$this->seedPlan();foreach(['CommercialPlan','MerchandisingOption','EventBadge'] as $name){$resource='App\\Filament\\Resources\\'.$name.'Resource';$this->get($resource::getUrl())->assertOk();\Livewire\Livewire::test($resource.'\\Pages\\ManageRecords')->mountAction('create')->assertHasNoActionErrors();}
-  $prices=\Livewire\Livewire::test(\App\Filament\Resources\CommercialPlanResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('report')->table($plan))->assertActionMounted('report')->assertSuccessful();
+  $prices=\Livewire\Livewire::test(\App\Filament\Resources\CommercialPlanResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('report')->table($plan))->assertActionMounted(\Filament\Actions\Testing\TestAction::make('report')->table($plan))->assertSuccessful();
   $this->assertStringContainsString('PRÉVISION CONDITIONNELLE',$prices->instance()->getMountedAction()->getModalContent()->render());
-  $comparison=\Livewire\Livewire::test(\App\Filament\Resources\MerchandisingOptionResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('compare')->table(MerchandisingOption::first()))->assertActionMounted('compare')->assertSuccessful();
+  $comparison=\Livewire\Livewire::test(\App\Filament\Resources\MerchandisingOptionResource\Pages\ManageRecords::class)->mountAction(\Filament\Actions\Testing\TestAction::make('compare')->table(MerchandisingOption::first()))->assertActionMounted(\Filament\Actions\Testing\TestAction::make('compare')->table(MerchandisingOption::first()))->assertSuccessful();
   $this->assertStringContainsString('Alternatives de travail',$comparison->instance()->getMountedAction()->getModalContent()->render());
  }
 }

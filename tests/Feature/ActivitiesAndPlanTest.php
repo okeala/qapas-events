@@ -96,7 +96,7 @@ class ActivitiesAndPlanTest extends TestCase {
    'event_project_id'=>$p->id,'name'=>'Stand comedy','rules'=>'A comic sequence','track'=>'public','proposer_type'=>'independent','status'=>'idea','capacity'=>3,'planned_runs'=>2,'risk_category'=>'manual','access'=>'everyone','sort_order'=>10,
    'materials'=>[['pricing_status'=>'estimate','name'=>'Prop','quantity'=>2,'unit'=>'pièce','basis'=>'per_run','procurement'=>'purchase','unit_gross_cents'=>100,'vat_basis_points'=>0]],
   ])->assertHasNoActionErrors();$a=Activity::where('name','Stand comedy')->firstOrFail();$this->assertCount(1,$a->materials);
-  Livewire::test(\App\Filament\Resources\ScenarioResource\Pages\ManageRecords::class)->callAction('create',data:['event_project_id'=>$p->id,'name'=>'With games','months'=>1,'target_surplus_cents'=>400000,'organizer_net_monthly_cents'=>100000,'organizer_full_monthly_cents'=>160000,'team_target'=>1,'stand_target'=>2,'includedActivities'=>[$a->id]])->assertHasNoActionErrors();
+  Livewire::test(\App\Filament\Resources\ScenarioResource\Pages\ManageRecords::class)->callAction('create',data:['event_project_id'=>$p->id,'name'=>'With games','minimum_organizer_charges_cents'=>80000,'organizer_cost_evidence'=>'Test edition: minimum charges included in full monthly cost.','months'=>1,'target_surplus_cents'=>400000,'organizer_net_monthly_cents'=>100000,'organizer_full_monthly_cents'=>160000,'team_target'=>1,'stand_target'=>2,'includedActivities'=>[$a->id]])->assertHasNoActionErrors();
   $this->assertSame(400,$p->scenarios()->firstOrFail()->report()['activity_cost_cents']);
  }
  public function test_machinery_cannot_pass_live_readiness_without_qualified_separate_areas(): void {
