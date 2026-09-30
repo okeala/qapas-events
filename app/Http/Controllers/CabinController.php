@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\{EventProject, CabinProject};
+use App\Models\{EventProject, CabinProject, EditorialPost};
 class CabinController {
     public function index(EventProject $project) {
         abort_unless($project->is_public && $project->cabin_policy_version && in_array($project->cabin_visibility,['teaser','details'],true),404);
@@ -15,7 +15,9 @@ class CabinController {
         $details=$preview||$project->cabin_visibility==='details';
         $cabins=$details?CabinProject::with(['stand.quartel','stand.siteFeature'])->where('event_project_id',$project->id)
             ->when(!$preview,fn($q)=>$q->where('is_public',true)->where('status','!=','withdrawn')->whereHas('stand',fn($s)=>$s->where('event_project_id',$project->id)->where('is_public',true)->where('status','!=','withdrawn')))->orderBy('stand_id')->get():collect();
-        return response()->view('public.cabins',compact('project','preview','details','cabins'))
+        $demo = EditorialPost::where('event_project_id',$project->id)->where('template_key','cabin-demo')->first();
+        if (!$details || (!$preview && (!$demo?->visible() || blank($demo->youtube_id)))) $demo=null;
+        return response()->view('public.cabins',compact('project','preview','details','cabins','demo'))
             ->header('Cache-Control',$preview?'private, no-store':'no-cache')
             ->header('X-Robots-Tag',$preview?'noindex, nofollow':'index, follow');
     }

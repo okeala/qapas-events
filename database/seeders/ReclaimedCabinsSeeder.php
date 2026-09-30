@@ -1,7 +1,7 @@
 <?php
 namespace Database\Seeders;
 
-use App\Models\{CabinProject, EventProject, Sponsorship};
+use App\Models\{CabinProject, EventProject, Sponsorship, EditorialPost};
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +19,7 @@ class ReclaimedCabinsSeeder extends Seeder
                 $cost = $rental ? $scenario->budgetLines()->firstOrCreate(['costing_key'=>'cabin-build-'.$stand->public_id], [
                     'name'=>'Cabane QAPAS : fabrication complète · '.$stand->name, 'kind'=>'cost', 'scope'=>'stand', 'stand_id'=>$stand->id,
                     'expense_type'=>'investment', 'unit'=>'cabane', 'forecast_quantity'=>1, 'unit_gross_cents'=>null, 'vat_basis_points'=>null, 'pricing_status'=>'estimate',
-                    'price_source'=>'À chiffrer sur prototype : raccords d’échafaudage (pièce maîtresse), tubes récupérés de démolition, préparation mimosa/cannes, sisal, main-d’œuvre, montage/démontage et contrôle. Transport/stockage communs dans leur poste unique. Décaissement intégral cette édition ; aucun amortissement diminuant la trésorerie. Apport matériel non acquis, aucune gratuité présumée.',
+                    'price_source'=>'À chiffrer sur prototype : raccords d’échafaudage (pièce maîtresse), tubes récupérés de démolition (diamètre envisagé 30 mm, épaisseur et état à relever), préparation mimosa/cannes, éventuelle surcouverture de paille récupérée, sisal, main-d’œuvre, montage/démontage et contrôle. Transport/stockage communs dans leur poste unique. Prix complet pour les dimensions du dossier : toute extension impose de revoir quantités, devis et emprise. Décaissement intégral cette édition ; aucun amortissement diminuant la trésorerie. Apport matériel non acquis, aucune gratuité présumée.',
                 ]) : null;
                 $income = $rental ? $scenario->budgetLines()->firstOrCreate(['costing_key'=>'cabin-rental-'.$stand->public_id], [
                     'name'=>'Cabane QAPAS : supplément de location éventuel · '.$stand->name, 'kind'=>'revenue', 'scope'=>'stand', 'stand_id'=>$stand->id,
@@ -60,16 +60,38 @@ class ReclaimedCabinsSeeder extends Seeder
             ]);
             $previous = [];
             foreach ([
-                ['cabin-prototype','Valider un prototype autour du raccord d’échafaudage','product','Une pièce maîtresse commune permet des cabanes créatives et réparables.','Végétaux de 6 cm de diamètre maximum. Relever les tubes des démolisseurs ; faire choisir les raccords compatibles. Monter un prototype de 2,40 m au cube avec sisal et plessis. Contrôler assemblage, ancrage, stabilité, feu et usage sous pluie avant série. Chiffrer tous les coûts réels.'],
+                ['cabin-prototype','Valider un prototype autour du raccord d’échafaudage','product','Une pièce maîtresse commune permet des cabanes créatives et réparables.','Végétaux de 6 cm de diamètre maximum. Relever les tubes des démolisseurs ; faire choisir les raccords compatibles. Monter un prototype avec sisal et plessis : largeur et hauteur fixes à 2,40 m, longueur libre. Tubes de 30 mm envisagés, épaisseur et état à mesurer, raccords compatibles et entraxes des portiques selon note de calcul validée. Aucun pas de travée imposé, aucun objectif d’économie de mimosa. Contrôler assemblage, ancrage, stabilité, feu et usage sous pluie avant série. Chiffrer tous les coûts réels.'],
                 ['cabin-partner','Proposer au fournisseur de raccords le partenariat principal','promotion','Le sponsor incarne physiquement le lien entre les freguesias.','Présenter le prototype et le lot exact. Négocier apport matériel, prêt ou remise, retour, visibilité et cash séparés. Ne pas ajouter un deuxième sponsor principal ni valoriser le même apport comme recette et dépense évitée.'],
+                ['cabin-demo','Filmer la démonstration QAPAS : du raccord au plessis','promotion','Une démonstration du prototype rend la construction compréhensible.','Préparer une vidéo sur téléphone, avec gros plan du raccord d’échafaudage, tubes de récupération, ligatures, tressage et variante de toit mimosa/paille. Montrer les matériaux de 6 cm maximum, l’essai sous pluie et le tri final pour broyage. Faire relire les gestes du prototype avant tournage ; droits, sous-titres FR/PT et accord sponsor. Temps de tournage/montage dans les postes organisation/captation, sans doublon. Publier l’ID YouTube dans Blog et making-of ; aucune vidéo fictive.'],
                 ['cabin-build','Organiser les chantiers des freguesias et les cabanes QAPAS','place','Une cabane commune par stand ; les équipes créent, QAPAS loue aux indépendants.','Répartir responsables, inventaires, récolte documentée sans quota par cabane dans les zones désignées, prévention des propagules, ligatures, outils et travail. Préparer conditions de location, état des lieux et caution hors recette. Garder l’accueil 24 abrités / 12 assis distinct de la cabane de 5,76 m².'],
                 ['cabin-vote','Préparer le prix du public de la cabane la plus spectaculaire','promotion','La créativité des équipes donne envie de venir les soutenir.','Vote gratuit prévu sur bulletin : décider éligibilité, période, contrôle des doublons, urne, dépouillement, égalités et annonce. Prix du public distinct de la Forquilha de Ouro ; pas de vote en ligne livré. Les locations QAPAS ne concourent pas contre les équipes.'],
-                ['cabin-reception','Réceptionner chaque cabane sur son emplacement','place','Une fabrication terminée ne suffit pas à ouvrir au public.','Implanter quartel et numéro, inventorier tubes/raccords/panneaux/ligatures, mesurer le gabarit et enregistrer contrôle sur site, auteur et preuves. Toute modification ou déplacement impose une nouvelle réception.'],
+                ['cabin-reception','Réceptionner chaque cabane sur son emplacement','place','Une fabrication terminée ne suffit pas à ouvrir au public.','Implanter quartel et numéro, inventorier tubes/raccords/panneaux/ligatures, mesurer le gabarit et enregistrer contrôle sur site, auteur et preuves. Toute modification ou déplacement impose une nouvelle réception. Pour une extension : note de calcul, auteur, date et entraxe validé indispensables ; forces en N, moments en N·m.'],
                 ['cabin-followup','Démonter, broyer, pailler et préparer les plantations','product','La valorisation locale doit accompagner le contrôle des mimosas.','Récupérer raccords, tubes et visserie ; retirer les ligatures avant broyage. Trier les végétaux, isoler les lots contenant graines/rhizomes/fragments capables de reprise et valider leur traitement. Acheter le broyeur QAPAS sur financement de l’initiative ; capacité réelle pour mimosa/cannes de 6 cm maximum validée au devis. Broyer les lots admis, pailler sur place selon les besoins du sol ; le mélange ne devient pas immédiatement assimilable et ne constitue pas nécessairement du BRF. Préparer les plantations après l’événement dès que les parcelles sont prêtes. Suivre repousses, jeunes arbres et reprise ; la coupe seule ne prouve pas l’éradication.'],
             ] as [$key,$name,$pillar,$hypothesis,$experiment]) {
                 $idea = $project->ideas()->firstOrCreate(['template_key'=>$key], compact('name','pillar','hypothesis','experiment')+['status'=>'idea','is_public'=>false,'depends_on'=>$previous]);
                 $previous = [$idea->id];
             }
+            EditorialPost::firstOrCreate(['event_project_id'=>$project->id,'template_key'=>'cabin-demo'], [
+                'name'=>'Construire notre cabane : du raccord au plessis', 'title_pt'=>'Construir a nossa cabana: da abraçadeira ao entrançado',
+                'body_fr'=>"PROJET DE VIDÉO QAPAS — à tourner sur un prototype validé.
+1. Ouvrir en gros plan sur la pièce maîtresse : le raccord d’échafaudage.
+2. Présenter les tubes récupérés et leur assemblage compatible sur une largeur et une hauteur de 2,40 m, avec longueur libre ; tubes de 30 mm envisagés et entraxes des portiques selon dimensionnement validé.
+3. Montrer le contrôle du diamètre des mimosas/cannes : 6 cm maximum.
+4. Démontrer les ligatures en sisal et le tressage d’un panneau.
+5. Explorer un toit en plessis de mimosa avec paille en recouvrement : deux pentes, faîtage soigné, décor propre à chaque freguesia ; respecter la largeur et la hauteur totale de 2,40 m.
+6. Montrer les essais du prototype, dont pluie et stabilité ; ne publier que les gestes validés.
+7. Expliquer le démontage : métaux récupérés, végétaux triés pour broyage et paillage, plantations et suivi.
+Prévoir sous-titres FR/PT, droits des personnes et du sponsor. Aucun tournage ni publication confirmés ; renseigner l’identifiant YouTube après réalisation.",
+                'body_pt'=>"PROJETO DE VÍDEO QAPAS — filmar um protótipo validado.
+1. Começar com a peça central em grande plano: a abraçadeira de andaime.
+2. Mostrar os tubos recuperados e a montagem compatível com 2,40 m de largura e altura e comprimento livre; tubos previstos de 30 mm e distância entre pórticos conforme dimensionamento validado.
+3. Verificar o diâmetro da mimosa e das canas: máximo 6 cm.
+4. Demonstrar as ligações em sisal e o entrançado de um painel.
+5. Explorar um telhado em entrançado de mimosa coberto com palha sobreposta: duas águas, cumeeira cuidada e decoração de cada freguesia; respeitar os 2,40 m de largura e altura total.
+6. Mostrar os ensaios do protótipo, incluindo chuva e estabilidade; publicar apenas gestos validados.
+7. Explicar a desmontagem: metais recuperados, vegetais separados para trituração e cobertura do solo, plantações e acompanhamento.
+Prever legendas FR/PT e direitos das pessoas e do parceiro. Filmagem e publicação por concretizar; inserir o identificador YouTube após produção.",
+            ]);
             app(\App\Domain\Procurement\Consultations::class)->synchronize();
         });
     }

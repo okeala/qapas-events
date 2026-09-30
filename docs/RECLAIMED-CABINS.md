@@ -4,11 +4,12 @@
 
 Le **raccord d’échafaudage est la pièce maîtresse**, autour de laquelle s’assemblent des tubes récupérés auprès de démolisseurs. Son fournisseur est une piste pour le **sponsor principal existant**, avec la formule « Celui qui nous relie et fait tenir les Jeux ». Les fournisseurs de tubes constituent une contribution distincte. Ni accord, ni don, ni prix, ni capacité portante ne sont présumés.
 
-- Une cabane de **2,40 × 2,40 × 2,40 m extérieur** par stand. Les équipes d’une freguesia construisent et partagent leur stand ; QAPAS fabrique les cabanes qu’elle loue aux indépendants, au fur et à mesure que les emplacements se concrétisent. Chaque ajout suppose son coût de fabrication et son financement ; le budget de six unités est un scénario, pas un ordre de fabriquer six cabanes immédiatement.
+- Une **largeur et une hauteur imposées de 2,40 m**, et une **longueur libre à partir de 2,40 m**, sans obligation de multiples de 2,40 m. Le dossier conserve une cabane par stand, quelle que soit sa longueur. Les équipes d’une freguesia construisent et partagent leur stand ; QAPAS fabrique les cabanes qu’elle loue aux indépendants, au fur et à mesure que les emplacements se concrétisent. Chaque ajout suppose son coût de fabrication et son financement ; le budget de six unités est un scénario, pas un ordre de fabriquer six cabanes immédiatement.
 - Ossature en tubes métalliques récupérés, raccords d’échafaudage compatibles. Le prototype détermine références, géométrie, quantités, ancrages et contrôles ; ce document n’est pas un plan de structure.
-- Couverture et bardages en plessis de mimosa et/ou cannes identifiées, **diamètre maximal 6 cm pour les deux matériaux**, ligatures en **sisal ou fibre naturelle adaptée**. Cannes perforées et compositions artistiques possibles. Décoration en récupération ; pas d’amiante, plastique ou bois neuf. Raccords, visserie et ligatures peuvent être achetés.
-- La surface de 5,76 m² **ne remplace pas** l’espace convivial prévu pour 24 personnes abritées et 12 assises. Le plessis n’est pas présumé étanche. Résoudre l’usage sous pluie et la stabilité au prototype ; ne pas publier une promesse d’abri non démontrée.
-- Aucun quota de mimosas/cannes par cabane, dans les zones de prélèvement désignées. L’absence de quota ne remplace pas l’identification des espèces, le suivi des quantités et l’organisation du chantier.
+- Support de toiture et bardages en plessis de mimosa et/ou cannes identifiées, **diamètre maximal 6 cm pour les deux matériaux**, ligatures en **sisal ou fibre naturelle adaptée**. Cannes perforées et compositions artistiques possibles. Décoration en récupération ; pas d’amiante, plastique ou bois neuf. Raccords, visserie et ligatures peuvent être achetés.
+- Surcouverture optionnelle en **paille propre récupérée**, distincte du support en plessis : piste à deux pentes, couches chevauchantes et faîtage soigné, largeur et hauteur totale toujours de 2,40 m. Les équipes personnalisent leur silhouette et leurs décors. Valider pluie, stabilité et comportement au feu sur le prototype ; aucune recette de toiture certifiée par cette idée.
+- La surface du format de base de 5,76 m² **ne remplace pas** l’espace convivial prévu pour 24 personnes abritées et 12 assises. Le plessis n’est pas présumé étanche. Résoudre l’usage sous pluie et la stabilité au prototype ; ne pas publier une promesse d’abri non démontrée.
+- Aucun objectif d’économie de mimosa ; utiliser la quantité nécessaire à la construction et au décor. Aucun quota de mimosas/cannes par cabane, dans les zones de prélèvement désignées. L’absence de quota ne remplace pas l’identification des espèces, le suivi des quantités et l’organisation du chantier.
 - Prix gratuit du public prévu pour la cabane d’équipe la plus spectaculaire, distinct de la Forquilha de Ouro. Les cabanes de location QAPAS ne concurrencent pas celles des équipes. Bulletin, période, contrôle, égalités et dépouillement à préparer avant ouverture. **Pas de vote électronique livré.** Ce défi collectif n’ajoute pas une septième épreuve officielle chronométrée au programme.
 
 ## Atelier et publication
@@ -20,6 +21,22 @@ La réception exige un administrateur actif, un inventaire des parties requises,
 **Éditions → Défi cabane · révélation publique** : non dévoilé par défaut, idée seulement, puis règles et cabanes autorisées. La page `/events/{slug}/cabanes` ne publie ni inventaire privé, ni coût, ni responsable, ni preuve ou géométrie. Une cabane n’apparaît que si son propre accord de publication et celui du stand sont actifs. Les résumés sont échappés et le repli éditorial utilise FR puis PT si la langue demandée manque.
 
 Prévisualisation complète `/workspace/preview/{slug}/cabanes` réservée aux administrateurs actifs en `APP_ENV=local`, sans cache. Aucun dévoilement automatique par seed. Les étapes du chantier se trouvent aussi dans le parcours de lancement réordonnable.
+
+## Allongement libre et portiques
+
+Largeur et hauteur restent à 2 400 mm. Seule la longueur (champ technique `depth_mm`) augmente librement : par exemple 3 500 ou 5 000 mm. Aucun multiple de 2 400 mm ni entraxe fixe des travées n’est imposé.
+
+L’ossature est envisagée en tubes récupérés de **30 mm de diamètre extérieur**, à confirmer par mesure. Ce diamètre ne permet pas à lui seul de déduire une résistance ou une portée : relever épaisseur, matériau et état, choisir des raccords adaptés au diamètre réel, puis justifier poussées, flexion/flambement, toiture sèche/mouillée, vent, ancrages et appuis. Ne pas présumer qu’un raccord d’échafaudage quelconque convient à 30 mm.
+
+Le dossier conserve entraxe maximal calculé, auteur compétent, date et référence de note de calcul. Ces quatre éléments sont exigés pour réceptionner une extension. Les forces s’expriment en N, les charges réparties en N/m ou N/m², les moments en N·m : aucune valeur limite ou résistance de raccord n’est inventée. Toute modification des dimensions, de l’inventaire ou de ces preuves remet la réception à refaire. Enregistrer d’abord géométrie, inventaire, diamètre et entraxe : leur modification efface la date de validation structurelle. Réexaminer ensuite la note et enregistrer sa validation, avant la réception de l’extension. La revue technique du modèle de base reste requise dans la réception ordinaire.
+
+Une extension exige un nouveau relevé des besoins et un devis couvrant ses dimensions complètes, ainsi qu’une vérification de l’emprise et des circulations. Elle ne crée pas un nouveau stand administratif, un nouveau sponsor ou un revenu automatique. Le logiciel enregistre ces décisions et preuves, sans fournir un calcul de structure ni adapter automatiquement les quantités du devis.
+
+## Vidéo de démonstration QAPAS
+
+Un brouillon FR/PT et son séquencier sont créés dans **Mobiliser → Blog et making-of**, « Construire notre cabane : du raccord au plessis ». Le parcours comprend son tournage : raccord en gros plan, tubes récupérés, contrôle du diamètre de 6 cm, sisal, tressage, variante de toit mimosa/paille, essais, puis démontage et devenir des végétaux. Utiliser le prototype effectivement vérifié ; droits des personnes/sponsors, montage et sous-titres à prévoir, temps et moyens imputés une seule fois à l’organisation/captation.
+
+La vidéo **n’est pas encore produite**. Après réalisation, renseigner son ID YouTube dans l’article et valider sa publication. La page du défi affiche alors le lien ; tant que la vidéo manque, elle annonce la démonstration à venir. Le lien ouvre l’article puis YouTube au clic, sans lecteur ni traceur embarqués. L’article de démonstration reste caché au public tant que la révélation du défi n’est pas au niveau « règles », même si son statut éditorial a été publié ; l’aperçu local administrateur montre le brouillon.
 
 ## Coût et sponsoring
 

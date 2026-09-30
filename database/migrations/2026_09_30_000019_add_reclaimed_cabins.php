@@ -14,6 +14,9 @@ return new class extends Migration {
             $t->foreignId('stand_id')->unique()->constrained()->restrictOnDelete();
             $t->string('name'); $t->string('supply_mode'); $t->string('status')->default('concept');
             $t->unsignedInteger('width_mm')->default(2400); $t->unsignedInteger('depth_mm')->default(2400); $t->unsignedInteger('height_mm')->default(2400);
+            $t->unsignedInteger('frame_diameter_mm')->default(30);
+            $t->unsignedInteger('frame_spacing_mm')->nullable();
+            $t->string('structural_reviewer')->nullable(); $t->date('structural_reviewed_on')->nullable(); $t->text('structural_evidence')->nullable();
             $t->json('materials')->nullable(); $t->string('owner')->nullable();
             $t->text('harvest_origin')->nullable(); $t->text('control_plan')->nullable();
             $t->string('follow_up_owner')->nullable(); $t->date('follow_up_on')->nullable();

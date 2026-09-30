@@ -75,13 +75,16 @@ class CabinChallengeTest extends TestCase
         $this->assertSame(12500,$rental->fresh()->costLine->unit_gross_cents);
         $this->assertSame('My negotiated pitch',$main->fresh()->pitch);
         $this->assertSame('teaser',$project->fresh()->cabin_visibility);
-        $this->assertSame(6,$project->ideas()->where('template_key','like','cabin-%')->count());
+        $this->assertSame(7,$project->ideas()->where('template_key','like','cabin-%')->count());
         $this->assertStringContainsString('raccord d’échafaudage',\App\Models\CostConsultation::where('event_project_id',$project->id)->where('costable_id',$rental->cost_line_id)->where('costable_type',\App\Models\BudgetLine::class)->firstOrFail()->body_fr);
     }
     public function test_server_requires_recovery_suitable_materials_dimensions_and_same_edition(): void
     {
         $project = $this->project(); $cabin = $this->cabin($project);
         $rows = $this->inventory(); $cabin->update(['materials'=>$rows]);
+        $straw=['name'=>'Recovered straw roof','part'=>'roof_cover','material'=>'straw','source'=>'recovered','quantity'=>1,'unit'=>'lot','origin'=>'Clean agricultural residue'];
+        $cabin->update(['materials'=>[...$rows,$straw]]);
+        $this->invalid(fn()=>$cabin->fresh()->update(['materials'=>[array_replace($straw,['material'=>'plastic'])]]));
         foreach ([['frame','metal','new_hardware'],['roof','plastic','recovered'],['cladding','wood','recovered'],['decoration','asbestos','recovered'],['roof','mimosa','recovered'],['lashings','metal','new_hardware']] as [$part,$material,$source]) {
             $bad = array_replace($rows[0],compact('part','material','source'));
             $this->invalid(fn()=>$cabin->fresh()->update(['materials'=>[$bad]]));
@@ -91,6 +94,10 @@ class CabinChallengeTest extends TestCase
         $unknownDiameter=$rows; unset($unknownDiameter[3]['max_diameter_mm']);
         $this->invalid(fn()=>$cabin->fresh()->update(['materials'=>$unknownDiameter]));
         $this->invalid(fn()=>$cabin->fresh()->update(['width_mm'=>2500]));
+        $this->invalid(fn()=>$cabin->fresh()->update(['width_mm'=>4800]));
+        $cabin->fresh()->update(['depth_mm'=>3500]);
+        $this->assertSame(3500,$cabin->fresh()->depth_mm);
+        $this->assertSame(30,$cabin->fresh()->frame_diameter_mm);
         $this->invalid(fn()=>$cabin->fresh()->update(['supply_mode'=>'qapas_rental']));
         $this->invalid(fn()=>CabinProject::create(['event_project_id'=>$this->project('other')->id,'stand_id'=>$cabin->stand_id,'name'=>'Wrong edition']));
         $this->invalid(fn()=>CabinProject::create(['event_project_id'=>$project->id,'stand_id'=>$cabin->stand_id,'name'=>'Duplicate cabin']));
@@ -139,6 +146,18 @@ class CabinChallengeTest extends TestCase
         $cabin->fresh()->update(['materials'=>$rows]);
         $this->assertSame('ready',$cabin->fresh()->status);
         $this->assertNull($cabin->fresh()->reviewed_at);
+        $cabin->fresh()->update(['depth_mm'=>3500]);
+        $this->assertTrue($cabin->fresh()->extended());
+        $this->invalid(fn()=>$cabin->fresh()->update(['status'=>'received']));
+        $cabin->fresh()->update(['frame_spacing_mm'=>1200]);
+        $cabin->fresh()->update(['structural_reviewer'=>'Qualified test reviewer','structural_reviewed_on'=>today(),'structural_evidence'=>'Test fixture only: calculation for current dimensions, joints, loads, anchors and site']);
+        $cabin->fresh()->update(['status'=>'received']);
+        $this->assertTrue($cabin->fresh()->received());
+        $cabin->fresh()->update(['depth_mm'=>5000]);
+        $this->assertFalse($cabin->fresh()->received());
+        $this->assertNull($cabin->fresh()->structural_reviewed_on);
+        $this->invalid(fn()=>$cabin->fresh()->update(['status'=>'received']));
+
     }
     public function test_public_disclosure_is_staged_and_never_exposes_inventory_or_cost_notes(): void
     {
@@ -162,6 +181,22 @@ class CabinChallengeTest extends TestCase
         $admin->update(['is_active'=>false]);
         $this->get('/workspace/preview/test/cabanes')->assertForbidden();
     }
+
+    public function test_demo_video_stays_draft_until_published_and_follows_challenge_disclosure(): void
+    {
+        $project=$this->project(); $project->update(['cabin_visibility'=>'details']);
+        $post=\App\Models\EditorialPost::create(['event_project_id'=>$project->id,'template_key'=>'cabin-demo','name'=>'Construction demo','title_pt'=>'Demonstração','body_fr'=>'Prototype approved','body_pt'=>'Protótipo aprovado','youtube_id'=>'abcdEFgh123']);
+        $this->get('/events/test/cabanes')->assertOk()->assertSee('vidéo de démonstration')->assertDontSee($post->public_id);
+        $post->update(['rights_evidence'=>'Image and music rights recorded','status'=>'published','published_at'=>now()]);
+        $this->get('/events/test/cabanes')->assertOk()->assertSee($post->public_id);
+        $url=route('blog.show',['project'=>$project->slug,'post'=>$post->public_id]);
+        $this->get($url)->assertOk()->assertSee('abcdEFgh123');
+        $project->update(['cabin_visibility'=>'teaser']);
+        $this->get($url)->assertNotFound();
+        $this->get('/events/test/cabanes')->assertOk()->assertDontSee($post->public_id);
+        $this->get(route('blog.index',['project'=>$project->slug]))->assertOk()->assertDontSee('Construction demo');
+    }
+
     public function test_filament_form_validation_and_filters_require_active_admin(): void
     {
         $project=$this->project(); $stand=$project->stands()->create(['name'=>'Village stand','kind'=>'village']);
