@@ -18,4 +18,7 @@ protected function casts(): array {return ['require_activity_trials'=>'boolean',
  public function interests() {return $this->hasMany(Interest::class);}
  public function ideas() {return $this->hasMany(Idea::class);}
  public function incidents() {return $this->hasMany(Incident::class);}
+ protected static function booted(): void {parent::booted();static::saving(function(self $p){
+  if($p->rehearsal_weekend_start||$p->rehearsal_weekend_end){if(!$p->rehearsal_weekend_start||!$p->rehearsal_weekend_end||$p->rehearsal_weekend_end->lt($p->rehearsal_weekend_start)||($p->starts_at&&$p->rehearsal_weekend_end->gte($p->starts_at->copy()->startOfDay())))throw \Illuminate\Validation\ValidationException::withMessages(['rehearsal_weekend_end'=>'Préciser la période complète des répétitions, avant le jour d’ouverture.']);}
+ });}
 }

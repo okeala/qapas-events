@@ -19,6 +19,7 @@ final class Readiness {
    $activeScenarios=$project->scenarios->where('is_archived',false);$fundingScenarios=$activeScenarios->contains('launch_model',true)?$activeScenarios->where('launch_model',true):$activeScenarios;
    foreach($project->teams as $team)if($team->status!=='elected'||!$team->composition()['complete'])$blockers[]=$team->name.' : treize rôles experts et choix local à compléter';
    if (!$fundingScenarios->contains(fn($scenario)=>$scenario->launch_model?$scenario->report()['expansion_ready']:$scenario->report()['target_secured'])) $blockers[]='Aucun scénario ne couvre les coûts et l’objectif QAPAS par des engagements';
+   if($project->require_activity_trials)foreach($fundingScenarios->flatMap(fn($scenario)=>$scenario->programSlots)->map(fn($slot)=>$slot->activity)->filter()->unique('id') as $scheduled){if($scheduled->proposer_type==='organization'&&($scheduled->status!=='approved'||!$scheduled->preparation()->ready($scheduled)))$blockers[]=$scheduled->name.' : épreuve officielle programmée sans validation technique et répétition valides';}
    $operational=$project->activities()->where('status','approved')->get()->filter(fn($a)=>$a->participation_decision!=='stand_only'&&($a->proposer_type==='organization'||$a->preparation()->ready($a)));
    foreach($operational as $activity) {
     if(!$activity->preparation()->ready($activity)&&$activity->proposer_type==='organization')$blockers[]=$activity->name.' : répétition officielle à valider';

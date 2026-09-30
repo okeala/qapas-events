@@ -31,7 +31,7 @@ class LaunchAndGeographyTest extends TestCase {
  public function test_same_bank_receipt_cannot_be_counted_twice_within_a_scenario(): void {
   $this->actingAs($this->admin(),'admin');$s=$this->project()->scenarios()->create(['name'=>'Budget']);
   $data=['name'=>'Support','kind'=>'revenue','unit_gross_cents'=>10000,'vat_basis_points'=>0,'forecast_quantity'=>1,'committed_quantity'=>1,'paid_quantity'=>1];
-  $first=$s->budgetLines()->create($data);$second=$s->budgetLines()->create($data);$first->update(['receipt_reference'=>'ONE-TRANSFER','reconciled_at'=>now()]);
+  $first=$s->budgetLines()->create($data);$second=$s->budgetLines()->create(array_replace($data,['name'=>'Support from another partner']));$first->update(['receipt_reference'=>'ONE-TRANSFER','reconciled_at'=>now()]);
   $second->update(['receipt_reference'=>'TWO-TRANSFER','reconciled_at'=>now()]);
   $this->expectException(ValidationException::class);$second->update(['receipt_reference'=>'ONE-TRANSFER']);
  }

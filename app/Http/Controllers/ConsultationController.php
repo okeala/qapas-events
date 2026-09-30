@@ -1,7 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 use App\Models\CostConsultation;
-class ConsultationController extends Controller {
+class ConsultationController {
  public function email(CostConsultation $consultation,string $locale){
   abort_unless(auth('admin')->user()?->is_active,403);abort_unless(in_array($locale,['fr','pt'],true),404);
   $subject=preg_replace('/[\r\n]+/',' ',$consultation->{'subject_'.$locale});$body=str_replace(["\r\n","\r"],"\n",$consultation->{'body_'.$locale});
