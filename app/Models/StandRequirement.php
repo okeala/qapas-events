@@ -6,7 +6,11 @@ class StandRequirement extends Record {
  public function stand(){return $this->belongsTo(Stand::class);}
  public function source(){return $this->belongsTo(SiteInfrastructure::class,'source_id');}
  public function budgetLine(){return $this->belongsTo(BudgetLine::class);}
- public function valid(): bool {return $this->status==='approved'&&filled($this->review_evidence)&&(!in_array($this->kind,['electricity','water','wastewater'])||(SiteInfrastructure::find($this->source_id)?->available()??false));}
+ public function valid(): bool {
+  if($this->status!=='approved'||blank($this->review_evidence))return false;
+  $kinds=match($this->kind){'electricity'=>['generator','main_supply','distribution'],'water'=>['water_supply'],'wastewater'=>['septic','sanitation'],default=>null};
+  if($kinds===null)return true;$source=SiteInfrastructure::find($this->source_id);return $source&&in_array($source->kind,$kinds,true)&&$source->available();
+ }
  protected static function booted(): void {parent::booted();static::saving(function(self $n){
   \Illuminate\Support\Facades\Validator::make($n->getAttributes(),['name'=>'required|string|max:255','kind'=>'required|in:electricity,water,wastewater,gas,access,other','justification'=>'required|string|max:10000','quantity'=>'nullable|integer|between:1,100000','provided_by'=>'in:undecided,qapas,participant,sponsor','status'=>'in:requested,reviewed,approved','power_w'=>'nullable|numeric|min:0','starting_power_w'=>'nullable|numeric|min:0','requested_amps'=>'nullable|numeric|min:0','line_length_m'=>'nullable|numeric|min:0','water_litres'=>'nullable|numeric|min:0','gas_kg'=>'nullable|numeric|min:0'])->validate();
   if($n->exists&&$n->isDirty('stand_id'))throw ValidationException::withMessages(['stand_id'=>'Conserver le stand.']);$project=$n->stand?->event_project_id;

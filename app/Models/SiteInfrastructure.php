@@ -2,7 +2,7 @@
 namespace App\Models;
 use Illuminate\Validation\ValidationException;
 class SiteInfrastructure extends Record {
- public const KINDS=['generator'=>'Groupe électrogène','main_supply'=>'Alimentation principale','distribution'=>'Point de distribution','sanitation'=>'Bloc sanitaire','septic'=>'Assainissement / fosse','parking'=>'Parking','food_zone'=>'Zone des baraques QAPAS'];
+ public const KINDS=['water_supply'=>'Alimentation en eau','gas_storage'=>'Zone de stockage gaz','generator'=>'Groupe électrogène','main_supply'=>'Alimentation principale','distribution'=>'Point de distribution','sanitation'=>'Bloc sanitaire','septic'=>'Assainissement / fosse','parking'=>'Parking','food_zone'=>'Zone des baraques QAPAS'];
  protected $attributes=['status'=>'declared','phases'=>'unknown','neutral_verified'=>false,'earth_verified'=>false];
  protected function casts(): array {return ['neutral_verified'=>'boolean','earth_verified'=>'boolean'];}
  public function eventProject(){return $this->belongsTo(EventProject::class);}
