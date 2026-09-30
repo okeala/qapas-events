@@ -18,7 +18,7 @@ return new class extends Migration {
  }
  public function down(): void {
   foreach(['cup_allocations','cup_plans','supplier_quotes','cost_consultations','activity_trials'] as $name)Schema::dropIfExists($name);
-  Schema::table('budget_lines',function(Blueprint $t){$t->dropConstrainedForeignId('superseded_by_id');$t->dropColumn('identity_key');});
+  Schema::table('budget_lines',function(Blueprint $t){$t->dropConstrainedForeignId('superseded_by_id');$t->dropUnique(['identity_key']);$t->dropColumn('identity_key');});
   Schema::table('activities',function(Blueprint $t){$t->dropConstrainedForeignId('stand_id');$t->dropColumn(['participation_decision','withdrawal_reason']);});
   Schema::table('event_projects',fn(Blueprint $t)=>$t->dropColumn(['require_activity_trials','rehearsal_weekend_start','rehearsal_weekend_end']));
  }
