@@ -10,7 +10,8 @@
  </x-filament::section>
  <section data-geo-editor wire:key="geo-{{ $project->public_id }}-{{ $revision }}" x-data x-init="$nextTick(() => window.dispatchEvent(new Event('qapas-geo-mount')))">
   <div class="flex flex-wrap gap-3 mb-3">
-   <label>Objet<select data-feature class="block border rounded p-2 dark:bg-gray-900"><option value="">Nouvel objet</option><option value="new-location">Nouvelle emprise d’épreuve</option>@foreach($project->siteFeatures()->orderBy('name')->get() as $f)<option value="{{ $f->public_id }}">{{ $f->name }}</option>@endforeach@foreach(\App\Models\ActivityLocation::whereHas('activity',fn($q)=>$q->where('event_project_id',$project->id))->with('activity')->get() as $l)<option value="location-{{ $l->public_id }}">Épreuve : {{ $l->name ?: $l->activity->name }} · {{ $l->role }}</option>@endforeach</select></label>
+   <label>Objet<select data-feature class="block border rounded p-2 dark:bg-gray-900"><option value="">Nouvel objet</option><option value="new-location">Nouvelle emprise d’épreuve</option>@foreach($project->siteFeatures()->orderBy('name')->get() as $f)<option value="{{ $f->public_id }}">{{ $f->name }}</option>@endforeach
+    @foreach($this->locations() as $l)<option value="location-{{ $l->public_id }}">Épreuve : {{ $l->name ?: $l->activity->name }} · {{ $l->role }}</option>@endforeach</select></label>
    <label>Nom<input data-feature-name maxlength="120" class="block border rounded p-2 dark:bg-gray-900"></label>
    <label>Calque<select data-category class="block border rounded p-2 dark:bg-gray-900">@foreach(\App\Models\SiteFeature::CATEGORIES as $key=>$label)<option value="{{ $key }}">{{ $label }}</option>@endforeach</select></label>
    <label>Forme<select data-shape class="block border rounded p-2 dark:bg-gray-900"><option value="Polygon">Polygone</option><option value="LineString">Ligne / accès</option><option value="Point">Point</option></select></label>
@@ -21,7 +22,7 @@
    <label>Autres quartéis<select data-additional multiple class="block border p-2 dark:bg-gray-900">@foreach($project->siteFeatures()->where('category','quartel')->get() as $q)<option value="{{ $q->public_id }}">{{ $q->name }}</option>@endforeach</select></label>
    <label>Rôle<select data-role class="block border p-2 dark:bg-gray-900"><option value="performance">Performance</option><option value="spectator">Spectateurs</option><option value="queue">Attente</option><option value="technical">Technique</option></select></label>
    <label>Accès<select data-access class="block border p-2 dark:bg-gray-900"><option value="restricted">Restreint</option><option value="public">Public</option><option value="staff">Équipe technique</option></select></label>
-   <label><input data-location-public type="checkbox"> Publier l’emprise lorsque l’épreuve est révélée</label>
+   <label><input data-location-public type="checkbox"> Publier l’emprise selon les conditions de confirmation de l’épreuve</label>
   </div>
   <div class="flex flex-wrap gap-3 mb-3"><x-filament::button type="button" data-start>Tracer / remplacer le contour</x-filament::button><x-filament::button type="button" data-undo color="gray">Annuler le point</x-filament::button><x-filament::button type="button" data-save>Enregistrer l’objet</x-filament::button></div>
   <p data-geo-status role="status">Choisissez une forme, puis cliquez sur ses sommets. Le nouveau tracé remplace la géométrie de l’objet sélectionné.</p>

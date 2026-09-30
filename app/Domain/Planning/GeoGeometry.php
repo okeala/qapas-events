@@ -22,5 +22,7 @@ final class GeoGeometry {
    $scaled=array_map(fn($v)=>[($v[0]-min($xs))/$dx*100,($v[1]-min($ys))/$dy*100],$open);
    try{TerraceGeometry::validate($scaled,500);}catch(ValidationException){self::fail();}
   }
+  $outer=['type'=>'Polygon','coordinates'=>[$rings[0]]];
+  for($i=1;$i<count($rings);$i++){$hole=['type'=>'Polygon','coordinates'=>[$rings[$i]]];if(!GeoArea::coveredBy($hole,[$outer]))self::fail();for($j=1;$j<$i;$j++)if(GeoArea::overlaps($hole,['type'=>'Polygon','coordinates'=>[$rings[$j]]]))self::fail();}
  }
 }

@@ -38,6 +38,7 @@ class GeographicSite extends \Filament\Pages\Page {
   $f=$id?$p->siteFeatures()->where('public_id',$id)->firstOrFail():new SiteFeature(['event_project_id'=>$p->id]);
   $f->fill(compact('name','category','geometry'));$f->save();$this->revision++;
  }
+ public function locations(){ $p=$this->authorizedProject();return \App\Models\ActivityLocation::whereHas('activity',fn($q)=>$q->where('event_project_id',$p->id))->with('activity')->get();}
  public function savePlacement(string $name,string $activity,string $quartel,array $additional,array $geometry,string $role,string $access,bool $public,?string $id=null): void {
   $p=$this->authorizedProject();Validator::make(compact('name','additional'),['name'=>'required|string|max:120','additional'=>'array|max:19','additional.*'=>'uuid|distinct'])->validate();
   $a=$p->activities()->where('public_id',$activity)->firstOrFail();$q=$p->siteFeatures()->where('public_id',$quartel)->where('category','quartel')->firstOrFail();

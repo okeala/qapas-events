@@ -30,7 +30,7 @@ function mount() {
    const redraw=()=>{if(draft)map.removeLayer(draft);const type=field('[data-shape]').value;geometry=points.length?{type,coordinates:type==='Point'?points.at(-1):type==='Polygon'?[[...points,points[0]]]:points}:null;if(points.length)draft=L.geoJSON(geometry,{style:{color:'#dd7c20',dashArray:'6 5'},pointToLayer:(_,latlng)=>L.circleMarker(latlng,{radius:7,color:'#dd7c20'})}).addTo(map);};
    const isPlacement=()=>field('[data-feature]').value==='new-location'||field('[data-feature]').value.startsWith('location-');
    field('[data-feature]').onchange=()=>{
-    const f=data.geojson.features.find(f=>f.id===field('[data-feature]').value), placement=isPlacement();
+    const f=[...data.geojson.features,...(data.placements||[])].find(f=>f.id===field('[data-feature]').value), placement=isPlacement();
     field('[data-placement-fields]').hidden=!placement;field('[data-category]').disabled=placement;field('[data-shape]').disabled=placement;if(placement)field('[data-shape]').value='Polygon';
     field('[data-feature-name]').value=f?.properties.name||'';geometry=f?.geometry||null;drawing=false;if(draft)map.removeLayer(draft);
     field('[data-activity]').disabled=placement&&!!f;

@@ -12,6 +12,7 @@ final class GeographicPlan {
    if($private)$props+=['activity'=>$l->activity->public_id,'quartel'=>$l->siteFeature->public_id,'additional_quartels'=>\App\Models\SiteFeature::whereIn('id',$l->additional_quartel_ids??[])->pluck('public_id')->all(),'role'=>$l->role,'is_public'=>$l->is_public];
    $data['features'][]=['type'=>'Feature','id'=>'location-'.$l->public_id,'geometry'=>$l->geometry,'properties'=>$props];
   }
-  return ['geojson'=>$data,'center'=>config('site_map.center'),'zoom'=>config('site_map.zoom'),'osm'=>config('site_map.osm_url'),'imagery'=>['url'=>config('site_map.imagery_url'),'layers'=>config('site_map.imagery_layer'),'attribution'=>config('site_map.imagery_attribution')]];
+  $placements=$private?\App\Models\ActivityLocation::whereHas('activity',fn($q)=>$q->where('event_project_id',$p->id))->get()->map(fn($l)=>['id'=>'location-'.$l->public_id,'geometry'=>$l->geometry,'properties'=>['name'=>$l->name?:$l->activity->name,'activity'=>$l->activity->public_id,'quartel'=>$l->siteFeature->public_id,'additional_quartels'=>\App\Models\SiteFeature::whereIn('id',$l->additional_quartel_ids??[])->pluck('public_id')->all(),'role'=>$l->role,'access'=>$l->access,'is_public'=>$l->is_public]])->all():[];
+  return ['placements'=>$placements,'geojson'=>$data,'center'=>config('site_map.center'),'zoom'=>config('site_map.zoom'),'osm'=>config('site_map.osm_url'),'imagery'=>['url'=>config('site_map.imagery_url'),'layers'=>config('site_map.imagery_layer'),'attribution'=>config('site_map.imagery_attribution')]];
  }
 }
