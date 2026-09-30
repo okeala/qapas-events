@@ -85,7 +85,7 @@ class OperationalCoordinationTest extends TestCase
         $old = 'Six rôles indispensables (cuisinier, pelliste, tracteur, musicien, comptable, athlète)';
         $active = $project->scenarios()->create(['name' => 'Active', 'assumptions' => $old.'. Texte personnel conservé.']);
         $archive = $project->scenarios()->create(['name' => 'Archive', 'assumptions' => $old, 'is_archived' => true]);
-        $idea = $project->ideas()->create(['name' => 'Live', 'template_key' => 'event-live', 'pillar' => 'product', 'status' => 'idea', 'experiment' => 'Utiliser le conducteur ; valider résultats, portions et images avant communiqué.']);
+        $idea = $project->ideas()->create(['name' => 'Live', 'template_key' => 'event-live', 'pillar' => 'product', 'status' => 'idea', 'hypothesis' => 'The crew follows a shared schedule.', 'experiment' => 'Utiliser le conducteur ; valider résultats, portions et images avant communiqué.']);
         $this->seed(OperationalVocabularySeeder::class);
         $this->seed(OperationalVocabularySeeder::class);
         $this->assertStringContainsString('gardien des comptes', $active->fresh()->assumptions);
