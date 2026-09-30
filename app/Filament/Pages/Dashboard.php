@@ -1,6 +1,6 @@
 <?php
 namespace App\Filament\Pages;
-class Dashboard extends \Filament\Pages\Page {
+class Dashboard extends \Filament\Pages\Dashboard {
  protected static ?string $title='Décider du prochain palier';
  protected static ?string $navigationLabel='Vue de pilotage';
  protected static ?int $navigationSort=-1;

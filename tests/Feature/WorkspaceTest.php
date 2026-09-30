@@ -66,4 +66,27 @@ class WorkspaceTest extends TestCase {
   $s->budgetLines()->create(['name'=>'Cost','kind'=>'cost','unit_gross_cents'=>100,'forecast_quantity'=>1]);
   $this->assertFalse($s->report()['complete']);
  }
+ public function test_budget_form_rejects_paid_quantity_above_commitment(): void {
+  $admin=Admin::create(['name'=>'Admin','email'=>'admin@example.test','password'=>'a-long-password-for-tests']);$this->actingAs($admin,'admin');
+  $p=$this->project();$s=$p->scenarios()->create(['name'=>'Small']);
+  Livewire::test(\App\Filament\Resources\BudgetLineResource\Pages\ManageRecords::class)
+   ->callAction('create',data:['scenario_id'=>$s->id,'name'=>'Stand','kind'=>'revenue','unit_gross_cents'=>50000,'vat_basis_points'=>2300,'deductible'=>false,'forecast_quantity'=>5,'committed_quantity'=>1,'paid_quantity'=>2])
+   ->assertHasActionErrors(['paid_quantity']);
+  $this->assertDatabaseCount('budget_lines',0);
+ }
+ public function test_readiness_accepts_complete_evidence_but_rejects_expiry_before_event_end(): void {
+  $p=$this->project();$p->update(['phase'=>'preparation','venue'=>'Agreed site','capacity'=>300,'starts_at'=>now()->addDays(30),'ends_at'=>now()->addDays(31)]);
+  foreach($p->requirements as $item) $item->update(['status'=>'approved','evidence'=>'Reviewed source reference','reviewed_by'=>'Responsible reviewer','reviewed_at'=>now(),'expires_at'=>now()->addDays(40)]);
+  $s=$p->scenarios()->create(['name'=>'Viable','months'=>1,'organizer_full_monthly_cents'=>160000,'costs_complete'=>true]);
+  $s->budgetLines()->create(['name'=>'Revenue','kind'=>'revenue','unit_gross_cents'=>123000,'vat_basis_points'=>2300,'forecast_quantity'=>10,'committed_quantity'=>10]);
+  $s->budgetLines()->create(['name'=>'Costs','kind'=>'cost','unit_gross_cents'=>123000,'vat_basis_points'=>2300,'deductible'=>true,'forecast_quantity'=>1]);
+  $p->runItems()->create(['name'=>'Opening','owner'=>'Responsible','starts_at'=>$p->starts_at,'ends_at'=>$p->ends_at]);
+  foreach(['official','public'] as $track) $p->activities()->create(['name'=>$track,'track'=>$track,'rules'=>'Tested rules','referee'=>'Independent referee','capacity'=>6,'risk_reviewed'=>true,'risk_evidence'=>'Validated risk review','status'=>'approved']);
+  $this->assertSame([],app(Readiness::class)->blockers($p,'live'));
+  app(PhaseTransition::class)->advance($p);$this->assertSame('ready',$p->fresh()->phase);
+  $p->requirements()->where('code','insurance')->update(['expires_at'=>now()->addDays(1)]);
+  $this->assertNotEmpty(app(Readiness::class)->blockers($p,'live'));
+  $this->assertNotEmpty(app(Readiness::class)->blockers($p,'sales'));
+ }
+
 }
