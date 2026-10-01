@@ -15,7 +15,7 @@ class HospitalityOperationsTest extends TestCase {
   $this->seed();$p=EventProject::first();$s=$p->scenarios()->where('template_key','launch-hospitality-v1')->firstOrFail();
   $this->assertSame('distributed',$s->shelter_model);$this->assertCount(12,$s->includedStands);$this->assertSame(0,$s->budgetLines->sum('paid_quantity'));$this->assertFalse($s->report()['launch_ready']);
   $terrain=$s->budgetLines()->where('name','like','Nettoyage mimosas%')->firstOrFail();$this->assertSame(100000,$terrain->unit_gross_cents);$this->assertNull($terrain->vat_basis_points);
-  $this->assertFalse($s->budgetLines->contains('scope','fries'));$this->assertDatabaseCount('prospects',44);$this->assertDatabaseCount('catering_services',1);$this->assertDatabaseCount('press_releases',11);
+  $this->assertFalse($s->budgetLines->contains('scope','fries'));$this->assertDatabaseCount('prospects',52);$this->assertDatabaseCount('catering_services',1);$this->assertDatabaseCount('press_releases',11);
   $f=FurniturePlan::firstOrFail();$this->assertSame(12,$f->quantity);$f->update(['quantity'=>14]);$s->update(['event_days'=>2]);$this->seed();$this->assertSame(14,$f->fresh()->quantity);$this->assertSame(2,$s->fresh()->event_days);$this->assertDatabaseCount('stands',16);
   $this->get('/events/os-jogos-do-agricultor')->assertOk()->assertSee('chef Magalhães')->assertDontSee('friterie');
   $this->withSession(['locale'=>'pt'])->get('/events/os-jogos-do-agricultor')->assertOk()->assertSee('sopa de couve');

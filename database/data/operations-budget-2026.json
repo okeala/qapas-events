@@ -7,8 +7,8 @@
     "unit": "jour",
     "scope": "common",
     "expense_type": "operating",
-    "category": "logistics",
-    "phase": "followup",
+    "category": "rentals",
+    "phase": "close",
     "price_source": "Indication du porteur, 01/10/2026 : REMO, 100 €/jour, une journée. Coordonnées, modèle, disponibilité, capacité réelle sur mimosa/cannes ≤ 60 mm, carburant admis, débit, caution et IVA à confirmer. Identité REMO non vérifiée en ligne. Achat abandonné pour cette édition.",
     "vat_basis_points": null,
     "pricing_status": "estimate"
@@ -22,7 +22,7 @@
     "scope": "common",
     "expense_type": "operating",
     "category": "logistics",
-    "phase": "followup",
+    "phase": "close",
     "price_source": "20 L maximum indiqués par le porteur. Hypothèse budgétaire 2 €/L TTC, pas un cours carburant vérifié. Confirmer le carburant accepté par la machine. Achat réel et consommation à rapprocher.",
     "vat_basis_points": null,
     "pricing_status": "estimate"
@@ -36,7 +36,7 @@
     "scope": "common",
     "expense_type": "operating",
     "category": "logistics",
-    "phase": "followup",
+    "phase": "close",
     "price_source": "Déplacement/caution non présumés inclus dans les 100 €. Ne pas compter dans les trois rotations Dyna dédiées aux tubes. Mettre à zéro uniquement si inclusion ou retrait sans coût supplémentaire documentés.",
     "vat_basis_points": null,
     "pricing_status": "estimate"
@@ -78,7 +78,7 @@
     "scope": "common",
     "expense_type": "operating",
     "category": "logistics",
-    "phase": "followup",
+    "phase": "close",
     "price_source": "Hors location broyeur, SP98 et transports déjà séparés. Retrait des métaux et ligatures, opérateur, débit sur une journée, tri des lots à risque de reprise, épandage et suivi. Temps du porteur déjà dans rémunération ; bénévolat et moyens tiers à documenter. Aucun broyage de ficelle ou métal.",
     "vat_basis_points": null,
     "pricing_status": "estimate"
