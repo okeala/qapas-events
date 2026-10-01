@@ -4,6 +4,7 @@
  <div class="event-content">
  @if($preview??false)<figure><img class="festival-concept" src="{{ asset('images/festival-concept.webp') }}" alt="Illustration d’ambiance du concept"><figcaption>{{ app()->getLocale()==='pt'?'Ilustração de conceito · data proposta: 12–13 dezembro 2026, por confirmar':'Illustration du concept · dates proposées : 12–13 décembre 2026, à confirmer' }}</figcaption></figure>@endif
  @if(session('received'))<div class="notice success" role="status">{{ __('events.received') }}</div>@endif
+ <x-sponsorship-link :project="$project" :preview="$preview??false" />
  <x-cabin-challenge :project="$project" :preview="$preview??false" />
 <x-recognition-sponsorship :project="$project" :preview="$preview??false" />
  @if($project->community_version)<section class="event-section event-card"><p class="eyebrow">{{ __('community.date') }}</p><h2>{{ __('community.heading') }}</h2><p>{{ __('community.support') }}</p><h3>{{ __('community.diaspora_title') }}</h3><p>{{ __('community.diaspora') }}</p><h3>{{ __('community.award_title') }}</h3><p>{{ __('community.award') }}</p><p>{{ __('community.next') }}</p><a href="{{ route(($preview??false)?'community.preview':'community.show',['project'=>$project->slug]) }}">{{ __('community.convention') }} →</a></section>@endif

@@ -1,5 +1,7 @@
 # Os Jogos do Agricultor — QAPAS Events
 
+> Règle active au 1er octobre 2026 : [financement des stands, parrainage en parts de 20 % et quatre stands inclus pour les sponsors structurels](docs/STAND-SPONSORSHIP.md). Prix commercial séparé du besoin de couverture ; 16 implantations dans le scénario 6 + 6 + 4.
+
 > Règle active : [cabanes en récupération, raccord d’échafaudage au centre du partenariat principal](docs/RECLAIMED-CABINS.md). Équipes constructrices, locations QAPAS, coûts à chiffrer et dévoilement contrôlé.
 
 > Évolution active du 30 septembre 2026 : [communauté et continuité 2027](docs/COMMUNITY-2026.md) — 10 € de boissons pour tous les billets payés, six rôles indispensables, conventions, prix de 500 €, QR et retours. Ces règles prévalent sur les exemples historiques divergents.
@@ -59,7 +61,7 @@ Le catalogue affiche des **hypothèses**, pas des prestations actuellement achet
 
 ## Données de départ
 
-Os Jogos do Agricultor est un projet en préparation, sans date, lieu, autorisation, vente ou paiement confirmé. Le scénario courant est **6 freguesias + 6 indépendants**, sans prix ni encaissement inventé. Trois scénarios historiques restent conservés. Douze unités stand non attribuées sont préparées ; elles ne représentent aucune inscription. Les anciennes offres de départ sont conservées mais retirées du catalogue public. Les nouvelles offres fondateurs, parrains et relais restent à chiffrer.
+Os Jogos do Agricultor est un projet en préparation, sans date, lieu, autorisation, vente ou paiement confirmé. Le scénario courant est **6 freguesias + 6 indépendants**, sans prix ni encaissement inventé. Trois scénarios historiques restent conservés. Seize unités stand non attribuées sont préparées : six de freguesia, six indépendantes et quatre de sponsors structurels, sans inscription présumée. Les anciennes offres de départ sont conservées mais retirées du catalogue public. Les nouvelles offres fondateurs, parrains et relais restent à chiffrer.
 
 Les scénarios commencent donc incomplets. Renseigner le nombre de mois, le coût complet de rémunération et les coûts avant de leur demander une décision financière. Les scénarios sont indépendants : ne jamais additionner leurs encaissements.
 

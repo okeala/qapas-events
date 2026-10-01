@@ -10,13 +10,13 @@ class MerchandisingCommercialTest extends TestCase {
  private function admin(): void {$this->actingAs(Admin::firstOrCreate(['email'=>'merch@example.test'],['name'=>'Admin','password'=>'long-merchandising-password']),'admin');}
  private function invalid(callable $f): void {try{$f();$this->fail('Validation expected');}catch(ValidationException){$this->assertTrue(true);}}
  private function seedPlan(): CommercialPlan {$this->travelTo(\Carbon\Carbon::parse('2026-10-01'));$this->seed();$this->admin();return CommercialPlan::firstOrFail();}
- public function test_seed_prices_cover_modeled_cash_and_target_but_never_claim_paid_breakeven(): void {
+ public function test_market_price_keeps_unfunded_costs_visible_instead_of_raising_team_price_automatically(): void {
   $plan=$this->seedPlan();$r=$plan->report();$s=$plan->scenario;
   $this->assertDatabaseCount('merchandising_options',4);$this->assertDatabaseCount('commercial_plans',1);$this->assertDatabaseCount('event_badges',0);
   $this->assertSame(80000,$s->minimum_organizer_charges_cents);$this->assertSame(0,$s->organizer_net_monthly_cents);$this->assertNull($s->organizer_full_monthly_cents);$this->assertSame(80000,OrganizerCost::amount($s));
-  $this->assertGreaterThanOrEqual(0,$r['headroom_cents']);$this->assertGreaterThanOrEqual($r['village_break_even_cents'],$r['village_unit_cents']);$this->assertGreaterThan($r['village_unit_cents'],$r['village_without_sponsors_cents']);$this->assertNotEmpty($r['issues']);$this->assertFalse($s->report()['launch_ready']);$this->assertSame(0,$s->budgetLines->sum('paid_quantity'));
-  $lines=app(CommercialPricing::class)->lines($plan);$this->assertCount(12,$lines);foreach($lines as $line)$this->assertSame($line->stand->kind==='village'?$r['village_unit_cents']:65000,$line->unit_gross_cents);
-  $this->assertGreaterThanOrEqual($s->target_surplus_cents*$s->months,$s->report()['forecast_margin_cents']);
+  $this->assertLessThan(0,$r['headroom_cents']);$this->assertGreaterThanOrEqual($r['village_break_even_cents'],$r['village_unit_cents']);$this->assertGreaterThan($r['village_unit_cents'],$r['village_without_sponsors_cents']);$this->assertNotEmpty($r['issues']);$this->assertFalse($s->report()['launch_ready']);$this->assertSame(0,$s->budgetLines->sum('paid_quantity'));
+  $lines=app(CommercialPricing::class)->lines($plan);$this->assertCount(12,$lines);foreach($lines as $line)$this->assertSame($line->stand->kind==='village'?$r['commercial_village_unit_cents']:65000,$line->unit_gross_cents);
+  $this->assertLessThan($s->target_surplus_cents*$s->months,$s->report()['forecast_margin_cents']);
   $plan->update(['independent_price_cents'=>70000]);$this->seed();$this->assertSame(70000,$plan->fresh()->independent_price_cents);$this->assertDatabaseCount('merchandising_options',4);
  }
  public function test_charges_are_never_free_or_double_counted_and_opportunity_is_not_cash(): void {

@@ -17,7 +17,7 @@
    <div class="rounded-xl border border-gray-200 dark:border-gray-700 p-4 space-y-2">
     <h3 class="font-bold">{{ $scenario->name }}</h3>
     @if($scenario->template_key==='costing-rental-experts-v1')<p>Socle actuel : mobilier loué et payé par les participants, équipes expertes.</p>@elseif($scenario->template_key==='launch-six-six')<p>Variante historique : chapiteau et friterie. Ne pas additionner au socle actuel.</p>@elseif($scenario->template_key==='launch-hospitality-v1')<p>Scénario de référence actuel : abris par stand, soupe et boissons.</p>@endif
-    <p>{{ $scenario->team_target }} équipes · {{ $scenario->stand_target }} stands · {{ $scenario->months }} mois de travail</p>
+    <p>{{ $scenario->team_target }} équipes · {{ $scenario->stand_target }} stands + {{ $scenario->sponsor_stand_target ?? 0 }} stands sponsors · {{ $scenario->months }} mois de travail</p>
     @if(!$report['complete'])
      <p class="font-semibold text-amber-700">Chiffrage incomplet — décision impossible</p>
      <ul class="list-disc ps-5">@foreach($report['missing'] as $missing)<li>{{ $missing }}</li>@endforeach</ul>

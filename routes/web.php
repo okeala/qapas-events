@@ -96,3 +96,7 @@ Route::get('/events/{project:slug}/grandir',[\App\Http\Controllers\MobilizationC
 
 Route::get('/events/{project:slug}/cabanes',[\App\Http\Controllers\CabinController::class,'index'])->name('cabins.index');
 Route::get('/workspace/preview/{project:slug}/cabanes',[\App\Http\Controllers\CabinController::class,'preview'])->name('cabins.preview');
+
+Route::get('/events/{project:slug}/parrainer',[\App\Http\Controllers\SponsoringController::class,'index'])->name('sponsoring.index');
+Route::post('/events/{project:slug}/parrainer',[\App\Http\Controllers\SponsoringController::class,'store'])->middleware('throttle:interest')->name('sponsoring.store');
+Route::get('/workspace/preview/{project:slug}/parrainer',[\App\Http\Controllers\SponsoringController::class,'preview'])->name('sponsoring.preview');

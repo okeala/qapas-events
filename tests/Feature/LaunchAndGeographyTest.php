@@ -18,7 +18,7 @@ class LaunchAndGeographyTest extends TestCase {
   $this->assertSame(6,$s->team_target);$this->assertSame(6,$s->independent_target);$this->assertSame(12,$s->stand_target);$this->assertCount(12,$s->includedStands);$this->assertDatabaseCount('stand_partners',0);
   $this->assertFalse($s->report()['launch_ready']);$this->assertSame(0,$s->report()['verified_net_cents']);$this->assertSame(0,$s->budgetLines->sum('paid_quantity'));
   $stand=$s->includedStands->first();$stand->update(['specialty'=>'Notre recette']);$s->update(['event_days'=>2]);$this->seed();
-  $this->assertSame('Notre recette',$stand->fresh()->specialty);$this->assertSame(2,$s->fresh()->event_days);$this->assertDatabaseCount('stands',12);$this->assertSame(1,$p->scenarios()->where('template_key','launch-six-six')->count());
+  $this->assertSame('Notre recette',$stand->fresh()->specialty);$this->assertSame(2,$s->fresh()->event_days);$this->assertDatabaseCount('stands',16);$this->assertSame(1,$p->scenarios()->where('template_key','launch-six-six')->count());
  }
  public function test_independent_contribution_is_net_price_less_qapas_direct_costs_and_not_exhibitor_sales(): void {
   $p=$this->project();$stand=$p->stands()->create(['name'=>'Independent','kind'=>'independent','direct_costs_complete'=>true]);$s=$p->scenarios()->create(['name'=>'Budget','organizer_full_monthly_cents'=>160000,'costs_complete'=>true]);$s->includedStands()->attach($stand);

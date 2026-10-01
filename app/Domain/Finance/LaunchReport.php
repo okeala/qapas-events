@@ -28,13 +28,15 @@ final class LaunchReport {
   }
   $costNet+=$r['site_cost_cents'];$costGross+=$r['site_gross_cents'];
   foreach($s->includedStands as $stand){
+   if($stand->kind==='sponsor'&&!\App\Models\Sponsorship::where('stand_id',$stand->id)->get()->contains(fn($sp)=>$sp->agreed()))$r['missing'][]=$stand->name.' : partenariat structurel avec stand inclus à confirmer';
    if($s->eventProject->community_version&&$stand->kind==='village'&&!\App\Models\FreguesiaAgreement::where('stand_id',$stand->id)->where('status','signed')->exists())$r['missing'][]=$stand->name.' : convention de la freguesia à faire signer par son représentant habilité';
    foreach($stand->requirements as $need)if(!$need->valid())$r['missing'][]=$stand->name.' : besoin technique à valider · '.$need->name;
-   if($s->furniture_paid_by_participant&&!$stand->furnitureBudget()['confirmed'])$r['missing'][]=$stand->name.' : mobilier à charge participant, location/apport à confirmer';
+   if($stand->status==='withdrawn')$r['missing'][]=$stand->name.' : emplacement retiré à exclure ou remplacer';
+   if($s->furniture_paid_by_participant&&$stand->kind!=='sponsor'&&!$stand->furnitureBudget()['confirmed'])$r['missing'][]=$stand->name.' : mobilier à charge participant, location/apport à confirmer';
    if($stand->event_project_id!==$s->event_project_id){$r['missing'][]='Stand hors édition';continue;}
    $contribution=['name'=>$stand->name,'forecast_cents'=>0,'committed_cents'=>0,'verified_cents'=>0,'complete'=>$stand->direct_costs_complete];
    $lines=$s->budgetLines->where('stand_id',$stand->id);
-   if(!$stand->direct_costs_complete||!$lines->contains('kind','cost')||!$lines->contains('kind','revenue')){$r['missing'][]=$stand->name.' : revenus et coûts directs à recenser';$contribution['complete']=false;}
+   if(!$stand->direct_costs_complete||!$lines->contains('kind','cost')||($stand->kind!=='sponsor'&&!$lines->contains('kind','revenue'))){$r['missing'][]=$stand->name.' : revenus et coûts directs à recenser';$contribution['complete']=false;}
    foreach($lines as $l){
     if(!in_array($l->kind,['cost','revenue'])||($l->forecast_quantity===0&&$l->committed_quantity===0&&$l->paid_quantity===0))continue;
     if(Pricing::pending($l)||$l->vat_basis_points===null)$contribution['complete']=false;
@@ -44,16 +46,16 @@ final class LaunchReport {
     else{$contribution['forecast_cents']+=$net*$l->forecast_quantity;$contribution['committed_cents']+=$net*$l->committed_quantity;$contribution['verified_cents']+=$l->verified()?$net*$l->paid_quantity:0;}
    }
    $r['stands'][]=$contribution;
-   if($s->launch_model&&$stand->kind==='village'&&!$stand->partners()->where('main_slot',1)->where('status','active')->exists())$r['missing'][]=$stand->name.' : parrain principal à activer';
+   if($s->launch_model&&$stand->kind==='village'&&!$stand->partners()->where('status','active')->get()->contains(fn($partner)=>$partner->sponsorshipUnits()>0))$r['missing'][]=$stand->name.' : parrainage exclusif ou partagé à activer';
   }
   if($s->launch_model){
    if(!$s->event_days)$r['missing'][]='Nombre de jours à fixer';
-   if($s->includedStands->where('kind','village')->count()!==$s->team_target||$s->includedStands->where('kind','independent')->count()!==$s->independent_target||$s->includedStands->count()!==$s->stand_target)$r['missing'][]='Les stands sélectionnés ne correspondent pas au format annoncé';
+   if($s->includedStands->where('kind','village')->count()!==$s->team_target||$s->includedStands->where('kind','independent')->count()!==$s->independent_target||$s->includedStands->whereIn('kind',['village','independent'])->count()!==$s->stand_target||$s->includedStands->where('kind','sponsor')->count()!==($s->sponsor_stand_target??0))$r['missing'][]='Les stands sélectionnés ne correspondent pas au format annoncé';
    if($s->shelter_model==='distributed'){
     $r['tent_estimate']=$s->includedStands->sum('shelter_target');foreach($s->includedStands as $stand)if(!$stand->hospitality_validated||blank($stand->hospitality_evidence)||$stand->shelter_source==='undecided'||$stand->sheltered_capacity<$stand->shelter_target||$stand->seated_capacity<(int)ceil($stand->shelter_target/2))$r['missing'][]=$stand->name.' : abri, moitié des personnes assises, espaces debout et circulations à valider';
    }else{
    if(!$s->guests_per_stand||!$s->tent_capacity)$r['missing'][]='Hypothèse de fréquentation et capacité du chapiteau à définir';
-   else{$r['tent_estimate']=$s->stand_target*$s->guests_per_stand;if($s->tent_capacity<$r['tent_estimate'])$r['missing'][]='Chapiteau inférieur à l’hypothèse du scénario (hors validation du site)';}
+   else{$r['tent_estimate']=$s->includedStands->count()*$s->guests_per_stand;if($s->tent_capacity<$r['tent_estimate'])$r['missing'][]='Chapiteau inférieur à l’hypothèse du scénario (hors validation du site)';}
    }
    if($s->contingency_cents===null||$s->refund_reserve_cents===null||blank($s->reserve_evidence))$r['missing'][]='Imprévus et exposition aux remboursements à documenter';
    for($day=1;$day<=($s->event_days??0);$day++){

@@ -13,3 +13,6 @@
 .ticket-qr svg{width:16rem;max-width:100%;height:auto}table td,table th{padding:.6rem;text-align:left}
 
 .mobilization-nav{display:flex;flex-wrap:wrap;gap:.65rem 1.2rem;margin:1.5rem 0;padding:1rem 0;border-block:1px solid #d5ded7}.mobilization-nav a{color:#17523d;text-decoration:underline;text-underline-offset:.2em}.mobilization-nav a:focus-visible{outline:2px solid #17523d;outline-offset:4px}
+
+/* Stand sponsorship: shares are equal AREAS, not logo height multiples. */
+.sponsoring-choices{display:flex;flex-wrap:wrap;gap:.8rem;margin:1.5rem 0}.sponsoring-choices [aria-current=page]{outline:3px solid #d8a84b;outline-offset:3px}.sponsor-share-board{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:.3rem;margin:1rem 0}.sponsor-share{min-height:7rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:.5rem;overflow-wrap:anywhere;background:#f1eddf;border:1px dashed #819578}.sponsor-share.occupied{background:#1d4939;color:#fff;border-style:solid}.sponsor-share span{font-size:.85rem}.funding-sources{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,20rem),1fr));gap:1.25rem}.funding-sources article{border-top:2px solid #d8a84b;padding-top:.8rem}.event-form fieldset{border:0;padding:0;margin:0;min-width:0}.event-form fieldset:disabled{opacity:.7}

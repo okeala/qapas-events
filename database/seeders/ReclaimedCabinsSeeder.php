@@ -15,7 +15,7 @@ class ReclaimedCabinsSeeder extends Seeder
             if (!$scenario) return;
             if (!$project->cabin_policy_version) $project->update(['cabin_policy_version'=>'reclaimed-v1']);
             foreach ($scenario->includedStands as $stand) {
-                $rental = $stand->kind==='independent';
+                $rental = $stand->kind!=='village';
                 $cost = $rental ? $scenario->budgetLines()->firstOrCreate(['costing_key'=>'cabin-build-'.$stand->public_id], [
                     'name'=>'Cabane QAPAS : fabrication complète · '.$stand->name, 'kind'=>'cost', 'scope'=>'stand', 'stand_id'=>$stand->id,
                     'expense_type'=>'investment', 'unit'=>'cabane', 'forecast_quantity'=>1, 'unit_gross_cents'=>null, 'vat_basis_points'=>null, 'pricing_status'=>'estimate',

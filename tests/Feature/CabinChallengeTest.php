@@ -43,10 +43,10 @@ class CabinChallengeTest extends TestCase
         $this->seed();
         $project = EventProject::where('slug','os-jogos-do-agricultor')->firstOrFail();
         $scenario = $project->launchScenario();
-        $this->assertDatabaseCount('cabin_projects',12);
+        $this->assertDatabaseCount('cabin_projects',16);
         $this->assertSame(6,CabinProject::where('supply_mode','team_build')->count());
-        $this->assertSame(6,CabinProject::where('supply_mode','qapas_rental')->count());
-        $this->assertSame(8,$scenario->budgetLines()->where('costing_key','like','cabin%')->where('kind','cost')->whereNull('unit_gross_cents')->count());
+        $this->assertSame(10,CabinProject::where('supply_mode','qapas_rental')->count());
+        $this->assertSame(12,$scenario->budgetLines()->where('costing_key','like','cabin%')->where('kind','cost')->whereNull('unit_gross_cents')->count());
         $this->assertSame(0,(int)$scenario->budgetLines()->where('costing_key','like','cabin%')->where('kind','revenue')->sum('forecast_quantity'));
         $machine=$scenario->budgetLines()->where('costing_key','cabins-shredder-purchase')->sole();
         $this->assertSame('investment',$machine->expense_type);
@@ -70,7 +70,7 @@ class CabinChallengeTest extends TestCase
         $main->update(['pitch'=>'My negotiated pitch','status'=>'contacted']);
         $project->update(['cabin_visibility'=>'teaser']);
         $this->seed();
-        $this->assertDatabaseCount('cabin_projects',12);
+        $this->assertDatabaseCount('cabin_projects',16);
         $this->assertSame('My custom cabin',$rental->fresh()->name);
         $this->assertSame(12500,$rental->fresh()->costLine->unit_gross_cents);
         $this->assertSame('My negotiated pitch',$main->fresh()->pitch);
