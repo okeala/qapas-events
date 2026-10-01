@@ -1,0 +1,233 @@
+[
+  {
+    "name": "Cadre au sol",
+    "group": "tubes",
+    "quantity": 4,
+    "length_mm": 2400,
+    "basis": "metre",
+    "reference_unit_cents": 500,
+    "unit_cents": null,
+    "source": "recovered",
+    "notes": "Ø extérieur annoncé 30 mm ; épaisseur, état et compatibilité à relever. Prix neuf indicatif du porteur, base IVA inconnue. Chutes et traits de coupe à ajouter."
+  },
+  {
+    "name": "Montants arrière",
+    "group": "tubes",
+    "quantity": 2,
+    "length_mm": 2400,
+    "basis": "metre",
+    "reference_unit_cents": 500,
+    "unit_cents": null,
+    "source": "recovered",
+    "notes": "Ø extérieur annoncé 30 mm ; épaisseur, état et compatibilité à relever. Prix neuf indicatif du porteur, base IVA inconnue. Chutes et traits de coupe à ajouter."
+  },
+  {
+    "name": "Montants avant",
+    "group": "tubes",
+    "quantity": 2,
+    "length_mm": 2100,
+    "basis": "metre",
+    "reference_unit_cents": 500,
+    "unit_cents": null,
+    "source": "recovered",
+    "notes": "Ø extérieur annoncé 30 mm ; épaisseur, état et compatibilité à relever. Prix neuf indicatif du porteur, base IVA inconnue. Chutes et traits de coupe à ajouter."
+  },
+  {
+    "name": "Traverses supérieures avant/arrière",
+    "group": "tubes",
+    "quantity": 2,
+    "length_mm": 2400,
+    "basis": "metre",
+    "reference_unit_cents": 500,
+    "unit_cents": null,
+    "source": "recovered",
+    "notes": "Ø extérieur annoncé 30 mm ; épaisseur, état et compatibilité à relever. Prix neuf indicatif du porteur, base IVA inconnue. Chutes et traits de coupe à ajouter."
+  },
+  {
+    "name": "Pentes latérales",
+    "group": "tubes",
+    "quantity": 2,
+    "length_mm": 2420,
+    "basis": "metre",
+    "reference_unit_cents": 500,
+    "unit_cents": null,
+    "source": "recovered",
+    "notes": "Ø extérieur annoncé 30 mm ; épaisseur, état et compatibilité à relever. Prix neuf indicatif du porteur, base IVA inconnue. Chutes et traits de coupe à ajouter."
+  },
+  {
+    "name": "Pannes de toiture",
+    "group": "tubes",
+    "quantity": 3,
+    "length_mm": 2400,
+    "basis": "metre",
+    "reference_unit_cents": 500,
+    "unit_cents": null,
+    "source": "recovered",
+    "notes": "Ø extérieur annoncé 30 mm ; épaisseur, état et compatibilité à relever. Prix neuf indicatif du porteur, base IVA inconnue. Chutes et traits de coupe à ajouter."
+  },
+  {
+    "name": "Renforts latéraux à mi-hauteur",
+    "group": "tubes",
+    "quantity": 2,
+    "length_mm": 2400,
+    "basis": "metre",
+    "reference_unit_cents": 500,
+    "unit_cents": null,
+    "source": "recovered",
+    "notes": "Ø extérieur annoncé 30 mm ; épaisseur, état et compatibilité à relever. Prix neuf indicatif du porteur, base IVA inconnue. Chutes et traits de coupe à ajouter."
+  },
+  {
+    "name": "Socles au sol",
+    "group": "connectors",
+    "quantity": 4,
+    "length_mm": null,
+    "basis": "piece",
+    "reference_unit_cents": 800,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Référence, nombre de voies, diamètre extérieur compatible et conditions de serrage à confirmer sur le plan de chaque assemblage."
+  },
+  {
+    "name": "Angles 90°",
+    "group": "connectors",
+    "quantity": 4,
+    "length_mm": null,
+    "basis": "piece",
+    "reference_unit_cents": 800,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Référence, nombre de voies, diamètre extérieur compatible et conditions de serrage à confirmer sur le plan de chaque assemblage."
+  },
+  {
+    "name": "Tés classiques",
+    "group": "connectors",
+    "quantity": 4,
+    "length_mm": null,
+    "basis": "piece",
+    "reference_unit_cents": 800,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Référence, nombre de voies, diamètre extérieur compatible et conditions de serrage à confirmer sur le plan de chaque assemblage."
+  },
+  {
+    "name": "Tés ouvrants",
+    "group": "connectors",
+    "quantity": 4,
+    "length_mm": null,
+    "basis": "piece",
+    "reference_unit_cents": 850,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Référence, nombre de voies, diamètre extérieur compatible et conditions de serrage à confirmer sur le plan de chaque assemblage."
+  },
+  {
+    "name": "Raccords articulés",
+    "group": "connectors",
+    "quantity": 4,
+    "length_mm": null,
+    "basis": "piece",
+    "reference_unit_cents": 850,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Référence, nombre de voies, diamètre extérieur compatible et conditions de serrage à confirmer sur le plan de chaque assemblage."
+  },
+  {
+    "name": "Fixations de pannes",
+    "group": "connectors",
+    "quantity": 6,
+    "length_mm": null,
+    "basis": "piece",
+    "reference_unit_cents": 850,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Référence, nombre de voies, diamètre extérieur compatible et conditions de serrage à confirmer sur le plan de chaque assemblage."
+  },
+  {
+    "name": "Colliers Oméga",
+    "group": "roof_fixings",
+    "quantity": 12,
+    "length_mm": null,
+    "basis": "piece",
+    "reference_unit_cents": 180,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Pour Ø 30 mm annoncé (et non 30 m). Compatibilité et fixations à vérifier."
+  },
+  {
+    "name": "Cavaliers, rondelles et boulonnerie",
+    "group": "roof_fixings",
+    "quantity": 1,
+    "length_mm": null,
+    "basis": "lot",
+    "reference_unit_cents": 1500,
+    "unit_cents": null,
+    "source": "new",
+    "notes": "Lot proposé : 12 cavaliers/rondelles étanches + 24 boulons ou vis avec écrous. Ne pas ajouter leurs prix une seconde fois."
+  },
+  {
+    "name": "Tôles de bac acier et finitions",
+    "group": "completion",
+    "quantity": 1,
+    "length_mm": null,
+    "basis": "lot",
+    "reference_unit_cents": null,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Longueur de pente proposée 2,42 m : une tôle de 2,40 m ne couvre pas cette longueur, avant débords et recouvrements. Profil, pente minimale, quantité et fixations fabricant à vérifier."
+  },
+  {
+    "name": "Ancrages, lestage et contreventement",
+    "group": "completion",
+    "quantity": 1,
+    "length_mm": null,
+    "basis": "lot",
+    "reference_unit_cents": null,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Socles ≠ ancrages. Les renforts horizontaux ne démontrent pas le contreventement. Configuration, sol et vent à étudier."
+  },
+  {
+    "name": "Bardage en plessis et ligatures",
+    "group": "completion",
+    "quantity": 1,
+    "length_mm": null,
+    "basis": "lot",
+    "reference_unit_cents": null,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Mimosas/cannes ≤ 60 mm ; récolte, préparation, sisal et travail à prévoir."
+  },
+  {
+    "name": "Chutes, découpe, préparation et consommables",
+    "group": "completion",
+    "quantity": 1,
+    "length_mm": null,
+    "basis": "lot",
+    "reference_unit_cents": null,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Longueurs brutes commerciales et traits de coupe non compris dans les 40,24 m utiles."
+  },
+  {
+    "name": "Transport et manutention propres au stand",
+    "group": "completion",
+    "quantity": 1,
+    "length_mm": null,
+    "basis": "lot",
+    "reference_unit_cents": null,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Part spécifique uniquement. Transport mutualisé déjà budgété séparément : quantité zéro explicite si aucun coût ici."
+  },
+  {
+    "name": "Montage, démontage et contrôle",
+    "group": "completion",
+    "quantity": 1,
+    "length_mm": null,
+    "basis": "lot",
+    "reference_unit_cents": null,
+    "unit_cents": null,
+    "source": "undecided",
+    "notes": "Main-d’œuvre, outillage et contrôle ; ne pas déduire implicitement le travail bénévole."
+  }
+]

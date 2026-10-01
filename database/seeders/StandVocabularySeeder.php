@@ -42,6 +42,11 @@ class StandVocabularySeeder extends Seeder
                     $rewrite($line, $fields);
                 }
             }
+            // A display label must not refresh the tax fingerprint or validate an obsolete source.
+            foreach (\App\Models\FinancialProfile::whereHas('financialPlan.scenario',fn($q)=>$q->where('event_project_id',$project->id)->where('is_archived',false))->get() as $profile) {
+                $name=strtr($profile->name,$phrases);
+                if($name!==$profile->name) DB::table('financial_profiles')->where('id',$profile->id)->where('name',$profile->name)->update(['name'=>$name]);
+            }
             foreach ($project->stands as $stand) $rewrite($stand, ['name', 'needs', 'public_description']);
             foreach (CabinProject::where('event_project_id', $project->id)->get() as $construction) {
                 // Never change dimensions, inventories, reception evidence or existing rental terms.

@@ -75,6 +75,17 @@ class CabinProjectResource extends Resource
                 TextInput::make('participant_cost_cents')->label('Budget de construction payé par l’équipe · centimes')->integer()->minValue(0),
                 Textarea::make('participant_cost_evidence')->label('Détail participant, contributions et justificatifs · hors budget QAPAS')->maxLength(5000),
             ])->columnSpanFull(),
+            Section::make('Nomenclature et coût de construction du stand')->description('Hypothèse monopente fournie le 1er octobre : arrière 2,40 m, avant 2,10 m ; tôles bac acier. Le détail sert au chiffrage, pas à valider la structure. Il ne modifie pas l’inventaire ni la configuration réceptionnée. Vérifier les références de raccords pour le diamètre réel, les ancrages et le contreventement.')->schema([
+                \Filament\Schemas\Components\View::make('filament.stands.construction')->viewData(function(Get $get){try{$report=\App\Domain\Stands\ConstructionCosting::report($get('construction_costs')??[]);}catch(\Illuminate\Validation\ValidationException){$report=null;}return ['costing'=>$report];}),
+                Select::make('construction_price_basis')->label('Base des prix prévisionnels saisis')->options(['unknown'=>'IVA à préciser','gross'=>'TTC','net'=>'HT'])->default('unknown')->required(),
+                TextInput::make('construction_vat_basis_points')->label('IVA commune à ce lot · points de base (2300 = 23 %)')->integer()->minValue(0)->maxValue(10000)->helperText('À confirmer. Si plusieurs traitements IVA s’appliquent, ventiler dans le budget ; ne pas transférer un lot unique.'),
+                Repeater::make('construction_costs')->label('Composants et prestations · référence neuf / coût prévu')->schema([
+                    TextInput::make('name')->label('Composant / prestation')->required()->maxLength(255),Select::make('group')->label('Groupe')->options(\App\Domain\Stands\ConstructionCosting::GROUPS)->required(),
+                    TextInput::make('quantity')->label('Quantité')->integer()->minValue(0)->maxValue(10000)->live(onBlur:true),Select::make('basis')->label('Prix par')->options(['metre'=>'Mètre de tube','piece'=>'Pièce','lot'=>'Lot'])->required()->live(),TextInput::make('length_mm')->label('Longueur unitaire · mm')->integer()->minValue(1)->maxValue(240000)->visible(fn(Get $get)=>$get('basis')==='metre')->live(onBlur:true),
+                    TextInput::make('reference_unit_cents')->label('Prix neuf indicatif · centimes')->integer()->minValue(0)->maxValue(1000000000)->live(onBlur:true),TextInput::make('unit_cents')->label('Prix prévisionnel retenu · centimes')->integer()->minValue(0)->maxValue(1000000000)->live(onBlur:true),
+                    Select::make('source')->label('Approvisionnement prévu')->options(['recovered'=>'Casse / récupération','new'=>'Neuf','donation'=>'Don à documenter','loan'=>'Prêt à documenter','service'=>'Prestation','undecided'=>'À décider'])->required(),Textarea::make('notes')->label('Contenu du lot, devis, exclusions')->maxLength(2000)->columnSpanFull(),
+                ])->columns(3)->collapsible()->collapsed()->itemLabel(fn(array $state)=>$state['name']??'Poste')->default(\App\Domain\Stands\ConstructionCosting::defaults())->maxItems(100),
+            ])->columnSpanFull(),
             Section::make('Présentation')->columns(2)->schema([
                 Toggle::make('is_public')->label('Présenter la construction de ce stand quand le défi et sa fiche sont publics'),
                 Textarea::make('summary_fr')->label('Histoire du stand · FR')->maxLength(5000),
@@ -98,6 +109,9 @@ class CabinProjectResource extends Resource
             SelectFilter::make('status')->label('Avancement')->options(CabinRules::STATUSES),
         ])->defaultSort('stand_id')->recordActions([
             EditAction::make()->modalWidth('7xl'),
+            Action::make('budget')->label('Reporter le chiffrage au budget')->modalDescription('Enregistrer le détail avant cette action. Coût QAPAS si QAPAS fournit le stand ; sinon coût de l’équipe, hors break-even QAPAS. Le prix neuf de référence ne sera jamais repris automatiquement.')->schema([
+                Select::make('scenario_id')->label('Scénario')->options(fn(CabinProject $record)=>\App\Models\Scenario::where('event_project_id',$record->event_project_id)->where('is_archived',false)->whereHas('includedStands',fn($q)=>$q->where('stands.id',$record->stand_id))->pluck('name','id'))->default(fn(CabinProject $record)=>$record->costLine?->scenario_id??$record->eventProject->launchScenario()?->id)->required(),
+            ])->action(function(CabinProject $record,array $data){app(\App\Domain\Stands\ConstructionCosting::class)->apply($record,(int)$data['scenario_id']);\Filament\Notifications\Notification::make()->title('Prévision mise à jour, sans commande ni paiement')->success()->send();}),
             Action::make('stand')->label('Emplacement et budget')->url(fn(CabinProject $record)=>StandResource::getUrl('edit',['record'=>$record->stand])),
             Action::make('preview')->label('Aperçu local')->visible(fn()=>app()->environment('local'))->url(fn(CabinProject $record)=>route('cabins.preview',['project'=>$record->eventProject->slug]).'#stand-'.$record->public_id),
         ]);

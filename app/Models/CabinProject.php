@@ -8,7 +8,7 @@ use Illuminate\Validation\{Rule, ValidationException};
 class CabinProject extends Record
 {
     protected $attributes = ['supply_mode'=>'team_build','status'=>'concept','width_mm'=>2400,'depth_mm'=>2400,'height_mm'=>2400,'frame_diameter_mm'=>30,'materials'=>'[]','rental_pricing'=>'unpriced','is_public'=>false];
-    protected function casts(): array { return ['materials'=>'array','is_public'=>'boolean','follow_up_on'=>'date','reviewed_at'=>'datetime','structural_reviewed_on'=>'date']; }
+    protected function casts(): array { return ['construction_costs'=>'array','construction_vat_basis_points'=>'integer','materials'=>'array','is_public'=>'boolean','follow_up_on'=>'date','reviewed_at'=>'datetime','structural_reviewed_on'=>'date']; }
     public function eventProject() { return $this->belongsTo(EventProject::class); }
     public function stand() { return $this->belongsTo(Stand::class); }
     public function costLine() { return $this->belongsTo(BudgetLine::class,'cost_line_id'); }
@@ -49,6 +49,8 @@ class CabinProject extends Record
                 'rental_terms'=>'nullable|string|max:10000','participant_cost_evidence'=>'nullable|string|max:5000',
                 'summary_fr'=>'nullable|string|max:5000','summary_pt'=>'nullable|string|max:5000',
             ])->validate();
+            \App\Domain\Stands\ConstructionCosting::validate($c->construction_costs ?? []);
+            Validator::make($c->getAttributes(), ['construction_price_basis'=>'sometimes|in:unknown,gross,net','construction_vat_basis_points'=>'nullable|integer|between:0,10000'])->validate();
             $stand = Stand::whereKey($c->stand_id)->where('event_project_id',$c->event_project_id)->first();
             if (!$stand) throw ValidationException::withMessages(['stand_id'=>'Choisir un stand de cette édition.']);
             if ($c->supply_mode!==($stand->kind==='village'?'team_build':'qapas_rental')) throw ValidationException::withMessages(['supply_mode'=>'Freguesia : fabrication par l’équipe. Indépendant : stand QAPAS en location.']);
