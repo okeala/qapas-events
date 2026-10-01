@@ -2,7 +2,7 @@
 @if($preview)<x-preview-notice />@endif
 @php($catalogRoute=$preview?'sponsoring.preview':'sponsoring.index')
 <div class="event-content"><p><a href="{{ route($preview?'event.preview':'event.show',['project'=>$project->slug]) }}">← {{ __('sponsoring.back') }}</a></p>
-<h1>{{ __('sponsoring.title') }}</h1><p class="lead">{{ __('sponsoring.intro') }}</p>
+<h1>{{ __('sponsoring.title') }}</h1><p>{{ __('sponsoring.intro') }}</p>
 @if(session('sponsorship_received'))<p class="notice success" role="status">{{ __('sponsoring.received') }}</p>@endif
 <nav class="sponsoring-choices" aria-label="{{ __('sponsoring.title') }}"><a class="qapas-button" @if($target==='stand') aria-current="page" @endif href="{{ route($catalogRoute,['project'=>$project->slug,'target'=>'stand']) }}">{{ __('sponsoring.stand_choice') }}</a><a class="qapas-button" @if($target==='event') aria-current="page" @endif href="{{ route($catalogRoute,['project'=>$project->slug,'target'=>'event']) }}">{{ __('sponsoring.event_choice') }}</a></nav>
 @if($target==='stand')
