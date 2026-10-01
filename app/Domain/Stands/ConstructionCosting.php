@@ -8,10 +8,10 @@ final class ConstructionCosting {
  public static function defaults(): array {return json_decode(file_get_contents(database_path('data/stand-construction.json')),true,512,JSON_THROW_ON_ERROR);}
  public static function validate(array $rows): void {Validator::make(['rows'=>$rows],[
   'rows'=>'array|max:100','rows.*.name'=>'required|string|max:255','rows.*.group'=>'required|in:'.implode(',',array_keys(self::GROUPS)),'rows.*.quantity'=>'nullable|integer|between:0,10000','rows.*.basis'=>'required|in:metre,piece,lot','rows.*.length_mm'=>'nullable|integer|between:1,240000','rows.*.reference_unit_cents'=>'nullable|integer|between:0,1000000000','rows.*.unit_cents'=>'nullable|integer|between:0,1000000000','rows.*.source'=>'required|in:recovered,new,donation,loan,service,undecided','rows.*.notes'=>'nullable|string|max:2000',
-  ])->validate();foreach($rows as $i=>$row)if($row['basis']==='metre'&&($row['quantity']??null)!==0&&empty($row['length_mm']))throw ValidationException::withMessages(['construction_costs.'.$i.'.length_mm'=>'Longueur unitaire en millimètres requise pour le prix au mètre.']);}
+  ])->validate();foreach($rows as $i=>$row)if($row['basis']==='metre'&&(string)($row['quantity']??'')!=='0'&&empty($row['length_mm']))throw ValidationException::withMessages(['construction_costs.'.$i.'.length_mm'=>'Longueur unitaire en millimètres requise pour le prix au mètre.']);}
  private static function amount(array $row,string $price): ?int {
   if(($row['quantity']??null)===0||($row['quantity']??null)==='0')return 0;
-  if(($row['quantity']??null)===null||($row[$price]??null)===null)return null;
+  if(($row['quantity']??null)===null||$row['quantity']===''||($row[$price]??null)===null||$row[$price]==='')return null;
   $n=(int)$row['quantity']*(int)$row[$price];return $row['basis']==='metre'?intdiv($n*(int)$row['length_mm']+500,1000):$n;
  }
  public static function report(array $rows): array {
