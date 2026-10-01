@@ -1,5 +1,7 @@
 # Contraintes juridiques — exigences, pas avis de conformité
 
+> Évolution du 1 octobre 2026 : [pilotage financier par scénario, IVA et tarif collectif de 1 000 € TTC](FINANCIAL-PLANNING.md). Cette règle remplace l’ancienne hypothèse de prospection de 500 €, sans modifier les contrats acquis.
+
 > Règle active au 1er octobre 2026 : [financement des stands, parrainage en parts de 20 % et quatre stands inclus pour les sponsors structurels](STAND-SPONSORSHIP.md). Prix commercial séparé du besoin de couverture ; 16 implantations dans le scénario 6 + 6 + 4.
 
 > Règle active : [cabanes en récupération, raccord d’échafaudage au centre du partenariat principal](RECLAIMED-CABINS.md). Équipes constructrices, locations QAPAS, coûts à chiffrer et dévoilement contrôlé.

@@ -9,6 +9,8 @@
  <x-filament::section heading="Relances prospects · prochaines actions"><div class="overflow-x-auto"><table class="w-full"><thead><tr><th>Date Lisbonne</th><th>Município</th><th>Prospect / contact</th><th>Action</th></tr></thead><tbody>@forelse($this->followups() as $prospect)<tr><td>{{ $prospect->followup_at->timezone('Europe/Lisbon')->format('d/m/Y H:i') }} {{ $prospect->followup_at->isPast()?'· À relancer':'' }}</td><td>{{ $prospect->municipality }}</td><td><a href="{{ \App\Filament\Resources\ProspectResource::getUrl('index',['tableSearch'=>$prospect->name]) }}">{{ $prospect->name }}</a> · {{ $prospect->contact_name }} {{ $prospect->phone }}</td><td>{{ $prospect->next_action }}</td></tr>@empty<tr><td colspan="4">Aucune relance planifiée. Une visite permet de programmer la prochaine action.</td></tr>@endforelse</tbody></table></div></x-filament::section>
  @forelse($this->projects() as $project)
  <x-filament::section :heading="$project->name">
+  @if($current=$project->launchScenario())<livewire:financial-overview :scenario-id="$current->public_id" :key="'finance-'.$current->public_id" />@endif
+  <p class="mt-4 text-sm">Les contrôles ci-dessous suivent les engagements et les conditions de lancement. Ils conservent leur approche prudente des coûts décaissés, distincte du résultat de gestion et de son amortissement.</p>
   @if($project->prize_policy_version)@php($awardFunding=app(\App\Domain\Awards\Forquilha::class)->report($project))<div class="rounded-xl border p-4 my-3"><strong>Forquilha de Ouro · 500 € pour la freguesia gagnante</strong><p>Encaissé net d’IVA : {{ \App\Domain\Finance\Money::format($awardFunding['received_net_cents']) }} · réservé : {{ \App\Domain\Finance\Money::format($awardFunding['reserved_cents']) }}.</p><p>{{ $awardFunding['secured']?'Financement du prix sécurisé.':'À sécuriser avant les participations payantes.' }} {{ $awardFunding['production_ready']?'Trophée réceptionné.':'Conception, fourniture et peinture à réceptionner.' }}</p><a href="{{ \App\Filament\Resources\CommunityAwardResource::getUrl() }}">Suivre le prix et la remise →</a><br><a href="{{ \App\Filament\Resources\WelcomePackPlanResource::getUrl() }}">Welcome pack : effectifs, tailles, réserve et sponsor →</a></div>@endif
   <p>{{ $project->phase }} · {{ $project->interests_count }} demandes · {{ $project->teams_count }} équipes en préparation</p>
   <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3 mt-4">
@@ -20,7 +22,7 @@
     <p>{{ $scenario->team_target }} équipes · {{ $scenario->stand_target }} stands + {{ $scenario->sponsor_stand_target ?? 0 }} stands sponsors · {{ $scenario->months }} mois de travail</p>
     @if(!$report['complete'])
      <p class="font-semibold text-amber-700">Chiffrage incomplet — décision impossible</p>
-     <ul class="list-disc ps-5">@foreach($report['missing'] as $missing)<li>{{ $missing }}</li>@endforeach</ul>
+     <details><summary class="cursor-pointer">Postes à compléter</summary><ul class="list-disc ps-5">@foreach($report['missing'] as $missing)<li>{{ $missing }}</li>@endforeach</ul></details>
     @else
      <p class="font-semibold">{{ $report['target_secured'] ? 'Objectif couvert par les engagements saisis' : 'Objectif encore à couvrir' }}</p>
     @endif

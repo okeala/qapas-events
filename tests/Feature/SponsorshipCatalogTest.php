@@ -59,7 +59,7 @@ class SponsorshipCatalogTest extends TestCase
             $this->assertNull($services->unit_gross_cents);$this->assertSame(1,$services->forecast_quantity);
             $this->assertSame(0,(int)$scenario->budgetLines()->where('stand_id',$stand->id)->where('kind','revenue')->sum('forecast_quantity'));
         }
-        $plan=CommercialPlan::firstOrFail();$this->assertSame(50000,$plan->village_price_cents);$this->assertLessThan(0,$plan->report()['headroom_cents']);
+        $plan=CommercialPlan::firstOrFail();$this->assertSame(100000,$plan->village_price_cents);$this->assertLessThan(0,$plan->report()['headroom_cents']);
         $this->assertFalse($scenario->report()['launch_ready']);$this->assertSame(0,(int)$scenario->budgetLines()->sum('paid_quantity'));
         $village=$project->stands()->where('kind','village')->first();$village->update(['sponsorship_total_cents'=>60000,'sponsorship_price_evidence'=>'Custom proposal']);
         $sponsors->first()->update(['catalog_fr'=>'My negotiated deliverables']);$project->update(['sponsorship_visibility'=>'catalog']);
@@ -94,8 +94,8 @@ class SponsorshipCatalogTest extends TestCase
         $plan->update(['village_price_cents'=>60000]);
         $this->invalid(fn()=>app(CommercialPricing::class)->apply($plan));
         $this->assertSame($price,$line->fresh()->unit_gross_cents);
-        $this->assertSame(50000,$partner->fresh()->reference_total_cents);
-        $this->assertSame(50000,$line->stand->fresh()->sponsorship_total_cents);
+        $this->assertSame(100000,$partner->fresh()->reference_total_cents);
+        $this->assertSame(100000,$line->stand->fresh()->sponsorship_total_cents);
     }
 
     public function test_structural_stand_is_same_edition_unique_and_required_before_agreement(): void
