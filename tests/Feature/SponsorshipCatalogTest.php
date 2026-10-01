@@ -86,6 +86,18 @@ class SponsorshipCatalogTest extends TestCase
         $this->assertDatabaseCount('budget_lines',0);
     }
 
+    public function test_applying_commercial_prices_keeps_existing_local_agreements_and_budget(): void
+    {
+        $this->seed();$this->admin();$plan=CommercialPlan::firstOrFail();
+        $line=app(CommercialPricing::class)->lines($plan)->first(fn($line)=>$line->stand->kind==='village');
+        $partner=$this->partner($line->stand,2);$price=$line->unit_gross_cents;
+        $plan->update(['village_price_cents'=>60000]);
+        $this->invalid(fn()=>app(CommercialPricing::class)->apply($plan));
+        $this->assertSame($price,$line->fresh()->unit_gross_cents);
+        $this->assertSame(50000,$partner->fresh()->reference_total_cents);
+        $this->assertSame(50000,$line->stand->fresh()->sponsorship_total_cents);
+    }
+
     public function test_structural_stand_is_same_edition_unique_and_required_before_agreement(): void
     {
         $project=$this->project();$own=$this->stand($project,'sponsor');$foreign=$this->stand($this->project('foreign'),'sponsor');$village=$this->stand($project);
@@ -105,13 +117,16 @@ class SponsorshipCatalogTest extends TestCase
     {
         $project=$this->project();$stand=$this->stand($project);$partner=$this->partner($stand,2);
         $slot=Sponsorship::create(['event_project_id'=>$project->id,'name'=>'PRIVATE-PROSPECT','scope'=>'main','stand_id'=>$this->stand($project,'sponsor')->id,'catalog_visible'=>true,'catalog_fr'=>'Public package','catalog_pt'=>'Proposta pública','pitch'=>'PRIVATE-PITCH']);
-        $activity=$project->activities()->create(['name'=>'SECRET-CHALLENGE','track'=>'official','is_public'=>false]);
+        $activity=$project->activities()->create(['name'=>'SECRET-CHALLENGE','rules'=>'Private draft rules','track'=>'official','is_public'=>false]);
         Sponsorship::create(['event_project_id'=>$project->id,'name'=>'Secret slot','scope'=>'activity','activity_id'=>$activity->id,'catalog_visible'=>true]);
         $url='/events/sponsorship/parrainer';
         $this->get($url.'?stand='.$stand->public_id)->assertOk()->assertSee('40 %')->assertSee('Attribuée')->assertDontSee('Private company')->assertDontSee('Private agreement reference');
         $partner->update(['is_public'=>true,'name'=>'<script>alert(1)</script>']);
         $this->get($url.'?stand='.$stand->public_id)->assertSee('&lt;script&gt;alert(1)&lt;/script&gt;',false)->assertDontSee('<script>alert(1)</script>',false);
         $this->get($url.'?target=event')->assertOk()->assertSee('Public package')->assertDontSee('PRIVATE-PROSPECT')->assertDontSee('PRIVATE-PITCH')->assertDontSee('SECRET-CHALLENGE');
+        $legacyOffer=$project->offers()->create(['name'=>'Old structural card','includes'=>'Old description','kind'=>'sponsor','is_public'=>true,'preview_current'=>true]);
+        $this->get(route('offer.show',['project'=>$project->slug,'offer'=>$legacyOffer->public_id]))->assertRedirect(route('sponsoring.index',['project'=>$project->slug,'target'=>'event']));
+        $this->get(route('event.show',['project'=>$project->slug]))->assertOk()->assertDontSee('Old structural card');
         $this->withSession(['locale'=>'pt'])->get($url.'?target=event')->assertOk()->assertSee('Proposta pública');
         $slot->update(['catalog_visible'=>false]);$this->get($url.'?slot='.$slot->public_id)->assertNotFound();
         $project->update(['sponsorship_visibility'=>'hidden']);$this->get($url)->assertNotFound();
