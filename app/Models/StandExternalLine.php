@@ -5,7 +5,7 @@ use Illuminate\Validation\ValidationException;
 class StandExternalLine extends Record {
  protected $attributes=['unit'=>'lot'];
  public const PARTIES=['team'=>'Équipe / collectif de freguesia','exhibitor'=>'Exposant indépendant','junta'=>'Junta','sponsor'=>'Sponsor','other'=>'Autre intervenant'];
- protected function casts(): array {return ['quantity'=>'integer','unit_gross_cents'=>'integer'];}
+ protected function casts(): array {return ['stand_id'=>'integer','scenario_id'=>'integer','qapas_budget_line_id'=>'integer','quantity'=>'integer','unit_gross_cents'=>'integer'];}
  public function stand(){return $this->belongsTo(Stand::class);}
  public function scenario(){return $this->belongsTo(Scenario::class);}
  public function qapasBudgetLine(){return $this->belongsTo(BudgetLine::class,'qapas_budget_line_id');}

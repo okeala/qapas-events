@@ -28,7 +28,7 @@ class StandEconomicsTest extends TestCase {
   $this->assertEquals($before,$s->fresh()->report());$r=app(StandEconomics::class)->report($stand,$s);$this->assertSame(10000,$r['qapas']['balance_cents']);$this->assertSame(4000,$r['external'][0]['balance_cents']);
   $line=$stand->externalLines()->create(['scenario_id'=>$s->id,'party'=>'team','holder'=>'Équipe A','name'=>'Mobilier à louer','kind'=>'cost','quantity'=>1]);$r=app(StandEconomics::class)->report($stand,$s);$this->assertNull($r['external'][1]['balance_cents']);$this->assertSame(1,$r['external'][1]['cost_missing']);
   $line->update(['quantity'=>0]);$this->assertSame(0,$line->fresh()->total());
-  $this->invalid(fn()=>$line->update(['quantity'=>1,'qapas_budget_line_id'=>$cost->id]));$line->fresh()->update(['qapas_budget_line_id'=>$sale->id]);$this->invalid(fn()=>$sale->update(['kind'=>'cost']));
+  $this->invalid(fn()=>$line->update(['quantity'=>1,'qapas_budget_line_id'=>$cost->id]));$line->fresh()->update(['scenario_id'=>(string)$s->id,'qapas_budget_line_id'=>(string)$sale->id]);$this->invalid(fn()=>$sale->update(['kind'=>'cost']));
   $other=$p->scenarios()->create(['name'=>'Unrelated']);$this->invalid(fn()=>$line->fresh()->update(['scenario_id'=>$other->id]));$this->invalid(fn()=>app(StandEconomics::class)->report($stand,$other));
  }
  public function test_construction_budget_is_explicit_idempotent_and_routed_to_its_real_payer(): void {
