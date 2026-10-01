@@ -50,7 +50,7 @@ class CabinChallengeTest extends TestCase
         $this->assertSame(0,(int)$scenario->budgetLines()->where('costing_key','like','cabin%')->where('kind','revenue')->sum('forecast_quantity'));
         $machine=$scenario->budgetLines()->where('costing_key','cabins-shredder-purchase')->sole();
         $this->assertSame('investment',$machine->expense_type);
-        $this->assertSame(1,$machine->forecast_quantity);
+        $this->assertSame(0,$machine->forecast_quantity);
         $this->assertNull($machine->unit_gross_cents);
         $machineRequest=\App\Models\CostConsultation::where('costable_type',\App\Models\BudgetLine::class)->where('costable_id',$machine->id)->sole();
         $this->assertStringContainsString('devis d’achat d’un broyeur',$machineRequest->body_fr);

@@ -187,7 +187,7 @@
     "notes": "Socles ≠ ancrages. Les renforts horizontaux ne démontrent pas le contreventement. Configuration, sol et vent à étudier."
   },
   {
-    "name": "Bardage en plessis — hors sisal et logistique commune",
+    "name": "Bardage en plessis et ligatures",
     "group": "completion",
     "quantity": 1,
     "length_mm": null,
@@ -195,18 +195,7 @@
     "reference_unit_cents": null,
     "unit_cents": null,
     "source": "undecided",
-    "notes": "Mimosas/cannes ≤ 60 mm, longueurs de bardage ≤ 2,50 m. Tressage et préparation propres au stand ici. Coupe/collecte/transport mutualisés séparés. Trois bobines de sisal dans la ligne suivante ; ne pas les recompter."
-  },
-  {
-    "name": "Sisal naturel — trois bobines par stand",
-    "group": "completion",
-    "quantity": 3,
-    "length_mm": null,
-    "basis": "piece",
-    "reference_unit_cents": 550,
-    "unit_cents": null,
-    "source": "new",
-    "notes": "Sacore affiche à partir de 5,50 €/bobine 1 kg : https://www.sacore.pt/fio-sisal-1-kg. Nombre de brins, métrage, prix TTC et résistance des ligatures à confirmer ; référence non assimilée à un achat. 3 bobines/stand selon le porteur. Stand équipe : charge de son constructeur ; stand QAPAS : compris dans sa fabrication, jamais une seconde ligne budgétaire."
+    "notes": "Mimosas/cannes ≤ 60 mm ; récolte, préparation, sisal et travail à prévoir."
   },
   {
     "name": "Chutes, découpe, préparation et consommables",

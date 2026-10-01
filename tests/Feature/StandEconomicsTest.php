@@ -18,7 +18,7 @@ class StandEconomicsTest extends TestCase {
  private function admin(): Admin {$a=Admin::create(['name'=>'Manager','email'=>'stands@test.tld','password'=>'test-password-long']);$this->actingAs($a,'admin');return $a;}
  private function invalid(callable $f): void {try{$f();$this->fail('Expected validation');}catch(ValidationException){$this->assertTrue(true);}}
  public function test_nomenclature_corrects_lengths_and_prices_without_inventing_a_complete_cost(): void {
-  $r=ConstructionCosting::report(ConstructionCosting::defaults());$this->assertSame(17,$r['tube_count']);$this->assertSame(40240,$r['tube_length_mm']);$this->assertSame(20120,$r['groups']['tubes']['reference']);$this->assertSame(21500,$r['groups']['connectors']['reference']);$this->assertSame(3660,$r['groups']['roof_fixings']['reference']);$this->assertSame(45280,$r['reference_known_cents']);$this->assertSame(6,$r['reference_missing']);$this->assertNull($r['planned_cents']);$this->assertSame(0,$r['planned_known_cents']);
+  $r=ConstructionCosting::report(ConstructionCosting::defaults());$this->assertSame(17,$r['tube_count']);$this->assertSame(40240,$r['tube_length_mm']);$this->assertSame(20120,$r['groups']['tubes']['reference']);$this->assertSame(21500,$r['groups']['connectors']['reference']);$this->assertSame(3660,$r['groups']['roof_fixings']['reference']);$this->assertSame(46930,$r['reference_known_cents']);$this->assertSame(6,$r['reference_missing']);$this->assertNull($r['planned_cents']);$this->assertSame(0,$r['planned_known_cents']);
   $rows=ConstructionCosting::defaults();$rows[0]['unit_cents']=100;$r=ConstructionCosting::report($rows);$this->assertSame(960,$r['planned_known_cents']);$this->assertNull($r['planned_cents']);$rows[0]['unit_cents']='';$this->assertNull(ConstructionCosting::report($rows)['planned_cents']);$rows[0]['length_mm']=null;$this->invalid(fn()=>ConstructionCosting::report($rows));
  }
  public function test_participant_sales_and_costs_never_change_qapas_break_even(): void {
@@ -48,7 +48,7 @@ class StandEconomicsTest extends TestCase {
   $this->assertSame(50000,$stand->externalLines()->sole()->total());$this->assertDatabaseCount('budget_lines',0);$a->update(['is_active'=>false]);$this->get(StandResource::getUrl('edit',['record'=>$stand]))->assertForbidden();
  }
  public function test_seed_adds_only_a_working_estimate_and_preserves_existing_edits(): void {
-  $this->seed();$c=CabinProject::firstOrFail();$this->assertSame(45280,ConstructionCosting::report($c->construction_costs)['reference_known_cents']);$this->assertNull(ConstructionCosting::report($c->construction_costs)['planned_cents']);$this->assertSame('unknown',$c->construction_price_basis);$this->assertDatabaseCount('stand_external_lines',0);
+  $this->seed();$c=CabinProject::firstOrFail();$this->assertSame(46930,ConstructionCosting::report($c->construction_costs)['reference_known_cents']);$this->assertNull(ConstructionCosting::report($c->construction_costs)['planned_cents']);$this->assertSame('unknown',$c->construction_price_basis);$this->assertDatabaseCount('stand_external_lines',0);
   $rows=$c->construction_costs;$rows[0]['unit_cents']=80;$c->update(['construction_costs'=>$rows]);$this->seed(\Database\Seeders\StandEconomicsSeeder::class);$this->assertSame(80,$c->fresh()->construction_costs[0]['unit_cents']);
  }
 }

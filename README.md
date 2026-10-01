@@ -183,3 +183,5 @@ Actualisation : [parcours public, communes, équipes locales et croissance](docs
 Actualisation : [déroulé opérationnel, coordination terrain et gardien des comptes](docs/FIELD-COORDINATION.md).
 
 Proposition privée à examiner : [financement accessible du format 6 + 6](docs/ACCESSIBLE-LAUNCH-PROPOSAL.md), sans modification des tarifs actifs.
+
+Chiffrage logistique du 01/10/2026 : [hypothèses, fournisseurs, quantités et mise à jour](docs/OPERATIONS-COSTING-2026.md). Broyeur loué, sanitaires autonomes, électricité par stand, 500 cafés et 400 soupes ; aucune commande ni couverture d’assurance acquise.

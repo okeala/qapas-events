@@ -1,0 +1,98 @@
+[
+  {
+    "source_key": "ops-2026-toitoi",
+    "entity_key": "supplier-toitoi",
+    "name": "TOI TOI Portugal",
+    "address": "Achat / consultation à distance ; adresse de retrait à confirmer avant déplacement.",
+    "phone": "+351 21 246 78 03",
+    "email": null,
+    "opportunity": "8 cabines à dimensionner, dont PMR, deux lave-mains, livraison Aldeia do Souto et service entre les deux jours.",
+    "next_action": "Demander une offre livrée à Aldeia do Souto, TVA, disponibilité et frais inclus ; aucun envoi effectué.",
+    "source": "https://www.toitoi.pt/produto/toi-pmr/",
+    "notes": "Source commerciale publique consultée le 01/10/2026. Ne pas inclure dans une tournée locale sans adresse et rendez-vous confirmés."
+  },
+  {
+    "source_key": "ops-2026-wcloc",
+    "entity_key": "supplier-wcloc",
+    "name": "WC LOC Portugal",
+    "address": "Achat / consultation à distance ; adresse de retrait à confirmer avant déplacement.",
+    "phone": "+351 215 811 004",
+    "email": null,
+    "opportunity": "Devis alternatif global sanitaires. Faire valider durée 12 h/jour, 500 au pic, restauration et nombre exact de cabines.",
+    "next_action": "Demander une offre livrée à Aldeia do Souto, TVA, disponibilité et frais inclus ; aucun envoi effectué.",
+    "source": "https://www.wcloc.com/pt-pt/numero-de-sanitarios-por-pessoa-em-eventos-ao-ar-livre",
+    "notes": "Source commerciale publique consultée le 01/10/2026. Ne pas inclure dans une tournée locale sans adresse et rendez-vous confirmés."
+  },
+  {
+    "source_key": "ops-2026-duarteneves",
+    "entity_key": "supplier-duarteneves",
+    "name": "Duarte Neves — matériel électrique",
+    "address": "Achat / consultation à distance ; adresse de retrait à confirmer avant déplacement.",
+    "phone": "+351 219 668 100",
+    "email": "info@duarteneves.pt",
+    "opportunity": "Lot de rallonges 50 m H07RN-F 3G2,5 ; prix affiché 193 €, base IVA à confirmer et remise quantité.",
+    "next_action": "Demander une offre livrée à Aldeia do Souto, TVA, disponibilité et frais inclus ; aucun envoi effectué.",
+    "source": "https://www.duarteneves.com/pt/extensoes-e-blocos-de-tomada/2018-neoprene-borracha-extensao-cabo-50m-h07rn-f-3g25-4011160603419.html",
+    "notes": "Source commerciale publique consultée le 01/10/2026. Ne pas inclure dans une tournée locale sans adresse et rendez-vous confirmés."
+  },
+  {
+    "source_key": "ops-2026-expondo",
+    "entity_key": "supplier-expondo",
+    "name": "Expondo Portugal — MSW",
+    "address": "Achat / consultation à distance ; adresse de retrait à confirmer avant déplacement.",
+    "phone": null,
+    "email": null,
+    "opportunity": "MSW-WPD-6V six prises : comparateur 100 € TTC mais épuisé, demander disponibilité et solution aux protections individuelles 6 A.",
+    "next_action": "Demander une offre livrée à Aldeia do Souto, TVA, disponibilité et frais inclus ; aucun envoi effectué.",
+    "source": "https://www.expondo.pt/msw-quadro-eletrico-6-tomadas-schuko-disjuntor-diferencial-6-disjuntores-10062621",
+    "notes": "Source commerciale publique consultée le 01/10/2026. Ne pas inclure dans une tournée locale sans adresse et rendez-vous confirmés."
+  },
+  {
+    "source_key": "ops-2026-sacore",
+    "entity_key": "supplier-sacore",
+    "name": "Sacore — sisal naturel",
+    "address": "Achat / consultation à distance ; adresse de retrait à confirmer avant déplacement.",
+    "phone": null,
+    "email": null,
+    "opportunity": "Trois bobines de 1 kg par stand. Choisir brins, métrage, tenue humide et prix livré. Charge QAPAS pour ses stands uniquement, autres constructeurs séparés.",
+    "next_action": "Demander une offre livrée à Aldeia do Souto, TVA, disponibilité et frais inclus ; aucun envoi effectué.",
+    "source": "https://www.sacore.pt/fio-sisal-1-kg",
+    "notes": "Source commerciale publique consultée le 01/10/2026. Ne pas inclure dans une tournée locale sans adresse et rendez-vous confirmés."
+  },
+  {
+    "source_key": "ops-2026-higienify",
+    "entity_key": "supplier-higienify",
+    "name": "Higienify — emballages et hygiène",
+    "address": "Achat / consultation à distance ; adresse de retrait à confirmer avant déplacement.",
+    "phone": "+351 214 944 626",
+    "email": "cliente@higienify.pt",
+    "opportunity": "400 bols soupe PP 500 ml + couvercles, cuillères et consommables. 7,16 € HT/50 bols, usage chaud documenté à confirmer.",
+    "next_action": "Demander une offre livrée à Aldeia do Souto, TVA, disponibilité et frais inclus ; aucun envoi effectué.",
+    "source": "https://www.higienify.pt/products/embalagem-redonda-sopa-500ml-take-away-c-tampa-pk50",
+    "notes": "Source commerciale publique consultée le 01/10/2026. Ne pas inclure dans une tournée locale sans adresse et rendez-vous confirmés."
+  },
+  {
+    "source_key": "ops-2026-worten-coffee",
+    "entity_key": "supplier-worten-coffee",
+    "name": "Worten / vendeur Weip — cafetières filtre",
+    "address": "Achat / consultation à distance ; adresse de retrait à confirmer avant déplacement.",
+    "phone": null,
+    "email": null,
+    "opportunity": "Trois TRISTAR CM-1252, comparer prix livré et prêt de cafetières au village ; prévoir cadence, puissance et filtres.",
+    "next_action": "Demander une offre livrée à Aldeia do Souto, TVA, disponibilité et frais inclus ; aucun envoi effectué.",
+    "source": "https://www.worten.pt/produtos/maquina-de-cafe-filtro-tristar-cm-1252-12-chavenas-7409136",
+    "notes": "Source commerciale publique consultée le 01/10/2026. Ne pas inclure dans une tournée locale sans adresse et rendez-vous confirmés."
+  },
+  {
+    "source_key": "ops-2026-foodfighters",
+    "entity_key": "supplier-foodfighters",
+    "name": "Food Fighters — épicerie HORECA",
+    "address": "Achat / consultation à distance ; adresse de retrait à confirmer avant déplacement.",
+    "phone": null,
+    "email": null,
+    "opportunity": "Sachets sel, poivre et sucre. Référence sel 1000×1 g hors stock, prix B2B sur compte : demander devis, alternative et livraison.",
+    "next_action": "Demander une offre livrée à Aldeia do Souto, TVA, disponibilité et frais inclus ; aucun envoi effectué.",
+    "source": "https://foodfighters.pt/products/sal-saquetas-1-gr-millas-pack-1000-uni",
+    "notes": "Source commerciale publique consultée le 01/10/2026. Ne pas inclure dans une tournée locale sans adresse et rendez-vous confirmés."
+  }
+]

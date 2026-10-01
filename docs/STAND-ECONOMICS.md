@@ -49,3 +49,5 @@ L’action **Reporter le chiffrage au budget** exige toutes les quantités et to
 Pour un stand construit/fourni par QAPAS, l’action remplace la prévision sur son poste de construction déjà lié, sans seconde ligne. Prix confirmé, engagement ou règlement empêchent cette reprise. Pour un stand construit par l’équipe, elle alimente un seul poste du budget de l’équipe dans le scénario choisi. Aucune recette QAPAS n’est générée. Le détail est une décomposition de ce poste agrégé, pas un deuxième jeu de dépenses à additionner.
 
 Installation : `php artisan migrate` puis `php artisan db:seed`. Initialisation idempotente des seuls détails encore absents ; aucune remise à zéro, aucun prix récupéré inventé, aucun envoi fournisseur ni achat automatique. Les formulaires et actions sont réservés à l’administration active.
+
+Révision logistique du 01/10/2026 : trois bobines de sisal/stand, références complémentaires et séparation des transports décrites dans [OPERATIONS-COSTING-2026.md](OPERATIONS-COSTING-2026.md). La référence partielle de 452,80 € tubes/raccords/fixations devient 469,30 € avec le sisal ; ce total demeure incomplet et sa base IVA n’est pas unifiée.
