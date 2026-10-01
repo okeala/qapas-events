@@ -11,7 +11,7 @@
 <section class="event-section event-card"><h2>{{ __('cabins.partner_title') }}</h2><p>{{ __('cabins.partner_body') }}</p><a class="qapas-button" href="{{ route($preview?'event.preview':'event.show',['project'=>$project->slug]) }}#interest">{{ __('cabins.partner_cta') }} →</a></section>
 <section class="event-section"><h2>{{ __('cabins.gallery') }}</h2><div class="event-grid">
 @forelse($cabins as $cabin)
-<article class="event-card" id="cabane-{{ $cabin->public_id }}"><p class="eyebrow">{{ __($cabin->supply_mode==='team_build'?'cabins.team':'cabins.rental') }}</p><h3>{{ $cabin->name }}</h3><p>{{ $cabin->publicSummary() }}</p>
+<article class="event-card" id="stand-{{ $cabin->public_id }}"><p class="eyebrow">{{ __($cabin->supply_mode==='team_build'?'cabins.team':'cabins.rental') }}</p><h3>{{ $cabin->name }}</h3><p>{{ $cabin->publicSummary() }}</p>
 <p>{{ __('cabins.'.($cabin->status==='received'&&!$cabin->received()?'review':$cabin->status)) }}</p>
 <a href="{{ route($preview?'stand.preview':'stand.show',['project'=>$project->slug,'stand'=>$cabin->stand->public_id]) }}">{{ __('cabins.stand') }} →</a></article>
 @empty<p>{{ __('cabins.empty') }}</p>@endforelse

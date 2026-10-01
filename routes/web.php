@@ -94,8 +94,12 @@ Route::get('/events/{project:slug}/relais-locaux',[\App\Http\Controllers\Mobiliz
 Route::get('/events/{project:slug}/partenaires',[\App\Http\Controllers\MobilizationController::class,'sponsors'])->name('mobilization.sponsors');
 Route::get('/events/{project:slug}/grandir',[\App\Http\Controllers\MobilizationController::class,'growth'])->name('mobilization.growth');
 
-Route::get('/events/{project:slug}/cabanes',[\App\Http\Controllers\CabinController::class,'index'])->name('cabins.index');
-Route::get('/workspace/preview/{project:slug}/cabanes',[\App\Http\Controllers\CabinController::class,'preview'])->name('cabins.preview');
+Route::get('/events/{project:slug}/construction-stands',[\App\Http\Controllers\CabinController::class,'index'])->name('cabins.index');
+Route::get('/workspace/preview/{project:slug}/construction-stands',[\App\Http\Controllers\CabinController::class,'preview'])->name('cabins.preview');
+
+// Legacy URLs use the same disclosure and preview authorization checks.
+Route::get('/events/{project:slug}/cabanes',[\App\Http\Controllers\CabinController::class,'index']);
+Route::get('/workspace/preview/{project:slug}/cabanes',[\App\Http\Controllers\CabinController::class,'preview']);
 
 Route::get('/events/{project:slug}/parrainer',[\App\Http\Controllers\SponsoringController::class,'index'])->name('sponsoring.index');
 Route::post('/events/{project:slug}/parrainer',[\App\Http\Controllers\SponsoringController::class,'store'])->middleware('throttle:interest')->name('sponsoring.store');

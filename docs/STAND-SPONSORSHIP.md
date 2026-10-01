@@ -4,7 +4,7 @@ Règle active au 1er octobre 2026. Elle remplace le prix automatique présenté 
 
 ## Ce que l’on finance
 
-La **cabane** est une construction. Le **stand** est une unité d’accueil et de participation : emplacement, cabane, exposition, animation, services propres et contribution à l’organisation. La récupération réduit certains achats ; elle ne supprime ni les frais de montage, ni les branchements, ni les coûts mutualisés.
+Le **stand** est l’unité complète d’accueil et de participation : structure, emplacement, exposition, animation, services propres et contribution à l’organisation. Son dossier de construction décrit sa structure ; son emplacement décrit sa localisation. Il s’agit toujours du même stand. La récupération réduit certains achats ; elle ne supprime ni les frais de montage, ni les branchements, ni les coûts mutualisés.
 
 | Source | Destination et règle de comptage |
 |---|---|
@@ -37,7 +37,7 @@ Le principal et les trois secondaires, dont le partenaire gobelets, disposent ch
 
 Chaque dossier de partenariat est lié à son stand ; un stand ne peut appartenir à deux dossiers actifs, ni à une autre édition. Avec cette règle, l’accord structurel exige le lien vers son stand. Sa fiche fournit quartel, numéro, implantation et besoins lorsqu’ils sont renseignés ; aucun emplacement précis n’est inventé.
 
-La fabrication de la cabane constitue un poste propre. Un second poste couvre uniquement les services du sponsor à deviser (accueil, mobilier convenu, branchements, consommations), sans recopier fabrication et logistique commune. La recette de sponsoring existante finance la formule : **aucune seconde recette de location** du même stand. Les coûts inconnus restent inconnus et bloquent la déclaration de préparation financière.
+La fabrication du stand constitue un poste propre. Un second poste couvre uniquement les services du sponsor à deviser (accueil, mobilier convenu, branchements, consommations), sans recopier fabrication et logistique commune. La recette de sponsoring existante finance la formule : **aucune seconde recette de location** du même stand. Les coûts inconnus restent inconnus et bloquent la déclaration de préparation financière.
 
 Les sponsors d’épreuve, de t-shirts, du trophée ou des plaques ne reçoivent pas automatiquement un espace personnel. Une prestation supplémentaire doit être convenue et budgétée.
 

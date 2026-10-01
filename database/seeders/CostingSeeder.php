@@ -19,7 +19,7 @@ class CostingSeeder extends Seeder {
    $unit=['stand_id'=>$stand->id,'scope'=>'stand'];
    foreach([
     ['Abri du stand : provision fourniture deux jours',12000,'Fourniture QAPAS provisionnée par prudence. Pas de devis de location. Si apport exposant ou prêt documenté : passer quantité à zéro. 3 × 6 m est un repère, pas une capacité validée avec nos tables.'],
-    ['Installation : marquage, attaches et consommables',2000,'Hors construction de cabane ou raccordement spécial. Besoins particuliers à ajouter à la fiche.'],
+    ['Installation : marquage, attaches et consommables',2000,'Hors construction de stand ou raccordement spécial. Besoins particuliers à ajouter à la fiche.'],
     ['Ensemble six places : livraison, reprise et nettoyage',2000,'Fabrication comptée une seule fois au budget commun. Ce coût couvre seulement le service du premier ensemble.'],
    ] as [$name,$amount,$note])$line($unit+['name'=>$name,'unit_gross_cents'=>$amount,'unit'=>'stand / événement','price_source'=>$source.' '.$note]);
    $line($unit+['name'=>$stand->kind==='village'?'Parrain principal du stand — prix à tester':'Formule fondateur indépendante — emplacement inclus','kind'=>'revenue','unit_gross_cents'=>50000,'unit'=>'contrat','price_source'=>$source.($stand->kind==='village'?' 500 € est une hypothèse à tester avec le parrain, pas un accord.':' Base 500 € TTC annoncée par le porteur ; périmètre final à contractualiser.')]);

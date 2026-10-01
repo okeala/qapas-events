@@ -51,9 +51,9 @@ class CabinProject extends Record
             ])->validate();
             $stand = Stand::whereKey($c->stand_id)->where('event_project_id',$c->event_project_id)->first();
             if (!$stand) throw ValidationException::withMessages(['stand_id'=>'Choisir un stand de cette édition.']);
-            if ($c->supply_mode!==($stand->kind==='village'?'team_build':'qapas_rental')) throw ValidationException::withMessages(['supply_mode'=>'Freguesia : fabrication par l’équipe. Indépendant : cabane QAPAS en location.']);
+            if ($c->supply_mode!==($stand->kind==='village'?'team_build':'qapas_rental')) throw ValidationException::withMessages(['supply_mode'=>'Freguesia : fabrication par l’équipe. Indépendant : stand QAPAS en location.']);
             if ($c->exists && $c->isDirty(['event_project_id','stand_id','supply_mode'])) throw ValidationException::withMessages(['stand_id'=>'Conserver le stand et son mode de fourniture.']);
-            if (self::where('stand_id',$c->stand_id)->when($c->exists,fn($q)=>$q->whereKeyNot($c->id))->exists()) throw ValidationException::withMessages(['stand_id'=>'Ce stand a déjà son dossier de cabane.']);
+            if (self::where('stand_id',$c->stand_id)->when($c->exists,fn($q)=>$q->whereKeyNot($c->id))->exists()) throw ValidationException::withMessages(['stand_id'=>'Ce stand a déjà son dossier de construction.']);
             CabinRules::validateMaterials($c->materials ?? []);
             foreach (['cost_line_id'=>'cost','rental_line_id'=>'revenue'] as $key=>$kind) {
                 if (!$c->$key) continue;
@@ -70,7 +70,7 @@ class CabinProject extends Record
                 foreach (['frame','connectors','roof','cladding','lashings'] as $part) if (!collect($c->materials)->contains('part',$part)) throw ValidationException::withMessages(['materials'=>'Documenter tubes, raccords d’échafaudage, couverture, bardage et ligatures naturelles.']);
                 foreach (['owner','harvest_origin','control_plan','follow_up_owner','follow_up_on','reception_evidence'] as $field) if (blank($c->$field)) throw ValidationException::withMessages([$field=>'Réception : responsable, origine, prévention de dispersion, suivi et contrôle sur site requis.']);
                 if ($stand->status==='withdrawn' || !$stand->quartel_id || blank($stand->pitch_number)) throw ValidationException::withMessages(['stand_id'=>'Implanter le stand actif dans un quartel avec un numéro avant réception.']);
-                foreach (['frame_spacing_mm','structural_reviewer','structural_reviewed_on','structural_evidence'] as $field) if (blank($c->$field)) throw ValidationException::withMessages([$field=>'Toute cabane : entraxe retenu, auteur, date et référence de l’évaluation technique interne couvrant tubes/raccords, plessis/paille, charges, emprise et ancrages requis.']);
+                foreach (['frame_spacing_mm','structural_reviewer','structural_reviewed_on','structural_evidence'] as $field) if (blank($c->$field)) throw ValidationException::withMessages([$field=>'Tout stand : entraxe retenu, auteur, date et référence de l’évaluation technique interne couvrant tubes/raccords, plessis/paille, charges, emprise et ancrages requis.']);
                 $c->reviewed_by=auth('admin')->id(); $c->reviewed_at=now(); $c->installation_hash=$c->installationFingerprint();
             } elseif ($c->status!=='received') {
                 $c->reviewed_by=null; $c->reviewed_at=null; $c->installation_hash=null;

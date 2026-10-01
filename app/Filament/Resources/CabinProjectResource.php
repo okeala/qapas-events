@@ -15,8 +15,8 @@ use Filament\Actions\{Action, EditAction};
 class CabinProjectResource extends Resource
 {
     protected static ?string $model = CabinProject::class;
-    protected static ?string $modelLabel = 'Cabane en récupération';
-    protected static ?string $pluralModelLabel = 'Cabanes · équipes et locations';
+    protected static ?string $modelLabel = 'Construction de stand';
+    protected static ?string $pluralModelLabel = 'Construction des stands';
     protected static string|\UnitEnum|null $navigationGroup = '1 · Concevoir';
     protected static ?int $navigationSort = 45;
 
@@ -28,10 +28,10 @@ class CabinProjectResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema->columns(2)->components([
-            Section::make('Da mimosa à cabana')->description('Largeur et hauteur imposées de 2,40 m ; longueur libre à partir de 2,40 m. Les travées ne suivent aucun pas de 2,40 m imposé. Pièce maîtresse : le raccord d’échafaudage, autour duquel s’assemblent les tubes récupérés auprès des démolisseurs ; bardage et couverture en plessis de mimosa et/ou cannes. Ligatures en sisal ou fibre naturelle adaptée. Toiture possible : plessis de mimosa avec surcouverture de paille propre récupérée, à éprouver sur prototype. Pas d’amiante, de plastique ni de bois neuf. Décoration libre en récupération.')->columns(2)->schema([
+            Section::make('Da mimosa ao stand')->description('Largeur et hauteur imposées de 2,40 m ; longueur libre à partir de 2,40 m. Les travées ne suivent aucun pas de 2,40 m imposé. Pièce maîtresse : le raccord d’échafaudage, autour duquel s’assemblent les tubes récupérés auprès des démolisseurs ; bardage et couverture en plessis de mimosa et/ou cannes. Ligatures en sisal ou fibre naturelle adaptée. Toiture possible : plessis de mimosa avec surcouverture de paille propre récupérée, à éprouver sur prototype. Pas d’amiante, de plastique ni de bois neuf. Décoration libre en récupération.')->columns(2)->schema([
                 Select::make('event_project_id')->label('Édition')->relationship('eventProject','name')->required()->live()->disabledOn('edit'),
                 Select::make('stand_id')->label('Stand / emplacement')->options(fn(Get $get)=>Stand::where('event_project_id',$get('event_project_id'))->pluck('name','id')->all())->required()->live()->disabledOn('edit'),
-                TextInput::make('name')->label('Nom de la cabane')->required()->maxLength(200),
+                TextInput::make('name')->label('Nom du dossier de construction')->required()->maxLength(200),
                 Select::make('supply_mode')->label('Construction et fourniture')->options(['team_build'=>'L’équipe construit son stand','qapas_rental'=>'QAPAS fabrique et loue à l’indépendant'])->required()->default('team_build')->disabledOn('edit'),
                 TextInput::make('owner')->label('Responsable du chantier')->maxLength(255),
                 Select::make('status')->label('Avancement')->options(CabinRules::STATUSES)->default('concept')->required()->helperText('La réception requiert inventaire, implantation, contrôle sur site et suivi de la végétation. Elle ne vaut pas validation du financement.'),
@@ -44,12 +44,12 @@ class CabinProjectResource extends Resource
                 TextInput::make('frame_spacing_mm')->label('Entraxe maximal des portiques prévu par le calcul · mm')->integer()->minValue(1)->maxValue(240000),
                 TextInput::make('structural_reviewer')->label('Auteur / relecteur de l’évaluation interne')->maxLength(255),
                 DatePicker::make('structural_reviewed_on')->label('Date de revue de l’évaluation interne')->maxDate(today())->helperText('Enregistrer d’abord dimensions, inventaire, diamètre et entraxe ; toute modification annule cette date. Puis vérifier la note et enregistrer sa validation.'),
-                Textarea::make('structural_evidence')->label('Référence de l’évaluation interne, calculs, essais et périmètre vérifié')->helperText('Chaque cabane, y compris le modèle de base : identifier dimensions, entraxes, sections/état des tubes de 30 mm envisagés, référence des raccords, plessis et paille, vent, toiture sèche/mouillée, ancrages et sol. Inscrire les limites d’utilisation, conditions de montage et constats du prototype. Revoir emprise, circulations, besoins et devis ; agrandir ne crée pas un second stand ni une recette automatique.')->maxLength(10000)->rows(4)->columnSpanFull(),
+                Textarea::make('structural_evidence')->label('Référence de l’évaluation interne, calculs, essais et périmètre vérifié')->helperText('Chaque stand, y compris le modèle de base : identifier dimensions, entraxes, sections/état des tubes de 30 mm envisagés, référence des raccords, plessis et paille, vent, toiture sèche/mouillée, ancrages et sol. Inscrire les limites d’utilisation, conditions de montage et constats du prototype. Revoir emprise, circulations, besoins et devis ; agrandir ne crée pas un second stand ni une recette automatique.')->maxLength(10000)->rows(4)->columnSpanFull(),
             ])->columnSpanFull(),
-            Section::make('Inventaire de récupération')->description('Aucun quota végétal par cabane ; prélèvements dans les zones désignées du chantier. Quantités réelles à relever ; mimosas et cannes de 6 cm de diamètre au maximum. Raccords d’échafaudage : type, référence et compatibilité avec les tubes à documenter dans l’origine. Tubes de démolition, palettes saines pour les décors, cannes identifiées, perches et branchages de contrôle. Seuls connecteurs, visserie et ligatures peuvent être achetés neufs. Les équipements/outils de chantier sont chiffrés séparément.')->schema([
+            Section::make('Inventaire de récupération')->description('Aucun quota végétal par stand ; prélèvements dans les zones désignées du chantier. Quantités réelles à relever ; mimosas et cannes de 6 cm de diamètre au maximum. Raccords d’échafaudage : type, référence et compatibilité avec les tubes à documenter dans l’origine. Tubes de démolition, palettes saines pour les décors, cannes identifiées, perches et branchages de contrôle. Seuls connecteurs, visserie et ligatures peuvent être achetés neufs. Les équipements/outils de chantier sont chiffrés séparément.')->schema([
                 Repeater::make('materials')->label('Pièces et panneaux')->schema([
                     TextInput::make('name')->label('Pièce / usage précis')->required()->maxLength(200),
-                    Select::make('part')->label('Partie de la cabane')->options(CabinRules::PARTS)->required(),
+                    Select::make('part')->label('Partie du stand')->options(CabinRules::PARTS)->required(),
                     Select::make('material')->label('Matière')->options(CabinRules::MATERIALS)->required()->live(),
                     TextInput::make('max_diameter_mm')->label('Diamètre maximal du lot végétal · mm')->integer()->minValue(1)->maxValue(60)->visible(fn(Get $get)=>in_array($get('material'),['mimosa','cane'],true))->required(fn(Get $get)=>in_array($get('material'),['mimosa','cane'],true))->helperText('Mimosas et cannes : 6 cm maximum. Relever le plus gros diamètre du lot.'),
                     Select::make('source')->label('Provenance')->options(CabinRules::SOURCES)->required(),
@@ -76,16 +76,16 @@ class CabinProjectResource extends Resource
                 Textarea::make('participant_cost_evidence')->label('Détail participant, contributions et justificatifs · hors budget QAPAS')->maxLength(5000),
             ])->columnSpanFull(),
             Section::make('Présentation')->columns(2)->schema([
-                Toggle::make('is_public')->label('Présenter cette cabane quand le défi et le stand sont publics'),
-                Textarea::make('summary_fr')->label('Histoire de la cabane · FR')->maxLength(5000),
-                Textarea::make('summary_pt')->label('História da cabana · PT')->maxLength(5000),
+                Toggle::make('is_public')->label('Présenter la construction de ce stand quand le défi et sa fiche sont publics'),
+                Textarea::make('summary_fr')->label('Histoire du stand · FR')->maxLength(5000),
+                Textarea::make('summary_pt')->label('História do stand · PT')->maxLength(5000),
             ])->columnSpanFull(),
         ]);
     }
     public static function table(Table $table): Table
     {
         return $table->columns([
-            TextColumn::make('name')->label('Cabane')->searchable()->wrap(),
+            TextColumn::make('name')->label('Stand')->searchable()->wrap(),
             TextColumn::make('stand.freguesia')->label('Freguesia')->placeholder('Indépendant / à attribuer'),
             TextColumn::make('supply_mode')->label('Fourniture')->formatStateUsing(fn($state)=>$state==='team_build'?'Équipe constructrice':'Location QAPAS')->badge(),
             TextColumn::make('stand.pitch_number')->label('Emplacement'),
@@ -99,7 +99,7 @@ class CabinProjectResource extends Resource
         ])->defaultSort('stand_id')->recordActions([
             EditAction::make()->modalWidth('7xl'),
             Action::make('stand')->label('Emplacement et budget')->url(fn(CabinProject $record)=>StandResource::getUrl('edit',['record'=>$record->stand])),
-            Action::make('preview')->label('Aperçu local')->visible(fn()=>app()->environment('local'))->url(fn(CabinProject $record)=>route('cabins.preview',['project'=>$record->eventProject->slug]).'#cabane-'.$record->public_id),
+            Action::make('preview')->label('Aperçu local')->visible(fn()=>app()->environment('local'))->url(fn(CabinProject $record)=>route('cabins.preview',['project'=>$record->eventProject->slug]).'#stand-'.$record->public_id),
         ]);
     }
     public static function getPages(): array { return ['index'=>\App\Filament\Resources\CabinProjectResource\Pages\ManageRecords::route('/')]; }

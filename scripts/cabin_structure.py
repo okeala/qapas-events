@@ -120,7 +120,7 @@ def markdown(result):
     def n(value, digits=2):
         return f"{value:.{digits}f}".replace(".", ",")
     lines = ["<!-- BEGIN GENERATED CALCULATIONS -->", "## Résultats recalculables · hypothèses non mesurées", "",
-             "Ces tableaux décrivent les cas théoriques ci-dessous, sans charge admissible, entraxe recommandé ou validation de la cabane. Les charges sont non majorées.", "",
+             "Ces tableaux décrivent les cas théoriques ci-dessous, sans charge admissible, entraxe recommandé ou validation du stand. Les charges sont non majorées.", "",
              f"Tube acier idéal : **{n(d['outside_diameter_mm'])} × {n(d['wall_thickness_mm'])} mm** ; E = {n(d['young_modulus_mpa'], 0)} MPa ; masse volumique = {n(d['steel_density_kg_m3'], 0)} kg/m³ ; g = {n(d['gravity_m_s2'])} m/s².", "",
              f"Largeur {n(d['width_m'])} m ; faîtage {n(d['ridge_height_m'])} m ; égouts {n(d['eaves_height_m'])} m ; longueur {n(d['length_m'])} m. Cela donne une montée de {n(g['rise_m'])} m, une pente de **{n(g['slope_deg'])}°**, un rampant de **{n(g['rafter_m'], 3)} m** et {n(g['sloped_roof_area_m2'])} m² de toiture réelle. Ces cotes d’axe sont un modèle : l’épaisseur de couverture est encore à déduire du gabarit extérieur de 2,40 m.", "",
              "### Section et poids du tube de 30 mm", "", "| Épaisseur (mm) | Masse (kg/m) | A (mm²) | I (mm⁴) | W (mm³) |", "|---:|---:|---:|---:|---:|"]
@@ -140,13 +140,13 @@ def markdown(result):
               "| Toiture (kg/m² de pente) | Moment (N·m) | Flèche locale (mm) | Traction du tirant (N) |", "|---:|---:|---:|---:|"]
     for item in result["roof_mass_comparison"]:
         lines.append("| " + " | ".join(n(item[key]) for key in ("roof_mass_kg_m2", "moment_nm", "relative_bending_deflection_mm", "tie_tension_n")) + " |")
-    lines += ["", "### Masse partielle de la cabane", "",
+    lines += ["", "### Masse partielle du stand", "",
               f"Pour la longueur de {n(d['length_m'])} m avec {g['hypothetical_frame_count']} portiques répartis à {n(g['distributed_spacing_m'])} m : deux poteaux, deux rampants et un tirant par portique ; trois lisses longitudinales. Soit **{n(g['partial_tube_length_m'])} m de tube = {n(g['partial_tube_mass_kg'])} kg**, et **{n(g['roof_mass_kg'])} kg** pour la toiture hypothétique.", "",
               "Inventaire partiel : ne comprend pas les raccords, diagonales, ancrages, bardages, fixations, lisses supplémentaires ni décors. Il ne faut pas le traiter comme le poids total ni comme un lest mobilisable. Les charges de ces éléments restent à ajouter à leur véritable chemin de reprise.", "",
               "### Flambement idéal d’un poteau", "", "| Facteur de longueur efficace K | Charge critique d’Euler (N) |", "|---:|---:|"]
     for item in result["ideal_euler"]:
         lines.append(f"| {n(item['effective_length_factor'])} | {n(item['critical_load_n'])} |")
-    lines += ["", f"Longueur physique {n(d['eaves_height_m'])} m. K = 1 illustre des extrémités articulées effectivement maintenues latéralement ; K = 2 illustre un encastrement parfait en pied avec sommet libre. Ces conditions ne sont pas acquises pour la cabane. Euler décrit un poteau idéal : **ces nombres ne sont pas des charges autorisées**, et un portique articulé sans contreventement peut être un mécanisme. Corrosion, faux aplomb, excentricités et interaction flexion/compression ne sont pas couverts.", "",
+    lines += ["", f"Longueur physique {n(d['eaves_height_m'])} m. K = 1 illustre des extrémités articulées effectivement maintenues latéralement ; K = 2 illustre un encastrement parfait en pied avec sommet libre. Ces conditions ne sont pas acquises pour le stand. Euler décrit un poteau idéal : **ces nombres ne sont pas des charges autorisées**, et un portique articulé sans contreventement peut être un mécanisme. Corrosion, faux aplomb, excentricités et interaction flexion/compression ne sont pas couverts.", "",
               "### Actions de pression : ce que doivent reprendre les liaisons", "",
               "Pressions nettes uniformes choisies pour comparer les efforts, pas un vent local calculé. Mur rectangulaire latéral seul, sans triangle de pignon ; soulèvement vertical symétrique des deux pans. Les lignes sont des cas séparés, pas des combinaisons de dimensionnement.", "",
               "| Pression nette (kN/m²) | Force sur le mur (N) | Moment au sol (N·m) | Soulèvement brut du toit (N) |", "|---:|---:|---:|---:|"]

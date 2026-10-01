@@ -27,7 +27,7 @@ class CabinChallengeTest extends TestCase
     private function cabin(EventProject $project, bool $rental=false): CabinProject
     {
         $stand = $project->stands()->create(['name'=>'Stand '.($rental?'independent':'village'),'kind'=>$rental?'independent':'village','is_public'=>true]);
-        return CabinProject::create(['event_project_id'=>$project->id,'stand_id'=>$stand->id,'name'=>'La cabane','supply_mode'=>$rental?'qapas_rental':'team_build']);
+        return CabinProject::create(['event_project_id'=>$project->id,'stand_id'=>$stand->id,'name'=>'Le stand','supply_mode'=>$rental?'qapas_rental':'team_build']);
     }
     private function invalid(callable $action): void
     {
@@ -138,10 +138,17 @@ class CabinChallengeTest extends TestCase
         $this->invalid(fn()=>$cabin->fresh()->update(['status'=>'received']));
         $cabin->fresh()->update(['structural_reviewer'=>'Internal test reviewer','structural_reviewed_on'=>today(),'structural_evidence'=>'Internal assessment reference for the exact frame and roof configuration','status'=>'received']);
         $this->assertTrue($cabin->fresh()->received());
-        $this->assertStringNotContainsString('cabane à implanter',implode(' ',app(Readiness::class)->blockers($project->fresh(),'live')));
+        $project->update(['slug'=>'os-jogos-do-agricultor']);
+        $cabin->fresh()->update(['name'=>'Cabane · Stand village']);
+        $review=$cabin->fresh()->only(['status','reviewed_at','reviewed_by','installation_hash','structural_reviewed_on']);
+        $this->seed(\Database\Seeders\StandVocabularySeeder::class);
+        $this->assertSame('Construction · Stand village',$cabin->fresh()->name);
+        $this->assertEquals($review,$cabin->fresh()->only(array_keys($review)));
+        $this->assertTrue($cabin->fresh()->received());
+        $this->assertStringNotContainsString('stand à implanter',implode(' ',app(Readiness::class)->blockers($project->fresh(),'live')));
         $cabin->stand->update(['pitch_number'=>'A2']);
         $this->assertFalse($cabin->fresh()->received());
-        $this->assertStringContainsString('cabane à implanter',implode(' ',app(Readiness::class)->blockers($project->fresh(),'live')));
+        $this->assertStringContainsString('stand à implanter',implode(' ',app(Readiness::class)->blockers($project->fresh(),'live')));
         $cabin->fresh()->update(['status'=>'ready']); $cabin->fresh()->update(['status'=>'received']);
         $this->assertTrue($cabin->fresh()->received());
         $rows=$this->inventory(); $rows[0]['quantity']=2;
@@ -165,22 +172,26 @@ class CabinChallengeTest extends TestCase
     {
         $project=$this->project(); $cabin=$this->cabin($project);
         $cabin->update(['is_public'=>true,'name'=>'Visible cabin','summary_fr'=>'<script>secretScript()</script>','materials'=>$this->inventory(),'owner'=>'PRIVATE-OWNER','participant_cost_evidence'=>'PRIVATE-COST']);
-        $url='/events/test/cabanes';
+        $url='/events/test/construction-stands';
         $this->get($url)->assertNotFound();
+        $this->get('/events/test/cabanes')->assertNotFound();
         $project->update(['cabin_visibility'=>'teaser']);
         $this->get($url)->assertOk()->assertDontSee('Visible cabin')->assertDontSee('échafaudage');
         $project->update(['cabin_visibility'=>'details']);
+        $this->get('/events/test/cabanes')->assertOk()->assertSee('Du mimosa au stand');
         $this->get($url)->assertOk()->assertSee('Visible cabin')->assertSee('échafaudage')->assertDontSee('<script>secretScript()',false)->assertDontSee('PRIVATE-OWNER')->assertDontSee('PRIVATE-COST')->assertDontSee('PRIVATE-STOCK');
-        $this->withSession(['locale'=>'pt'])->get($url)->assertOk()->assertSee('abraçadeira de andaime')->assertSee('cabana QAPAS para alugar');
+        $this->withSession(['locale'=>'pt'])->get($url)->assertOk()->assertSee('abraçadeira de andaime')->assertSee('stand QAPAS para alugar');
         $this->withSession(['locale'=>'fr']);
         $cabin->stand->update(['is_public'=>false]);
         $this->get($url)->assertOk()->assertDontSee('Visible cabin');
-        $this->get('/workspace/preview/test/cabanes')->assertNotFound();
+        $this->get('/workspace/preview/test/construction-stands')->assertNotFound();
         $this->app->instance('env','local');
+        $this->get('/workspace/preview/test/construction-stands')->assertForbidden();
         $this->get('/workspace/preview/test/cabanes')->assertForbidden();
         $admin=$this->admin();
-        $this->get('/workspace/preview/test/cabanes')->assertOk()->assertSee('Visible cabin')->assertHeader('Cache-Control','no-store, private')->assertDontSee('PRIVATE-STOCK');
+        $this->get('/workspace/preview/test/construction-stands')->assertOk()->assertSee('Visible cabin')->assertHeader('Cache-Control','no-store, private')->assertDontSee('PRIVATE-STOCK');
         $admin->update(['is_active'=>false]);
+        $this->get('/workspace/preview/test/construction-stands')->assertForbidden();
         $this->get('/workspace/preview/test/cabanes')->assertForbidden();
     }
 
@@ -188,15 +199,69 @@ class CabinChallengeTest extends TestCase
     {
         $project=$this->project(); $project->update(['cabin_visibility'=>'details']);
         $post=\App\Models\EditorialPost::create(['event_project_id'=>$project->id,'template_key'=>'cabin-demo','name'=>'Construction demo','title_pt'=>'Demonstração','body_fr'=>'Prototype approved','body_pt'=>'Protótipo aprovado','youtube_id'=>'abcdEFgh123']);
-        $this->get('/events/test/cabanes')->assertOk()->assertSee('vidéo de démonstration')->assertDontSee($post->public_id);
+        $this->get('/events/test/construction-stands')->assertOk()->assertSee('vidéo de démonstration')->assertDontSee($post->public_id);
         $post->update(['rights_evidence'=>'Image and music rights recorded','status'=>'published','published_at'=>now()]);
-        $this->get('/events/test/cabanes')->assertOk()->assertSee($post->public_id);
+        $this->get('/events/test/construction-stands')->assertOk()->assertSee($post->public_id);
         $url=route('blog.show',['project'=>$project->slug,'post'=>$post->public_id]);
         $this->get($url)->assertOk()->assertSee('abcdEFgh123');
         $project->update(['cabin_visibility'=>'teaser']);
         $this->get($url)->assertNotFound();
-        $this->get('/events/test/cabanes')->assertOk()->assertDontSee($post->public_id);
+        $this->get('/events/test/construction-stands')->assertOk()->assertDontSee($post->public_id);
         $this->get(route('blog.index',['project'=>$project->slug]))->assertOk()->assertDontSee('Construction demo');
+    }
+
+
+    public function test_existing_generated_copy_is_upgraded_without_changing_finances_or_history(): void
+    {
+        $this->seed();
+        $admin = $this->admin();
+        $project = EventProject::where('slug', 'os-jogos-do-agricultor')->sole();
+        $construction = CabinProject::where('supply_mode', 'qapas_rental')->firstOrFail();
+        $line = $construction->costLine;
+        $oldName = 'Cabane QAPAS : fabrication complète · '.$construction->stand->name;
+        $line->update(['name'=>$oldName, 'unit'=>'cabane', 'unit_gross_cents'=>12300, 'vat_basis_points'=>2300, 'pricing_status'=>'confirmed', 'price_source'=>'Signed quotation — Cabane', 'committed_quantity'=>1, 'paid_quantity'=>1]);
+        $line->update(['receipt_reference'=>'PAID-STAND-001', 'reconciled_at'=>now()]);
+        $financial = $line->fresh()->only(['id','public_id','unit_gross_cents','vat_basis_points','committed_quantity','paid_quantity','receipt_reference','price_source','reconciled_by','reconciled_at']);
+        $consultation = \App\Models\CostConsultation::where('costable_type', \App\Models\BudgetLine::class)->where('costable_id',$line->id)->sole();
+        $consultation->update(['name'=>$oldName,'body_fr'=>'Courrier envoyé : '.$oldName,'sent_at'=>now()]);
+        $history = $consultation->fresh()->getAttributes();
+        $construction->update(['name'=>'Cabane · '.$construction->stand->name, 'rental_terms'=>'Cabane et emplacement inclus selon contrat signé.']);
+        $ids = $project->stands()->pluck('public_id')->all();
+        $counts = [\App\Models\BudgetLine::count(), CabinProject::count(), Sponsorship::count()];
+
+        $this->seed(\Database\Seeders\StandVocabularySeeder::class);
+        $this->assertSame('Stand QAPAS : fabrication complète · '.$construction->stand->name, $line->fresh()->name);
+        $this->assertSame('stand', $line->fresh()->unit);
+        $this->assertEquals($financial, $line->fresh()->only(array_keys($financial)));
+        $this->assertTrue($line->fresh()->verified());
+        $this->assertSame($history, $consultation->fresh()->getAttributes());
+        $this->assertSame('Cabane et emplacement inclus selon contrat signé.', $construction->fresh()->rental_terms);
+        $this->assertSame($ids, $project->stands()->pluck('public_id')->all());
+        $this->assertSame($counts, [\App\Models\BudgetLine::count(), CabinProject::count(), Sponsorship::count()]);
+        $after = $line->fresh()->getAttributes();
+        $this->seed(\Database\Seeders\StandVocabularySeeder::class);
+        $this->assertSame($after, $line->fresh()->getAttributes());
+    }
+
+    public function test_stand_construction_requests_use_links_and_accept_legacy_quote_units(): void
+    {
+        $this->admin();
+        $project = $this->project();
+        $construction = $this->cabin($project, true);
+        $scenario = $project->scenarios()->create(['name'=>'Pilot']);
+        $line = $scenario->budgetLines()->create(['name'=>'Construction personnalisée','kind'=>'cost','scope'=>'stand','stand_id'=>$construction->stand_id,'unit'=>'stand','forecast_quantity'=>1]);
+        $construction->update(['cost_line_id'=>$line->id]);
+        $service = app(\App\Domain\Procurement\Consultations::class);
+        $request = $service->ensure($line);
+        $this->assertStringContainsString('raccord d’échafaudage', $request->body_fr);
+        $other = $scenario->budgetLines()->create(['name'=>'Stand : service électrique','kind'=>'cost','scope'=>'stand','stand_id'=>$construction->stand_id,'unit'=>'lot','forecast_quantity'=>1]);
+        $this->assertStringNotContainsString('raccord d’échafaudage', $service->ensure($other)->body_fr);
+        $quote = $request->quotes()->create(['supplier'=>'Supplier','reference'=>'OLD-UNIT','received_at'=>today(),'quantity'=>1,'unit'=>'cabane','unit_gross_cents'=>12300,'vat_basis_points'=>2300,'deposit_cents'=>0,'delivery_cents'=>0,'other_cents'=>0,'document_reference'=>'Original quotation']);
+        $service->apply($quote);
+        $this->assertSame(12300, $line->fresh()->unit_gross_cents);
+        $this->assertSame('stand', $line->fresh()->unit);
+        $this->assertSame('cabane', $quote->fresh()->unit);
+        $this->assertSame(0, $line->fresh()->paid_quantity);
     }
 
     public function test_filament_form_validation_and_filters_require_active_admin(): void

@@ -9,7 +9,7 @@ final class CabinRules
     public const PARTS = ['frame'=>'Tubes récupérés auprès des démolisseurs', 'connectors'=>'Raccords d’échafaudage · pièce maîtresse', 'roof'=>'Support de toiture en plessis', 'roof_cover'=>'Surcouverture en paille', 'cladding'=>'Bardage en plessis', 'decoration'=>'Décoration', 'fixings'=>'Visserie', 'lashings'=>'Ligatures en sisal / fibre naturelle adaptée'];
     public const MATERIALS = ['metal'=>'Métal', 'mimosa'=>'Mimosa issu du chantier de contrôle', 'wood'=>'Bois de récupération', 'natural'=>'Fibre naturelle / autre matériau naturel de récupération', 'cane'=>'Cannes identifiées', 'straw'=>'Paille propre issue de récupération agricole'];
     public const SOURCES = ['recovered'=>'Récupération documentée', 'controlled'=>'Végétaux identifiés issus du chantier de contrôle', 'new_hardware'=>'Connecteurs / visserie / ligatures neuves'];
-    public const STATUSES = ['concept'=>'À concevoir', 'building'=>'En fabrication', 'ready'=>'À réceptionner sur site', 'received'=>'Réception enregistrée', 'withdrawn'=>'Retirée'];
+    public const STATUSES = ['concept'=>'À concevoir', 'building'=>'En fabrication', 'ready'=>'À réceptionner sur site', 'received'=>'Réception enregistrée', 'withdrawn'=>'Retiré'];
 
     public static function validateMaterials(array $rows): void
     {

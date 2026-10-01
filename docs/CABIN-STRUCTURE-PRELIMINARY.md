@@ -1,4 +1,4 @@
-# Calculs internes · cabane en tubes de 30 mm et toit à deux pans
+# Calculs internes · stand en tubes de 30 mm et toit à deux pans
 
 **État : non dimensionné ; comparaison mécanique chiffrée.** QAPAS, 30 septembre 2026. Cette note fournit des calculs reproductibles, sans contrat ni attestation d’ingénieur imposés. Le modèle décrit une géométrie hypothétique ; il ne qualifie pas encore les matériaux, raccords, ancrages et charges du site réel.
 
@@ -39,7 +39,7 @@ Pour un poteau idéal : `Ncr = π²EI/(K × L)²`. Pour les actions illustrative
 <!-- BEGIN GENERATED CALCULATIONS -->
 ## Résultats recalculables · hypothèses non mesurées
 
-Ces tableaux décrivent les cas théoriques ci-dessous, sans charge admissible, entraxe recommandé ou validation de la cabane. Les charges sont non majorées.
+Ces tableaux décrivent les cas théoriques ci-dessous, sans charge admissible, entraxe recommandé ou validation du stand. Les charges sont non majorées.
 
 Tube acier idéal : **30,00 × 2,00 mm** ; E = 210000 MPa ; masse volumique = 7850 kg/m³ ; g = 9,81 m/s².
 
@@ -82,7 +82,7 @@ Même tube, même géométrie, même largeur reprise de 1,20 m. Les trois masses
 | 20,00 | 47,24 | 2,16 | 472,42 |
 | 30,00 | 69,58 | 3,19 | 695,78 |
 
-### Masse partielle de la cabane
+### Masse partielle du stand
 
 Pour la longueur de 2,40 m avec 3 portiques répartis à 1,20 m : deux poteaux, deux rampants et un tirant par portique ; trois lisses longitudinales. Soit **33,99 m de tube = 46,94 kg**, et **121,43 kg** pour la toiture hypothétique.
 
@@ -95,7 +95,7 @@ Inventaire partiel : ne comprend pas les raccords, diagonales, ancrages, bardage
 | 1,00 | 8979,11 |
 | 2,00 | 2244,78 |
 
-Longueur physique 2,00 m. K = 1 illustre des extrémités articulées effectivement maintenues latéralement ; K = 2 illustre un encastrement parfait en pied avec sommet libre. Ces conditions ne sont pas acquises pour la cabane. Euler décrit un poteau idéal : **ces nombres ne sont pas des charges autorisées**, et un portique articulé sans contreventement peut être un mécanisme. Corrosion, faux aplomb, excentricités et interaction flexion/compression ne sont pas couverts.
+Longueur physique 2,00 m. K = 1 illustre des extrémités articulées effectivement maintenues latéralement ; K = 2 illustre un encastrement parfait en pied avec sommet libre. Ces conditions ne sont pas acquises pour le stand. Euler décrit un poteau idéal : **ces nombres ne sont pas des charges autorisées**, et un portique articulé sans contreventement peut être un mécanisme. Corrosion, faux aplomb, excentricités et interaction flexion/compression ne sont pas couverts.
 
 ### Actions de pression : ce que doivent reprendre les liaisons
 
@@ -142,9 +142,9 @@ python3 scripts/cabin_structure.py --input /chemin/hypotheses.json
 PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/structure -v
 ```
 
-Les tableaux de cette note correspondent au fichier d’hypothèses livré. Une variante exécutée en ligne de commande ne réécrit ni cette note ni un dossier de cabane. Conserver ensemble la configuration d’entrée et son résultat ; la commande ne délivre jamais un statut « approuvé ».
+Les tableaux de cette note correspondent au fichier d’hypothèses livré. Une variante exécutée en ligne de commande ne réécrit ni cette note ni un dossier de construction du stand. Conserver ensemble la configuration d’entrée et son résultat ; la commande ne délivre jamais un statut « approuvé ».
 
-Dans **Concevoir → Cabanes → Évaluation interne**, cette note est consultable par les administrateurs. Chaque cabane conserve séparément l’auteur, la date et la référence de son évaluation réelle. Cette note illustrative ne suffit pas comme preuve de réception : enregistrer d’abord les dimensions, inventaire, diamètre et entraxe réellement étudiés, compléter l’évaluation, puis référencer sa version. Les changements techniques invalident la revue antérieure et la réception.
+Dans **Concevoir → Stands → Évaluation interne**, cette note est consultable par les administrateurs. Chaque stand conserve séparément l’auteur, la date et la référence de son évaluation réelle. Cette note illustrative ne suffit pas comme preuve de réception : enregistrer d’abord les dimensions, inventaire, diamètre et entraxe réellement étudiés, compléter l’évaluation, puis référencer sa version. Les changements techniques invalident la revue antérieure et la réception.
 
 ## Références de méthode
 

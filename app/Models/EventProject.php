@@ -22,7 +22,7 @@ protected function casts(): array {return ['proposed_start'=>'date','proposed_en
  public function incidents() {return $this->hasMany(Incident::class);}
  protected static function booted(): void {parent::booted();static::saving(function(self $p){
   if(!in_array($p->sponsorship_visibility,['hidden','catalog'],true))throw \Illuminate\Validation\ValidationException::withMessages(['sponsorship_visibility'=>'Visibilité du sponsoring inconnue.']);
-  if(!in_array($p->cabin_visibility,['hidden','teaser','details'],true))throw \Illuminate\Validation\ValidationException::withMessages(['cabin_visibility'=>'Visibilité du défi cabane inconnue.']);
+  if(!in_array($p->cabin_visibility,['hidden','teaser','details'],true))throw \Illuminate\Validation\ValidationException::withMessages(['cabin_visibility'=>'Visibilité du défi de construction des stands inconnue.']);
   if($p->rehearsal_weekend_start||$p->rehearsal_weekend_end){if(!$p->rehearsal_weekend_start||!$p->rehearsal_weekend_end||$p->rehearsal_weekend_end->lt($p->rehearsal_weekend_start)||($p->starts_at&&$p->rehearsal_weekend_end->gte($p->starts_at->copy()->startOfDay())))throw \Illuminate\Validation\ValidationException::withMessages(['rehearsal_weekend_end'=>'Préciser la période complète des répétitions, avant le jour d’ouverture.']);}
  });}
 }
