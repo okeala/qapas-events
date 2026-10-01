@@ -48,7 +48,7 @@ final class FinancialProjection {
    $invoice=in_array($p['invoice_phase'],$keys,true)?$p['invoice_phase']:$first;$cash=$this->allocate($gross,$p['cash_schedule']??[],$keys,$invoice);
    if(!in_array($row['kind'],['cost','revenue'],true)){foreach($cash as $key=>$value)$phases[$key]['restricted_in']+=$value;continue;}
    $tax=$this->tax($row,$p,$plan,$gross,$unit,$qty,$issues);$expense=$tax['expense'];$revenue=$row['kind']==='revenue'?$tax['net']:0;
-   if($row['investment']){if($p['depreciation_unit_cents']===null){$issues[]=$row['name'].' : charge d’amortissement non fixée, coût complet retenu par prudence';}else $expense=min($expense,$p['depreciation_unit_cents']*$qty);}
+   if($row['investment']){if($p['depreciation_unit_cents']===null){$issues[]=$row['name'].' : charge d’amortissement non fixée, coût complet retenu par prudence';}else $expense=min($expense,self::portion($p['depreciation_unit_cents']*$qty,(!$row['locked']&&$p['behavior']==='fixed')?$v['fixed']*100:10000));}
    $factor=($p['behavior']==='variable'&&!$row['locked'])?$v['volume']*100:10000;
    // A volume sensitivity is a proportional sales mix, not a sale of fractional stands.
    $gross=self::portion($gross,$factor);$revenue=self::portion($revenue,$factor);$expense=self::portion($expense,$factor);foreach(['out','input'] as $field)$tax[$field]=self::portion($tax[$field],$factor);

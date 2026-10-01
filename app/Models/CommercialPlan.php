@@ -2,7 +2,7 @@
 namespace App\Models;
 use Illuminate\Support\Facades\Validator;
 class CommercialPlan extends Record {
- protected $attributes=['independent_price_cents'=>65000,'village_price_cents'=>50000,'vat_basis_points'=>2300,'unknown_allowance_cents'=>200000,'rounding_cents'=>5000];
+ protected $attributes=['independent_price_cents'=>65000,'village_price_cents'=>100000,'vat_basis_points'=>2300,'unknown_allowance_cents'=>200000,'rounding_cents'=>5000];
  protected function casts(): array {return ['applied_at'=>'datetime'];}
  public function scenario(){return $this->belongsTo(Scenario::class);}
  public function report(): array {return app(\App\Domain\Finance\CommercialPricing::class)->report($this);}
