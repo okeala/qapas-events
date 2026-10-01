@@ -40,7 +40,7 @@ final class FinancialProjection {
    if($driver==='days'&&$scenario->event_days===null)$qty=null;
    if($qty===0)continue;
    if($qty===null||$row['unit_cents']===null){$issues[]=$row['name'].' : quantité ou prix à chiffrer';continue;}
-   $unit=(int)$row['unit_cents'];if(!$row['locked']){if($row['kind']==='revenue')$unit=self::portion($unit,$v['price']*100);elseif($p['behavior']==='fixed')$unit=self::portion($unit,$v['fixed']*100);}
+   $unit=(int)$row['unit_cents'];if(!$row['locked']){if($row['kind']==='revenue')$unit=self::portion($unit,$v['price']*100);elseif($row['kind']==='cost'&&$p['behavior']==='fixed')$unit=self::portion($unit,$v['fixed']*100);}
    $gross=$unit*$qty;if($gross>1000000000000)throw \Illuminate\Validation\ValidationException::withMessages(['amount'=>'Projection par poste limitée à 10 milliards d’euros.']);
    if(!$row['priced'])$issues[]=$row['name'].' : prix prévisionnel non validé';
    if(blank($p['schedule_evidence']??null))$issues[]=$row['name'].' : échéancier proposé à confirmer';

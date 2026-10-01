@@ -80,7 +80,7 @@ class FinancialPlanningTest extends TestCase {
  public function test_filament_parameters_and_cost_form_persist_real_sources(): void {
   $p=$this->plan();$profile=$this->line($p,'cost',12300);$this->admin();
   $page=Livewire::test(FinancialPlanning::class)->assertCanSeeTableRecords([$profile]);
-  $page->callAction('parameters',data:['opening_cash_cents'=>30000])->assertHasNoActionErrors();$this->assertSame(30000,$p->fresh()->opening_cash_cents);
+  $page->callAction('parameters',data:['opening_cash_cents'=>30000,'scenario_organizer_full_monthly_cents'=>80000,'scenario_organizer_cost_evidence'=>'Coût complet pour la période'])->assertHasNoActionErrors();$this->assertSame(30000,$p->fresh()->opening_cash_cents);$this->assertSame(80000,$p->fresh()->scenario->organizer_full_monthly_cents);
   $page->callAction(TestAction::make('editProfile')->table($profile),data:['source_unit_cents'=>24600,'source_price_evidence'=>'Revised quote'])->assertHasNoActionErrors();$this->assertSame(24600,$profile->source()->unit_gross_cents);$this->assertSame('estimate',$profile->source()->pricing_status);
  }
  public function test_policy_upgrades_only_unpublished_unagreed_initial_prices_and_is_idempotent(): void {
