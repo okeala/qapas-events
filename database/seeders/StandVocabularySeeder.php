@@ -22,13 +22,17 @@ class StandVocabularySeeder extends Seeder
                     if (is_string($record->$field)) $record->$field = strtr($record->$field, $phrases);
                 }
                 if ($record instanceof BudgetLine) {
-                    if ($record->unit === 'cabane') $record->unit = 'stand';
                     // A wording change must not merge two real expenses or create a duplicate identity.
                     if ($record->isDirty('name') && BudgetIdentity::duplicates($record)->isNotEmpty()) {
                         $record->name = $record->getOriginal('name');
                     }
                 }
                 if ($record->isDirty()) $record->save();
+                if ($record instanceof BudgetLine && $record->unit === 'cabane') {
+                    // Data migration of a label only: do not invalidate a verified price as if
+                    // the measurement unit had changed. Normal administrative edits keep that guard.
+                    DB::table('budget_lines')->where('id', $record->id)->where('unit', 'cabane')->update(['unit'=>'stand']);
+                }
             };
 
             foreach ($project->scenarios()->where('is_archived', false)->get() as $scenario) {

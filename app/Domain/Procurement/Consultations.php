@@ -29,7 +29,7 @@ final class Consultations {
   $count=0;foreach(EventProject::all() as $p){$s=$p->launchScenario();if(!$s)continue;foreach($s->budgetLines()->where('kind','cost')->get() as $l){$this->ensure($l);$count++;}foreach($s->includedActivities as $a)foreach($a->materials as $m){$this->ensure($m);$count++;}foreach($s->includedFeatures as $f)foreach($f->needs as $n){$this->ensure($n);$count++;}}return $count;
  }
  // Legacy quotations keep their original wording; one construction unit is still one stand.
- private function canonicalUnit(string $unit): string {return in_array($unit,['cabane','cabana'],true)?'stand':$unit;}
+ private function canonicalUnit(?string $unit): ?string {return in_array($unit,['cabane','cabana'],true)?'stand':$unit;}
  public function apply(SupplierQuote $quote): void {
   abort_unless(auth('admin')->user()?->is_active,403);
   DB::transaction(function()use($quote){$q=SupplierQuote::lockForUpdate()->findOrFail($quote->id);$c=$q->consultation;$target=$c->costable()->lockForUpdate()->firstOrFail();$quantity=$this->quantity($target);

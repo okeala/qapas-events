@@ -219,9 +219,9 @@ class CabinChallengeTest extends TestCase
         $construction = CabinProject::where('supply_mode', 'qapas_rental')->firstOrFail();
         $line = $construction->costLine;
         $oldName = 'Cabane QAPAS : fabrication complète · '.$construction->stand->name;
-        $line->update(['name'=>$oldName, 'unit'=>'cabane', 'unit_gross_cents'=>12300, 'vat_basis_points'=>2300, 'pricing_status'=>'confirmed', 'price_source'=>'Signed quotation — Cabane', 'committed_quantity'=>1, 'paid_quantity'=>1]);
+        $line->update(['name'=>$oldName, 'unit'=>'cabane', 'unit_gross_cents'=>12300, 'vat_basis_points'=>2300, 'pricing_status'=>'confirmed', 'price_checked_at'=>today(), 'price_source'=>'Signed quotation — Cabane', 'committed_quantity'=>1, 'paid_quantity'=>1]);
         $line->update(['receipt_reference'=>'PAID-STAND-001', 'reconciled_at'=>now()]);
-        $financial = $line->fresh()->only(['id','public_id','unit_gross_cents','vat_basis_points','committed_quantity','paid_quantity','receipt_reference','price_source','reconciled_by','reconciled_at']);
+        $financial = $line->fresh()->only(['id','public_id','unit_gross_cents','vat_basis_points','committed_quantity','paid_quantity','receipt_reference','price_source','pricing_status','price_checked_at','reconciled_by','reconciled_at']);
         $consultation = \App\Models\CostConsultation::where('costable_type', \App\Models\BudgetLine::class)->where('costable_id',$line->id)->sole();
         $consultation->update(['name'=>$oldName,'body_fr'=>'Courrier envoyé : '.$oldName,'sent_at'=>now()]);
         $history = $consultation->fresh()->getAttributes();
@@ -257,6 +257,8 @@ class CabinChallengeTest extends TestCase
         $other = $scenario->budgetLines()->create(['name'=>'Stand : service électrique','kind'=>'cost','scope'=>'stand','stand_id'=>$construction->stand_id,'unit'=>'lot','forecast_quantity'=>1]);
         $this->assertStringNotContainsString('raccord d’échafaudage', $service->ensure($other)->body_fr);
         $quote = $request->quotes()->create(['supplier'=>'Supplier','reference'=>'OLD-UNIT','received_at'=>today(),'quantity'=>1,'unit'=>'cabane','unit_gross_cents'=>12300,'vat_basis_points'=>2300,'deposit_cents'=>0,'delivery_cents'=>0,'other_cents'=>0,'document_reference'=>'Original quotation']);
+        $withoutUnit = $request->quotes()->create(array_replace($quote->only(['supplier','received_at','quantity','unit_gross_cents','vat_basis_points','deposit_cents','delivery_cents','other_cents','document_reference']), ['unit'=>null]));
+        $this->invalid(fn()=>$service->apply($withoutUnit));
         $service->apply($quote);
         $this->assertSame(12300, $line->fresh()->unit_gross_cents);
         $this->assertSame('stand', $line->fresh()->unit);
