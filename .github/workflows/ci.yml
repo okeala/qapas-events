@@ -29,6 +29,9 @@ jobs:
           php artisan migrate --force
           php artisan db:seed --force
       - run: npm ci && npm run build
+      - run: node --test scripts/tests/plan-geometry.test.mjs
       - run: php artisan test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:ui
       - run: php artisan view:cache && php artisan config:cache
       - run: php artisan route:list --except-vendor

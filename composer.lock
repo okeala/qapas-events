@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fce5fb3013b1867c2e45d6fb4a6a228e",
+    "content-hash": "8faadcad2137345cf9052b8ad1d22916",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -4514,8 +4514,7 @@
             "version": "0.1.8",
             "dist": {
                 "type": "path",
-                "url": "packages/qapas-shared",
-                "reference": null
+                "url": "packages/qapas-shared"
             },
             "require": {
                 "illuminate/http": "^13.0",
@@ -4532,7 +4531,11 @@
             "license": [
                 "MIT"
             ],
-            "description": "Shared QAPAS application chrome and presentation contracts"
+            "description": "Shared QAPAS application chrome and presentation contracts",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
         },
         {
             "name": "openspout/openspout",
@@ -11420,12 +11423,12 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
         "php": "^8.3"
     },
-    "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
 }

@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
+demo=false
+for option in "$@"; do
+ case "$option" in
+  --demo) demo=true ;;
+  *) echo "Option inconnue : $option" >&2; exit 1 ;;
+ esac
+done
 for required in php composer node npm; do command -v "$required" >/dev/null || { echo "Manquant : $required" >&2; exit 1; }; done
 php -r 'if (PHP_VERSION_ID < 80400) {fwrite(STDERR, "PHP 8.4+ requis pour les tests verrouillés (Laravel : 8.3+).\n");exit(1);}'
 php -r 'if (!extension_loaded("gd")) {fwrite(STDERR, "Extension PHP GD requise pour importer les plans et exécuter les tests. Activez GD pour votre interpréteur PHP CLI, puis relancez ce script.\n");exit(1);}'
@@ -8,6 +15,9 @@ php -r 'if (!extension_loaded("gd")) {fwrite(STDERR, "Extension PHP GD requise p
 if [[ ! -f .env ]]; then cp .env.example .env; fi
 if ! grep -Eq '^APP_ENV=local$' .env; then echo 'Ce script est réservé à APP_ENV=local.' >&2; exit 1; fi
 composer install --no-interaction --prefer-dist
+if [[ "$demo" == true ]]; then
+ php scripts/enable-planner-demo.php
+fi
 php artisan config:clear
 if ! grep -Eq '^APP_KEY=.+$' .env; then php artisan key:generate; fi
 if [[ ! -f database/database.sqlite ]]; then touch database/database.sqlite; fi
@@ -17,5 +27,6 @@ php artisan filament:assets
 if [[ ! -e public/storage && ! -L public/storage ]]; then php artisan storage:link; fi
 npm ci
 npm run build
+node --test scripts/tests/plan-geometry.test.mjs
 php artisan test
 printf '\nInstallation prête.\nAdmin : php artisan events:admin votre@email.pt\nLancement : php artisan serve --host=127.0.0.1 --port=8890\n'

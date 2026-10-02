@@ -90,3 +90,7 @@ Actualisation : [parcours public, communes, équipes locales et croissance](PUBL
 Actualisation : [déroulé opérationnel, coordination terrain et gardien des comptes](FIELD-COORDINATION.md).
 
 Proposition privée à examiner : [financement accessible du format 6 + 6](ACCESSIBLE-LAUNCH-PROPOSAL.md), sans modification des tarifs actifs.
+
+## Pilotage V2 (2 octobre 2026)
+
+Les six modules du planificateur ont été intégrés sans changement du socle partagé, de l’identité `events`, du port 8890 ni des guards. Les nouveaux registres ne réutilisent pas les tables des éditions et préventes historiques. Voir [le périmètre V2](IMPLEMENTATION_V02.md).

@@ -82,3 +82,7 @@ Les fiches de stands portent un numéro unique d'emplacement, un quartel et des 
 Actualisation : [merchandising, badges QR et prix de couverture 6 + 6](MERCHANDISING-BREAKEVEN.md).
 
 Actualisation : [parcours public, communes, équipes locales et croissance](PUBLIC-MOBILIZATION.md).
+
+## Atelier V2 (2 octobre 2026)
+
+Plan Leaflet/Geoman avec formes contraintes, dossiers 4P, coûts/recettes par scénario, offres versionnées, précommandes conditionnelles avec échéance commune maximale de 21 jours, restitution documentée, bilan et stock par emplacement. Visite, affiche QR et exports reposent sur la publication publique immuable. Les paiements sont des rapprochements manuels ; les prestataires de paiement et de signature V2 restent à connecter. Le jeu illustratif historique est séparé du format courant de QAPAS Events. Voir [le périmètre exact](IMPLEMENTATION_V02.md).

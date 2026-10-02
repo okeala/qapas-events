@@ -104,3 +104,5 @@ Route::get('/workspace/preview/{project:slug}/cabanes',[\App\Http\Controllers\Ca
 Route::get('/events/{project:slug}/parrainer',[\App\Http\Controllers\SponsoringController::class,'index'])->name('sponsoring.index');
 Route::post('/events/{project:slug}/parrainer',[\App\Http\Controllers\SponsoringController::class,'store'])->middleware('throttle:interest')->name('sponsoring.store');
 Route::get('/workspace/preview/{project:slug}/parrainer',[\App\Http\Controllers\SponsoringController::class,'preview'])->name('sponsoring.preview');
+
+require __DIR__.'/planner.php';

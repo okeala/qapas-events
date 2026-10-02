@@ -14,3 +14,5 @@
 /.idea
 /auth.json
 /storage/*.key
+
+/storage/framework/testing/

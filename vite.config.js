@@ -1,4 +1,4 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
-export default defineConfig({plugins:[laravel({input:['resources/css/app.css','resources/js/event-map.js','resources/js/relay-map.js', 'resources/js/geographic-site.js','resources/css/filament/admin/theme.css'],refresh:true}),tailwindcss()]});
+export default defineConfig({plugins:[laravel({input:['resources/css/app.css','resources/css/event-planner.css','resources/js/planner-map.js','resources/js/event-map.js','resources/js/relay-map.js', 'resources/js/geographic-site.js','resources/css/filament/admin/theme.css'],refresh:true}),tailwindcss()]});

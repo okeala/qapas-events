@@ -1,0 +1,7 @@
+<x-layout title="Événements QAPAS">
+    @vite('resources/css/event-planner.css')
+    <div class="planner-public">
+        <section class="planner-public-hero"><div><span class="planner-badge">QAPAS · Événements</span><h1>Une visite commence par une découverte.</h1><p>Explorez les lieux, les activités et les possibilités de participation. Chaque édition affiche son état de préparation et ses informations publiées.</p></div><div class="planner-public-art" aria-hidden="true"><svg viewBox="0 0 200 200"><path d="M30 160V65l35-25 35 25 35-25 35 25v95l-35-25-35 25-35-25Z" fill="none" stroke="#deefb9" stroke-width="5"/><path d="M65 40v95m35-70v95m35-120v95" fill="none" stroke="#8aae74" stroke-width="3"/><circle cx="106" cy="80" r="12" fill="#deefb9"/><path d="m106 95 0 24" stroke="#deefb9" stroke-width="5"/></svg></div></section>
+        <div class="planner-tour">@forelse($plans as $plan)<article class="planner-card"><span class="planner-badge">{{ config('event_planner.phases.'.$plan['event']['phase']) }}</span><h2>{{ $plan['event']['name'] }}</h2><p>{{ $plan['event']['description'][app()->getLocale()]??$plan['event']['description']['fr']??'' }}</p>@if($plan['event']['is_demo'])<p>Projet de démonstration</p>@endif<a class="planner-button" href="{{ route('events.show',$plan['event']['slug']) }}">Découvrir la visite</a></article>@empty<section class="planner-card planner-empty"><h2>Les premières éditions se préparent.</h2><p>Les visites apparaîtront ici après leur publication par l’organisation.</p></section>@endforelse</div>
+    </div>
+</x-layout>

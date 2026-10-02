@@ -13,3 +13,7 @@ Lire `README.md`, `docs/PRODUCT.md`, `docs/LEGAL.md` et `docs/ARCHITECTURE.md` a
 - Paiement réel uniquement après offres/contrats versionnés, stocks transactionnels, fiscalité, prestataire et webhooks idempotents. En v0.1 il n’y a pas de paiement ni réservation.
 - Maintenir FR/PT et expliciter les replis linguistiques. Pas d’envoi marketing ou de partage de contacts sans consentement adapté.
 - Tests exigés pour l’autorisation, les transitions, le financier et les formulaires ; build Vite et thème Filament avant livraison. Ne pas présenter une vérification statique comme une exécution PHP.
+
+## V2 intégrée
+
+Lire `docs/IMPLEMENTATION_V02.md` et `docs/CDC_QAPAS_EVENEMENTS.md`. Le planificateur V2 appartient à ce dépôt ; Farmers Games n’est qu’un jeu local historique isolé. Conserver les parcours existants, la séparation des tables et fonds, l’administration propre et le port 8890. Ne pas importer le socle complet ni les comptes démo de Farmers Games. Exécuter la suite existante et les tests V2, le build et Playwright avant intégration sur master.
