@@ -33,7 +33,7 @@ git remote add origin git@github.com:okeala/qapas-events.git
 git fetch origin master
 git switch -C master --track origin/master
 bash scripts/setup-local.sh --demo
-php artisan events:admin votre@email.pt
+php artisan events:seed-user --admin
 php artisan serve --host=127.0.0.1 --port=8890
 ```
 
@@ -44,6 +44,16 @@ Le dépôt distant est déjà initialisé : **ne pas créer de commit local conc
 - Aucun mot de passe fourni ou enregistré dans Git ; la commande demande le mot de passe sans l’afficher.
 - Le script conserve `.env`, la clé existante et la base SQLite. Il refuse un environnement non local, migre sans remise à zéro, seede sans écraser l’édition existante, compile et lance les tests.
 - Pour les mises à jour : `git pull --ff-only`, puis `bash scripts/setup-local.sh`.
+
+### Seeder les utilisateurs et ouvrir Filament
+
+`php artisan events:seed-user --admin` demande le nom, l’email et un mot de passe masqué de 16 caractères minimum. La commande crée un utilisateur dans `users` avec UUIDv4 et son compte dans `admins`, utilisé par Filament. Se connecter ensuite à `/admin/login` avec ces identifiants. Sans `--admin`, seul l’utilisateur est créé et il n’a aucun accès à Filament. Les guards restent séparés.
+
+Le seeder `Database\Seeders\UserSeeder` est également appelé par `db:seed`, mais ne crée aucun compte par défaut. Pour un seed local automatisé, renseigner les variables `EVENTS_SEED_USER_ENABLED=true`, `EVENTS_SEED_USER_NAME`, `EVENTS_SEED_USER_EMAIL`, `EVENTS_SEED_USER_PASSWORD` et, si voulu, `EVENTS_SEED_FILAMENT_ACCESS=true`, puis lancer `php artisan config:clear` et `php artisan db:seed --class=UserSeeder`. La commande interactive évite de conserver le mot de passe dans `.env`.
+
+Le seeding est réservé à `local` et `testing`. Il conserve les comptes existants, leurs mots de passe et les suspensions. Si un compte `admins` existe déjà avec un autre mot de passe, utiliser ses identifiants existants. La création CLI `events:admin email` reste disponible pour créer un administrateur en production.
+
+Orientation suivante : [pilotage du cash, des engagements et des garanties partenaires](docs/PILOTAGE_CASH_ET_PARTENARIATS.md). Ce document décrit les prochains développements ; il ne présente pas leur moteur de décision comme déjà livré.
 
 ## Ce qui fonctionne dans cette version
 

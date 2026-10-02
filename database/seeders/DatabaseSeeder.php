@@ -4,6 +4,7 @@ use App\Models\EventProject;
 use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder {
  public function run(): void {
+  $this->call(UserSeeder::class);
   $this->call(FarmersGamesDemoSeeder::class);
   // Never overwrite an edition that has already been worked on.
   if(EventProject::whereIn('slug',['forqua-de-ouro','os-jogos-do-agricultor'])->exists()) {$this->call(OfficialActivitiesSeeder::class);$this->call(LaunchModelSeeder::class);$this->call(HospitalityOperationsSeeder::class);$this->call(CostingSeeder::class);$this->call(ParticipantFurnitureAndRolesSeeder::class);$this->call(RegistrationCampaignSeeder::class);$this->call(RehearsalProcurementSeeder::class);$this->call(OutreachPresalesSeeder::class);$this->call(AdvantagesMobilizationSeeder::class);$this->call(CommunityContinuitySeeder::class);$this->call(RecognitionSponsorshipSeeder::class);$this->call(MerchandisingCommercialSeeder::class);$this->call(PublicMobilizationSeeder::class);$this->call(OperationalVocabularySeeder::class);$this->call(ReclaimedCabinsSeeder::class);$this->call(SponsorshipCatalogSeeder::class);$this->call(FinancialPlanningSeeder::class);$this->call(StandVocabularySeeder::class);$this->call(StandEconomicsSeeder::class);$this->call(OperationalCostsSeeder::class);return;}
