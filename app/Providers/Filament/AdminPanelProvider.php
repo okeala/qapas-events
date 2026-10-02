@@ -5,11 +5,11 @@ use Filament\PanelProvider;
 class AdminPanelProvider extends PanelProvider {
  public function panel(Panel $panel): Panel {
   return $panel->default()->id('admin')->path('admin')->login()->authGuard('admin')
-   ->brandName('Os Jogos do Agricultor · Atelier')->colors(['primary'=>\Filament\Support\Colors\Color::Emerald])
+   ->brandName('QAPAS Events · Atelier')->colors(['primary'=>\Filament\Support\Colors\Color::Emerald])
    ->viteTheme('resources/css/filament/admin/theme.css')
    ->discoverResources(in:app_path('Filament/Resources'),for:'App\\Filament\\Resources')
    ->navigationGroups(['1 · Concevoir','2 · Chiffrer','3 · Mobiliser','4 · Préparer','5 · Exploiter','6 · Clôturer'])
-   ->pages([\App\Filament\Pages\FinancialPlanning::class,\App\Filament\Pages\CampaignPosters::class,\App\Filament\Pages\UnitCosting::class,\App\Filament\Pages\Dashboard::class,\App\Filament\Pages\SitePlan::class,\App\Filament\Pages\GeographicSite::class])
+   ->pages([\App\Filament\Pages\EventPlan::class,\App\Filament\Pages\EventCosts::class,\App\Filament\Pages\EventRevenues::class,\App\Filament\Pages\EventBalance::class,\App\Filament\Pages\EventCommunications::class,\App\Filament\Pages\EventProducts::class,\App\Filament\Pages\FinancialPlanning::class,\App\Filament\Pages\CampaignPosters::class,\App\Filament\Pages\UnitCosting::class,\App\Filament\Pages\Dashboard::class,\App\Filament\Pages\SitePlan::class,\App\Filament\Pages\GeographicSite::class])
    ->middleware([
     \Illuminate\Cookie\Middleware\EncryptCookies::class,
     \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,

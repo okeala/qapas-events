@@ -1,3 +1,5 @@
+> **V2 intégrée à QAPAS Events** : six modules Plan, Coûts, Recettes, Bilan, Communication et Produits dans `/admin`, visites publiées sous `/visites`, décision au maximum 21 jours après la première précommande signée. [Périmètre et séparation des données](docs/IMPLEMENTATION_V02.md) · [Réinstallation complète depuis master](docs/REINSTALLER_DEPUIS_MASTER.md). Les fonctions historiques décrites ci-dessous restent présentes ; les deux registres ne sont pas fusionnés.
+
 # Os Jogos do Agricultor — QAPAS Events
 
 
@@ -30,7 +32,7 @@ git init -b master
 git remote add origin git@github.com:okeala/qapas-events.git
 git fetch origin master
 git switch -C master --track origin/master
-bash scripts/setup-local.sh
+bash scripts/setup-local.sh --demo
 php artisan events:admin votre@email.pt
 php artisan serve --host=127.0.0.1 --port=8890
 ```

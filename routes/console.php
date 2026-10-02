@@ -27,3 +27,10 @@ Schedule::command('events:promotion')->everyMinute()->withoutOverlapping();
 
 Artisan::command('events:feedback',function(){ $this->info(app(\App\Domain\Community\Feedback::class)->tick().' invitation(s) acceptée(s) par le transport.'); })->purpose('Remerciements après événement, uniquement autorisés et contacts revus');
 \Illuminate\Support\Facades\Schedule::command('events:feedback')->everyMinute()->withoutOverlapping();
+
+\Illuminate\Support\Facades\Artisan::command('events:expire-preorders', function () {
+    $events=\App\Models\PlannerEvent::query()->where('decision','pending')->whereNotNull('decision_deadline')->where('decision_deadline','<=',now())->get();
+    foreach($events as $event) app(\App\Services\Events\ConditionalBookings::class)->reject($event,true);
+    $this->info($events->count().' édition(s) passée(s) en non-confirmation.');
+})->purpose('Clore les décisions expirées et préparer les remboursements, sans transfert bancaire automatique.');
+\Illuminate\Support\Facades\Schedule::command('events:expire-preorders')->everyMinute()->withoutOverlapping();
