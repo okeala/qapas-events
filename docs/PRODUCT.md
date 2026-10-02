@@ -86,3 +86,7 @@ Actualisation : [parcours public, communes, équipes locales et croissance](PUBL
 ## Atelier V2 (2 octobre 2026)
 
 Plan Leaflet/Geoman avec formes contraintes, dossiers 4P, coûts/recettes par scénario, offres versionnées, précommandes conditionnelles avec échéance commune maximale de 21 jours, restitution documentée, bilan et stock par emplacement. Visite, affiche QR et exports reposent sur la publication publique immuable. Les paiements sont des rapprochements manuels ; les prestataires de paiement et de signature V2 restent à connecter. Le jeu illustratif historique est séparé du format courant de QAPAS Events. Voir [le périmètre exact](IMPLEMENTATION_V02.md).
+
+## Priorité suivante : cash et engagements réciproques
+
+[La conception détaillée](PILOTAGE_CASH_ET_PARTENARIATS.md) place l’échéancier de cash et les scénarios de sortie avant les connexions de paiement V2. Objectif : un dirigeant seul doit connaître la dépense qu’il peut autoriser aujourd’hui, les garanties encore dues à chaque partenaire et l’action qui réduit le prochain blocage. Les engagements fournisseurs sont rapprochés des promesses clients. Les fonds remboursables ne financent aucune perte irréversible sans couverture séparée ; le travail du dirigeant reste dans le coût complet. Ces lots sont à développer et ne remplacent pas les contrats ni les rapprochements existants.

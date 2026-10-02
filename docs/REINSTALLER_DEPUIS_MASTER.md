@@ -29,13 +29,12 @@ else
 fi
 git branch --set-upstream-to=origin/master master
 bash scripts/setup-local.sh --demo
-read -r -p 'Email administrateur : ' qapas_admin_email </dev/tty
-php artisan events:admin "$qapas_admin_email" </dev/tty
+php artisan events:seed-user --admin </dev/tty
 php artisan serve --host=127.0.0.1 --port=8890
 BASH
 ```
 
-Le mot de passe est demandé sans affichage et doit comporter au moins 16 caractères. Aucun mot de passe n’est écrit dans Git ou `.env`. Si le compte existe déjà, ne pas relancer sa création : lancer simplement le serveur après l’installation.
+Le nom, l’email et le mot de passe sont demandés ; le mot de passe reste masqué et doit comporter au moins 16 caractères. La commande seede `users` et crée explicitement le compte `admins` nécessaire à Filament. Aucun mot de passe n’est écrit dans Git ou `.env`. Une relance conserve les comptes et leurs mots de passe, sans réactiver un administrateur suspendu. Se connecter sur `/admin/login` avec les identifiants choisis ; un compte administrateur préexistant conserve ses propres identifiants.
 
 Administration : `/admin/event-plan`, avec les six modules V2 regroupés dans la navigation. Visites : `/visites`. L’installation conserve `.env`, APP_KEY, SQLite et les dossiers historiques. La suppression préalable de ces fichiers dans l’IDE nécessite leur sauvegarde pour restaurer leurs anciennes valeurs ; Git ne stocke pas les données privées.
 

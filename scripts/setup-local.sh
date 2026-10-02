@@ -29,4 +29,4 @@ npm ci
 npm run build
 node --test scripts/tests/plan-geometry.test.mjs
 php artisan test
-printf '\nInstallation prête.\nAdmin : php artisan events:admin votre@email.pt\nLancement : php artisan serve --host=127.0.0.1 --port=8890\n'
+printf '\nInstallation prête.\nUtilisateur et accès Filament : php artisan events:seed-user --admin\nLancement : php artisan serve --host=127.0.0.1 --port=8890\n'
